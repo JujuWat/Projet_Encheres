@@ -1,0 +1,21 @@
+<header th:fragment="entete">
+
+
+	<nav>
+		<h1 id="nav-title">ENI - Enchères</h1>
+
+<h2>Les objets sont nos amis</h2>
+		<ul>
+			<li><a sec:authorize="!isAuthenticated()">S'inscrire</a>
+			<li><a sec:authorize="!isAuthenticated()" href="/login">Se connecter</a>
+			<li><a>Enchères</a>
+			<li><a>Vendre un article</a>
+			<li><a sec:authorize="isAuthenticated()" href="/profil">Mon profil</a>
+			<li><a sec:authorize="isAuthenticated()" href="/logout">Déconnexion</a>
+			
+		</ul>
+
+		<!--  les menus sont accessibles en fonction des profils -->
+
+	</nav>
+</header>
