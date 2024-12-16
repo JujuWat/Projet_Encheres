@@ -1,4 +1,4 @@
-package controller;
+package fr.eni.encheres.controller;
 
 import org.springframework.stereotype.Controller;
 
