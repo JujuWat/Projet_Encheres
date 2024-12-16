@@ -17,7 +17,7 @@ public class Utilisateur {
 	private String ville;
 	private String mot_de_passe;
 	private int credit;
-	private boolean admnistrateur;
+	private boolean admnistrateur=false;
 	// Associations
 	private List<ArticleVendu> achete = new ArrayList<ArticleVendu>();
 	private List<ArticleVendu> vend = new ArrayList<ArticleVendu>();
