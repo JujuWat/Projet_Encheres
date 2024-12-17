@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Créez votre profil</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/entete::entete}"></div>
+
+
+<form th:action="@{/creer}" method ="post" th:object = "${utilisateur}">
+	<h1>Créez votre profil</h1>
+	
+	<li> 
+		<label for ="idPseudo"> Pseudo </label> 
+		<input id = "idPseudo" type = "text" th:field = "${utilisateur.pseudo}" required/>
+	</li>
+	<li> 
+		<label for ="idNom"> Nom </label> 
+		<input id = "idNom" type = "text" th:field = "${utilisateur.nom}" required/>
+	</li>
+	<li> 
+		<label for ="idNom"> Prénom </label> 
+		<input id = "idNom" type = "text" th:field = "${utilisateur.prenom}" required/>
+	</li>
+	<li> 
+		<label for ="idEmail"> Email</label> 
+		<input id = "idEmail" type = "email" th:field = "${utilisateur.email}" required/>
+	</li>
+	
+	<li> 
+		<label for ="idTelephone"> Téléphone </label> 
+		<input id = "idTelephone" type = "text" th:field = "${utilisateur.telephone}" />
+	</li>
+	
+	<li> 
+		<label for ="idRue"> Rue</label> 
+		<input id = "idRue" type = "text" th:field = "${utilisateur.rue}" required/>
+	</li>
+	<li> 
+		<label for ="idCP"> Code Postal</label> 
+		<input id = "idCP" type = "text" th:field = "${utilisateur.code_postal}" required/>
+	</li>
+	
+	<li> 
+		<label for ="idVille"> Ville</label> 
+		<input id = "idVille" type = "text" th:field = "${utilisateur.ville}" required/>
+	</li>
+	
+	<li> 
+		<label for ="idMDP"> Mot de Passe</label> 
+		<input id = "idMDP" type = "password" th:field = "${utilisateur.mot_de_passe}" required/>
+	</li>
+	
+	
+	<li><button type="submit">Ajouter</button></li>
+
+
+</form>
+
+
+
+</body>
+</html>

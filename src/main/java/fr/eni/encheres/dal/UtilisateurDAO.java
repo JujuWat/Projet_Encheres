@@ -13,5 +13,17 @@ public interface UtilisateurDAO {
 	List<Utilisateur> findAll();
 	
 	void ajouterUtilisateur(Utilisateur utilisateur);
+
+	void deleteRelation1(int no_utilisateur);
+
+	void deleteRelation2(int no_utilisateur);
+
+	void deleteRelation3(int no_utilisateur);
+
+	void deleteRelation4(int no_utilisateur);
+
+	void delete(int no_utilisateur);
+
+	Utilisateur read_pseudo(String pseudo);
 	
 }
