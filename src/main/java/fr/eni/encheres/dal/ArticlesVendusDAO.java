@@ -1,5 +1,18 @@
 package fr.eni.encheres.dal;
 
-public interface ArticlesVendusDAO {
+import java.util.List;
 
+
+
+import fr.eni.encheres.bo.ArticleVendu;
+
+public interface ArticlesVendusDAO {
+	List<ArticleVendu> findIfContains(String nomArticle);
+
+	
+	
+	
+
+	
+	
 }
