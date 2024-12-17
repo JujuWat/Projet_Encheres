@@ -2,8 +2,12 @@ package fr.eni.encheres.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -53,7 +59,10 @@ public class EnchereController {
 	} 
 	
 	@GetMapping("/profil")
-	public String afficherProfil() {
+	public String afficherProfil(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		String pseudo = userDetails.getUsername();
+		Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+		model.addAttribute("utilisateur", utilisateur); 
 		System.out.println("affichage de profil");
 		return "profil"; 
 	} 
@@ -62,21 +71,39 @@ public class EnchereController {
 	public String afficherCreationUtilisateur(Model model) {
 		model.addAttribute("utilisateur", new Utilisateur());
 		
-		return"view-utilisateur-creation";
+		return "view-utilisateur-creation";
 		
 	}
 	
 	@PostMapping("/creer")
-	public String postMethodName(@ModelAttribute Utilisateur utilisateur) {
+	public String postMethodName(@Valid @ModelAttribute Utilisateur utilisateur,   BindingResult bindingResult,  Model model) {
+		
+		if (bindingResult.hasErrors()) {
+		       
+	        model.addAttribute("utilisateur", utilisateur);
+	        
+	        return "view-utilisateur-creation"; // Retourner le formulaire avec l'erreur
+	    }else {
+		
+		
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
-		return "redirect:/login";
+
+		return "redirect:/accueil"; 
+		}
+
+		
+
 	}
 	
 	
 	@GetMapping("/logout")
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
-		return "profil"; 
+
+		return "/"; 
+
+		
+
 	} 
 	
 }
