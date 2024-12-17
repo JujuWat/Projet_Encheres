@@ -29,9 +29,10 @@ public class ArticleVendu {
 	}
 
 	// Constructeur avec tous les champs
+
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente) {
-		super();
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Retrait lieuRetrait,
+			Categorie categorieArticle, Utilisateur achete, Utilisateur vend, List<Enchere> concerne) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -40,12 +41,55 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.lieuRetrait = lieuRetrait;
+		this.categorieArticle = categorieArticle;
+		this.achete = achete;
+		this.vend = vend;
+		this.concerne = concerne;
 	}
-
 	// Getters et setters
-	public int getNoArticle() {
-		return noArticle;
-	}
+		public int getNoArticle() {
+			return noArticle;
+		}
+	public Retrait getLieuRetrait() {
+			return lieuRetrait;
+		}
+
+		public void setLieuRetrait(Retrait lieuRetrait) {
+			this.lieuRetrait = lieuRetrait;
+		}
+
+		public Categorie getCategorieArticle() {
+			return categorieArticle;
+		}
+
+		public void setCategorieArticle(Categorie categorieArticle) {
+			this.categorieArticle = categorieArticle;
+		}
+
+		public Utilisateur getAchete() {
+			return achete;
+		}
+
+		public void setAchete(Utilisateur achete) {
+			this.achete = achete;
+		}
+
+		public Utilisateur getVend() {
+			return vend;
+		}
+
+		public void setVend(Utilisateur vend) {
+			this.vend = vend;
+		}
+
+		public List<Enchere> getConcerne() {
+			return concerne;
+		}
+
+		public void setConcerne(List<Enchere> concerne) {
+			this.concerne = concerne;
+		}
 
 	public void setNoArticle(int noArticle) {
 		this.noArticle = noArticle;

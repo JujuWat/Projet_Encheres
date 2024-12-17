@@ -9,9 +9,13 @@ import fr.eni.encheres.bo.ArticleVendu;
 
 @Repository
 public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
-	private static final String FIND_IF_CONTAINS = "SELECT nom_article FROM ARTICLES_VENDUS  WHERE LOWER (nom_article) LIKE LOWER(CONCAT('%',:keyword,'%' ))";
+	private static final String FIND_IF_CONTAINS = "SELECT nom_article, date_fin_encheres, prix_vente, pseudo "
+			+ "FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u "
+			+ "ON a.no_utilisateur =  u.no_utilisateur "
+			+ "WHERE LOWER (nom_article) LIKE LOWER(CONCAT('%',:keyword,'%' ))";
+		
 
-
+	
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
 	//constructor jdbcTemplate
@@ -28,6 +32,9 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		// Mapping des résultats vers un objet ArticleVendu
         ArticleVendu article = new ArticleVendu();
         article.setNomArticle(rs.getString("nom_article"));
+        article.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+        article.setPrixVente(rs.getInt("prix_vente"));
+              
         
         return article;	
 	});

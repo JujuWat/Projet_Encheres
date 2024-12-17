@@ -20,8 +20,6 @@ import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
-
-
 @Controller
 public class EnchereController {
 
@@ -30,14 +28,11 @@ public class EnchereController {
 	private UtilisateurService utilisateurService;
 
 
-
 	public EnchereController(EnchereService enchereService, UtilisateurService utilisateurService) {
 		this.enchereService = enchereService;
 		this.utilisateurService = utilisateurService;
 	}
 
-	
-	
 
 	@GetMapping("/encheres")
 	public String afficherUnObjet(@RequestParam("motCle") String motCle, Model model) {
@@ -76,8 +71,6 @@ public class EnchereController {
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
 		return "redirect:/login";
 	}
-	
-	
 	
 	
 	@GetMapping("/logout")
