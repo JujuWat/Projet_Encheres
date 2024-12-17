@@ -2,8 +2,12 @@ package fr.eni.encheres.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +21,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
-
-
 
 
 @Controller
@@ -30,14 +34,11 @@ public class EnchereController {
 	private UtilisateurService utilisateurService;
 
 
-
 	public EnchereController(EnchereService enchereService, UtilisateurService utilisateurService) {
 		this.enchereService = enchereService;
 		this.utilisateurService = utilisateurService;
 	}
 
-	
-	
 
 	@GetMapping("/encheres")
 	public String afficherUnObjet(@RequestParam("motCle") String motCle, Model model) {
@@ -58,7 +59,10 @@ public class EnchereController {
 	} 
 	
 	@GetMapping("/profil")
-	public String afficherProfil() {
+	public String afficherProfil(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+		String pseudo = userDetails.getUsername();
+		Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+		model.addAttribute("utilisateur", utilisateur); 
 		System.out.println("affichage de profil");
 		return "profil"; 
 	} 
@@ -72,18 +76,38 @@ public class EnchereController {
 	}
 	
 	@PostMapping("/creer")
-	public String postMethodName(@ModelAttribute Utilisateur utilisateur) {
+	public String postMethodName(@Valid @ModelAttribute Utilisateur utilisateur,   BindingResult bindingResult,  Model model) {
+		
+		if (bindingResult.hasErrors()) {
+		       
+	        model.addAttribute("utilisateur", utilisateur);
+	        
+	        return "view-utilisateur-creation"; // Retourner le formulaire avec l'erreur
+	    }else {
+		
+		
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
-		return "accueil";
+
+		return "redirect:/accueil"; 
+		}
+
+		
+
 	}
-	
-	
 	
 	
 	@GetMapping("/logout")
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
+<<<<<<< HEAD
 		return "logout"; 
+=======
+
+		return "/"; 
+
+		
+
+>>>>>>> 2841f291688428453eda69abf9d6a56724c11c49
 	} 
 	
 }

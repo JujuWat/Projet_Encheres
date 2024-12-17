@@ -6,8 +6,10 @@
 <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-<<<<<<< HEAD
-	<div th:replace="~{fragments/entete::entete}"></div>
+<div th:replace="~{fragments/entete::entete}"></div>
+<h1>Accueil</h1>
+
+	
 	<form th:action="@{/encheres}" method="get" >
 		<ul>
 			<li><label for="filtre_article">Filtres : </label><input type ="text" name="motCle" th:value="${motCle}" placeholder="Le nom de l'article contient"></li>
@@ -18,25 +20,24 @@
 		</ul>
 		</form>
 	
-	
-	
 	<h2>Résultat de votre recherche</h2>
-	<form th:action="@{/encheres}" method="post" th:object="${film}">
+		
+	<table>
+	<!-- entête -->
+		<thead>
+			<th>Article</th>
+			<th>Prix</th>
+			<th>Fin de l'enchère </th>
+			<th>Vendeur</th>
+		</thead>
+	<!-- données -->
+		<tr th:each="article : ${articles}">	
+			<td th:text="${article.nomArticle}"></td>
+			<td th:text="${article.miseAPrix}"></td>
+			<td th:text="${article.dateFinEncheres}"></td>
+			<td th:text="${article.vend}"></td>		
+		</tr>
+	</table>
 	
-	<ul>
-	<li th:each="article : ${ArticleVendu}">
-	
-		<strong th:text="${article.nomArticle}"> Article :</strong>
-		<span th:text="${article.miseAPrix}">Prix</span>
-		<span th:text="${article.miseAPrix}">Fin de l'enchère</span>
-	
-	</li>
-	</ul>
-=======
- <div th:replace="~{fragments/entete::entete}"></div>
-
-<h1>Accueil</h1>
->>>>>>> 8d5387cb27f94c0a3d22d809fa1dc7a55e286667
-
 </body>
 </html>

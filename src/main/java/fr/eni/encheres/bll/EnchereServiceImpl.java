@@ -6,10 +6,20 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.dal.ArticlesVendusDAO;
+import fr.eni.encheres.dal.CategorieDAO;
 
 @Service
 public class EnchereServiceImpl implements EnchereService{
+	private ArticlesVendusDAO articleVenduDAO;
+	private CategorieDAO categorieDAO;
+	
+	
 
+	public EnchereServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO) {
+		this.articleVenduDAO = articleVenduDAO;
+		this.categorieDAO = categorieDAO;
+	}
 
 	@Override
 	public List<Categorie> consulterCategories() {
@@ -25,8 +35,7 @@ public class EnchereServiceImpl implements EnchereService{
 
 	@Override
 	public List<ArticleVendu> afficheSiContient(String motCle) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.articleVenduDAO.findIfContains(motCle);
 	}
 
 }
