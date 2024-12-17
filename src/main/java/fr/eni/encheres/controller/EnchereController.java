@@ -99,15 +99,8 @@ public class EnchereController {
 	@GetMapping("/logout")
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
-<<<<<<< HEAD
 		return "logout"; 
-=======
 
-		return "/"; 
-
-		
-
->>>>>>> 2841f291688428453eda69abf9d6a56724c11c49
 	} 
 	
 }

@@ -26,10 +26,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	@Bean
+	/*@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    } */
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,11 +38,7 @@ public class SecurityConfig {
 		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/").permitAll()
-
-				//.requestMatchers("/profil").hasAnyRole("ADMIN")
-				.requestMatchers("/creer").permitAll()
-
+				.requestMatchers("/" , "/encheres").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/creer").anonymous()
@@ -50,12 +46,8 @@ public class SecurityConfig {
 			)
 			.httpBasic(Customizer.withDefaults())
 			.formLogin(form-> form
-					.loginPage("/login")
-<<<<<<< HEAD
+					.loginPage("/login").permitAll()
 					.defaultSuccessUrl("/", true)
-=======
-					.defaultSuccessUrl("/", true) 
->>>>>>> 2841f291688428453eda69abf9d6a56724c11c49
 					.permitAll())
 		.logout(logout -> logout
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
