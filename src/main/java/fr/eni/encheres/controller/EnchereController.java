@@ -83,7 +83,7 @@ public class EnchereController {
 	@GetMapping("/logout")
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
-		return "/profil"; 
+		return "logout"; 
 	} 
 	
 }
