@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class EnchereController {
 
+
 	private EnchereService enchereService;
 	private UtilisateurService utilisateurService;
+
+
 
 	public EnchereController(EnchereService enchereService, UtilisateurService utilisateurService) {
 		this.enchereService = enchereService;
 		this.utilisateurService = utilisateurService;
 	}
+
+	
 	
 
 		
