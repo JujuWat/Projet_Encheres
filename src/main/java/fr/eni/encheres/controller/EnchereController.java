@@ -93,7 +93,7 @@ public class EnchereController {
 		
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
 
-		return "redirect:/"; 
+		return "redirect:/accueil"; 
 		}
 
 		

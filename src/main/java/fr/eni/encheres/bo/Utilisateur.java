@@ -38,6 +38,7 @@ public class Utilisateur implements Serializable{
 	private String ville;
 	@NotBlank(message = "Le mot de passe est obligatoire")
     @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
+	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "Le mot de passe ne doit contenir que des caractères alphanumériques")
 	private String mot_de_passe;
 	private int credit;
 	private boolean admnistrateur=false;

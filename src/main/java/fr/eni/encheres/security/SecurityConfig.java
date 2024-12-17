@@ -45,6 +45,7 @@ public class SecurityConfig {
 			.httpBasic(Customizer.withDefaults())
 			.formLogin(form-> form
 					.loginPage("/login")
+					.defaultSuccessUrl("/", true) 
 					.permitAll())
 		.logout(logout -> logout
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
