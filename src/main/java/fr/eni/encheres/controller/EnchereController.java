@@ -76,7 +76,7 @@ public class EnchereController {
 	public String afficherCreationUtilisateur(Model model) {
 		model.addAttribute("utilisateur", new Utilisateur());
 		
-		return"view-utilisateur-creation";
+		return "view-utilisateur-creation";
 		
 	}
 	
@@ -92,8 +92,12 @@ public class EnchereController {
 		
 		
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
+
 		return "redirect:/"; 
 		}
+
+		
+
 	}
 	
 	
@@ -102,7 +106,11 @@ public class EnchereController {
 	@GetMapping("/logout")
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
+
 		return "/"; 
+
+		
+
 	} 
 	
 }

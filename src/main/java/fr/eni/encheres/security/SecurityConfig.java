@@ -16,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,17 +27,30 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		
+		HeaderWriterLogoutHandler clearSiteData = new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(Directive.ALL));
+		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/").permitAll()
+
 				//.requestMatchers("/profil").hasAnyRole("ADMIN")
 				.requestMatchers("/creer").permitAll()
+
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
+				.requestMatchers("/creer").anonymous()
 				.anyRequest().authenticated()
 			)
 			.httpBasic(Customizer.withDefaults())
-			.formLogin(Customizer.withDefaults());
+			.formLogin(form-> form
+					.loginPage("/login")
+					.permitAll())
+		.logout(logout -> logout
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+				.addLogoutHandler(clearSiteData)
+				)
+		;
 
 		return http.build();
 	}
