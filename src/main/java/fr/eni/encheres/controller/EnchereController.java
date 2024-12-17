@@ -3,6 +3,7 @@ package fr.eni.encheres.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -17,6 +18,7 @@ public class EnchereController {
 		this.enchereService = enchereService;
 	}
 	
+
 		
 	@GetMapping("/")
 	public String afficherAccueil() {
