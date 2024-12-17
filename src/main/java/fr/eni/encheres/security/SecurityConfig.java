@@ -27,6 +27,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/").permitAll()
 				//.requestMatchers("/profil").hasAnyRole("ADMIN")
+				.requestMatchers("/creer").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.anyRequest().authenticated()
@@ -63,7 +64,7 @@ public class SecurityConfig {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 		// Configuration de la requête permettant de vérifier que l'utilisateur a bien accès
 		jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT pseudo, mot_de_passe, 1 FROM UTILISATEURS WHERE pseudo = ?");
-		jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT pseudo, administrateur FROM UTILISATEURS where pseudo = ?");
+		jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT pseudo, role FROM UTILISATEURS where pseudo = ?");
 		return jdbcUserDetailsManager;
 	}
 

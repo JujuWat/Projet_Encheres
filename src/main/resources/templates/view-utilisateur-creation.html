@@ -15,42 +15,52 @@
 	<li> 
 		<label for ="idPseudo"> Pseudo </label> 
 		<input id = "idPseudo" type = "text" th:field = "${utilisateur.pseudo}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('pseudo')}"></div>
 	</li>
 	<li> 
 		<label for ="idNom"> Nom </label> 
 		<input id = "idNom" type = "text" th:field = "${utilisateur.nom}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('nom')}"></div>
 	</li>
 	<li> 
 		<label for ="idNom"> Prénom </label> 
 		<input id = "idNom" type = "text" th:field = "${utilisateur.prenom}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('prenom')}"></div>
 	</li>
 	<li> 
 		<label for ="idEmail"> Email</label> 
 		<input id = "idEmail" type = "email" th:field = "${utilisateur.email}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('email')}"></div>
 	</li>
 	
 	<li> 
 		<label for ="idTelephone"> Téléphone </label> 
 		<input id = "idTelephone" type = "text" th:field = "${utilisateur.telephone}" />
+		<div th:replace="~{fragments/fragment-error :: frag-error('telephone')}"></div>
 	</li>
 	
 	<li> 
 		<label for ="idRue"> Rue</label> 
 		<input id = "idRue" type = "text" th:field = "${utilisateur.rue}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('rue')}"></div>
+		
 	</li>
 	<li> 
 		<label for ="idCP"> Code Postal</label> 
 		<input id = "idCP" type = "text" th:field = "${utilisateur.code_postal}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('code_postal')}"></div>
 	</li>
 	
 	<li> 
 		<label for ="idVille"> Ville</label> 
 		<input id = "idVille" type = "text" th:field = "${utilisateur.ville}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('ville')}"></div>
 	</li>
 	
 	<li> 
 		<label for ="idMDP"> Mot de Passe</label> 
 		<input id = "idMDP" type = "password" th:field = "${utilisateur.mot_de_passe}" required/>
+		<div th:replace="~{fragments/fragment-error :: frag-error('mot_de_passe')}"></div>
 	</li>
 	
 	

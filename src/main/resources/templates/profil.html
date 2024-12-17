@@ -9,6 +9,23 @@
  <div th:replace="~{fragments/entete::entete}"></div>
  
  <h1>Profil</h1>
+ 
+ 
+    <main>
+        <div class="profil-container">
+            <h2>Bienvenue, <span th:text="${utilisateur.pseudo}">Pseudo</span> !</h2>
+            <ul>
+                <li><strong>Nom :</strong> <span th:text="${utilisateur.nom}">Nom</span></li>
+                <li><strong>Prénom :</strong> <span th:text="${utilisateur.prenom}">Prénom</span></li>
+                <li><strong>Email :</strong> <span th:text="${utilisateur.email}">Email</span></li>
+                <li><strong>Téléphone :</strong> <span th:text="${utilisateur.telephone}">Téléphone</span></li>
+                <li><strong>Adresse :</strong>
+                    <span th:text="${utilisateur.rue} + ', ' + ${utilisateur.code_postal} + ' ' + ${utilisateur.ville}">Adresse</span>
+                </li>
+                <li><strong>Crédit :</strong> <span th:text="${utilisateur.credit}">0</span></li>
+            </ul>
+        </div>
+    </main>
 
 </body>
 </html>

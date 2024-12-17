@@ -1,20 +1,43 @@
 package fr.eni.encheres.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Utilisateur {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
+public class Utilisateur implements Serializable{
+
+	private static final long serialVersionUID = 2L;
+	
 	// Attributs d'instance 
 	private int noUtilisateur;
+	@NotBlank(message = "Le pseudo est obligatoire")
+	@Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères")
 	private String pseudo;
+	@NotBlank(message = "Le nom est obligatoire")
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le nom ne doit contenir que des lettres")
 	private String nom;
+	@NotBlank(message = "Le prénom est obligatoire")
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le prénom ne doit contenir que des lettres")
 	private String prenom;
+	@NotBlank(message = "L'email est obligatoire")
+    @Email(message = "Le format de l'email est invalide")
 	private String email;
+	@Pattern(regexp = "^[0-9]{10}$", message = "Le téléphone doit contenir 10 chiffres")
 	private String telephone;
+	@NotBlank(message = "La rue est obligatoire")
 	private String rue;
+	@Pattern(regexp = "^[0-9]{5}$", message = "Le code postal doit contenir exactement 5 chiffres")
 	private String code_postal;
+	@NotBlank(message = "La ville est obligatoire")
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "La ville ne doit contenir que des lettres")
 	private String ville;
+	@NotBlank(message = "Le mot de passe est obligatoire")
+    @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
 	private String mot_de_passe;
 	private int credit;
 	private boolean admnistrateur=false;
