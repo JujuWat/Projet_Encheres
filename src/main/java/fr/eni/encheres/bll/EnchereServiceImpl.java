@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+
 @Service
 public class EnchereServiceImpl implements EnchereService{
 
