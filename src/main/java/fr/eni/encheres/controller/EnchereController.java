@@ -67,14 +67,14 @@ public class EnchereController {
 	public String afficherCreationUtilisateur(Model model) {
 		model.addAttribute("utilisateur", new Utilisateur());
 		
-		return"view-utilisateur-creation";
+		return "view-utilisateur-creation";
 		
 	}
 	
 	@PostMapping("/creer")
 	public String postMethodName(@ModelAttribute Utilisateur utilisateur) {
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
-		return "redirect:/login";
+		return "accueil";
 	}
 	
 	
