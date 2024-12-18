@@ -49,9 +49,17 @@ public class Utilisateur implements Serializable{
 	
 	// Constructeur par défaut
 	public Utilisateur() {
-		super();
+	
 	}
 	
+	
+	public Utilisateur(
+			@NotBlank(message = "Le pseudo est obligatoire") @Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères") String pseudo) {
+		super();
+		this.pseudo = pseudo;
+	}
+
+
 	// Constructeur avec tous les champs
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String code_postal, String ville, String mot_de_passe, int credit, boolean admnistrateur) {

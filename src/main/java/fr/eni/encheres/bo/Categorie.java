@@ -13,13 +13,11 @@ public class Categorie {
 	
 	// Constructeur par défaut
 	public Categorie() {
-		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	// Constructeur avec tous les champs
 	public Categorie(int noCategorie, String libelle) {
-		super();
 		this.noCategorie = noCategorie;
 		this.libelle = libelle;
 	}

@@ -9,12 +9,7 @@ import fr.eni.encheres.bo.Categorie;
 
 
 public interface EnchereService {
-	
 
-	List<Categorie> consulterCategories();
-	
 	ArticleVendu consulterParEtat (int etatVente);
-	List<ArticleVendu> afficheSiContient(String motCle);
-
 	
 }
