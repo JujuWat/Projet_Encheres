@@ -9,5 +9,7 @@ public interface UtilisateurService {
 	void supprimerUtilisateur(int no_utilisateur);
 
 	Utilisateur consulterParPseudo(String pseudo);
+
+	void mettreAJourUtilisateur(Utilisateur utilisateur);
 	
 }

@@ -51,11 +51,11 @@ public class SecurityConfig {
 			.httpBasic(Customizer.withDefaults())
 			.formLogin(form-> form
 					.loginPage("/login")
-<<<<<<< HEAD
+
 					.defaultSuccessUrl("/", true)
-=======
+
 					.defaultSuccessUrl("/", true) 
->>>>>>> 2841f291688428453eda69abf9d6a56724c11c49
+
 					.permitAll())
 		.logout(logout -> logout
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
@@ -94,6 +94,7 @@ public class SecurityConfig {
 		// Configuration de la requête permettant de vérifier que l'utilisateur a bien accès
 		jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT pseudo, mot_de_passe, 1 FROM UTILISATEURS WHERE pseudo = ?");
 		jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT pseudo, role FROM UTILISATEURS where pseudo = ?");
+		
 		return jdbcUserDetailsManager;
 	}
 

@@ -99,15 +99,42 @@ public class EnchereController {
 	@GetMapping("/logout")
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
-<<<<<<< HEAD
-		return "logout"; 
-=======
 
 		return "/"; 
-
-		
-
->>>>>>> 2841f291688428453eda69abf9d6a56724c11c49
 	} 
+	
+	 @GetMapping("/profil/modifier")
+	    public String afficherFormulaireModification(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+	        String pseudo = userDetails.getUsername();
+	        Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+
+	        model.addAttribute("utilisateur", utilisateur);
+	        return "modifierProfil";
+	    }
+
+	    
+	    @PostMapping("/profil/modifier")
+	    public String modifierProfil(@Valid Utilisateur utilisateur, BindingResult result, 
+	                                 @AuthenticationPrincipal UserDetails userDetails, Model model) {
+	       
+	        if (result.hasErrors()) {
+	            return "modifierProfil"; 
+	        }
+
+	     
+	        String pseudoConnecte = userDetails.getUsername();
+
+	        
+	        if (!pseudoConnecte.equals(utilisateur.getPseudo())) {
+	            model.addAttribute("errorMessage", "Vous ne pouvez modifier que vos propres informations.");
+	            return "modifierProfil";
+	        }
+
+	       
+	        utilisateurService.mettreAJourUtilisateur(utilisateur);
+
+	        return "redirect:/profil"; 
+	    }
+	
 	
 }
