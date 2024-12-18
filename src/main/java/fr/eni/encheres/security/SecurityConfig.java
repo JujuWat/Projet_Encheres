@@ -43,7 +43,7 @@ public class SecurityConfig {
 		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/" , "/encheres").permitAll()
+				.requestMatchers("/" , "/encheres" ,"/accueil").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/creer").anonymous()
