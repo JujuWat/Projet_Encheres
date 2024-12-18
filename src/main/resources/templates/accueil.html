@@ -10,10 +10,17 @@
 <h1>Accueil</h1>
 
 	
-	<form th:action="@{/encheres}" method="get" >
+	<form th:action="@{/encheres}" method="post" >
 		<ul>
 			<li><label for="filtre_article">Filtres : </label><input type ="text" name="motCle" th:value="${motCle}" placeholder="Le nom de l'article contient"></li>
 			<!-- Ajouter la recherche par catégorie ici -->
+			
+			<li>
+			<label for ="">Catégorie </label>
+			<select th:field ="*{categorieArticle}" id="">
+			<option th:each="c:${}" th:value="" th:text="">
+			</select>
+			</li>
 			<li>
 				<button type="submit">Rechercher</button>
 			</li>

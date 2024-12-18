@@ -11,9 +11,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fr.eni.encheres.bll.EnchereService;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
+@SessionAttributes({"listeCategorie"})
 public class EnchereController {
 
 
@@ -40,7 +43,7 @@ public class EnchereController {
 	}
 
 
-	@GetMapping("/encheres")
+	@PostMapping("/encheres")
 	public String afficherUnObjet(@RequestParam("motCle") String motCle, Model model) {
 		List<ArticleVendu> articles = new ArrayList<>();
 		if(motCle != null && !motCle.isEmpty()) {
@@ -91,8 +94,6 @@ public class EnchereController {
 		return "redirect:/accueil"; 
 		}
 
-		
-
 	}
 	
 	
@@ -105,5 +106,12 @@ public class EnchereController {
 		
 
 	} 
+	
+	//prendre modele sur le listeGenreSession du projet filmotheque
+	@ModelAttribute("listeCategorie")
+	public List<Categorie> getCategorie(){
+		System.out.println("charger la liste des catégories");
+		return this.enchereService.consulterCategories();
+	}
 	
 }

@@ -34,7 +34,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
         article.setNomArticle(rs.getString("nom_article"));
         article.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
         article.setPrixVente(rs.getInt("prix_vente"));
-              
+        //article.setVend(rs.getString("pseudo"));      
         
         return article;	
 	});
