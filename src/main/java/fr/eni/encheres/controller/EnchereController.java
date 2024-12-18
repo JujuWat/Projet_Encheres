@@ -101,17 +101,54 @@ public class EnchereController {
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
 
+
 		return "/"; 
 
 		
 
 	} 
 	
+
 	//prendre modele sur le listeGenreSession du projet filmotheque
 	@ModelAttribute("listeCategorie")
 	public List<Categorie> getCategorie(){
 		System.out.println("charger la liste des catégories");
 		return this.enchereService.consulterCategories();
 	}
+
+	 @GetMapping("/profil/modifier")
+	    public String afficherFormulaireModification(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+	        String pseudo = userDetails.getUsername();
+	        Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+
+	        model.addAttribute("utilisateur", utilisateur);
+	        return "modifierProfil";
+	    }
+
+	    
+	    @PostMapping("/profil/modifier")
+	    public String modifierProfil(@Valid Utilisateur utilisateur, BindingResult result, 
+	                                 @AuthenticationPrincipal UserDetails userDetails, Model model) {
+	       
+	        if (result.hasErrors()) {
+	            return "modifierProfil"; 
+	        }
+
+	     
+	        String pseudoConnecte = userDetails.getUsername();
+
+	        
+	        if (!pseudoConnecte.equals(utilisateur.getPseudo())) {
+	            model.addAttribute("errorMessage", "Vous ne pouvez modifier que vos propres informations.");
+	            return "modifierProfil";
+	        }
+
+	       
+	        utilisateurService.mettreAJourUtilisateur(utilisateur);
+
+	        return "redirect:/profil"; 
+	    }
+	
+
 	
 }

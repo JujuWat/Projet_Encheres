@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <h1>Modifier Mon Profil</h1>
+
+    <!-- Affiche un message d'erreur si présent -->
+    <div th:if="${errorMessage}">
+        <p style="color: red;" th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="@{/profil/modifier}" th:object="${utilisateur}" method="post">
+         <input type="hidden" th:field="*{noUtilisateur}" />
+
+        <div>
+            <label>Pseudo :</label>
+            <input type="text" th:field="*{pseudo}" readonly />
+        </div>
+
+        <div>
+            <label>Nom :</label>
+            <input type="text" th:field="*{nom}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('nom')}"></div>
+        </div>
+
+        <div>
+            <label>Prénom :</label>
+            <input type="text" th:field="*{prenom}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('prenom')}"></div>
+        </div>
+
+        <div>
+            <label>Email :</label>
+            <input type="email" th:field="*{email}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('email')}"></div>
+        </div>
+
+        <div>
+            <label>Ville :</label>
+            <input type="text" th:field="*{ville}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('Ville')}"></div>
+        </div>
+
+        <button type="submit">Mettre à Jour</button>
+    </form>
+</body>
+</html>
