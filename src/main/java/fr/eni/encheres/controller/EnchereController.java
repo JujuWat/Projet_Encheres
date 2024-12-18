@@ -100,7 +100,11 @@ public class EnchereController {
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
 
+
 		return "/"; 
+
+		
+
 	} 
 	
 	 @GetMapping("/profil/modifier")

@@ -29,12 +29,12 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	private static final String CASCADE5 = "DELETE FROM UTILISATEURS WHERE no_utilisateur = :no_utilisateur";
 	
 	private NamedParameterJdbcTemplate jdbcTemplate; 
-	private PasswordEncoder passwordEncoder;
+	/* private PasswordEncoder passwordEncoder; */
 	
-	public UtilisateursDAOImpl(NamedParameterJdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder) {
+	public UtilisateursDAOImpl(NamedParameterJdbcTemplate jdbcTemplate/*, PasswordEncoder passwordEncoder*/) {
 		super();
 		this.jdbcTemplate = jdbcTemplate;
-		this.passwordEncoder = passwordEncoder;
+		/*this.passwordEncoder = passwordEncoder;*/
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public void ajouterUtilisateur(Utilisateur utilisateur) {
-		String motDePasseHache = passwordEncoder.encode(utilisateur.getMot_de_passe());
+		/*String motDePasseHache = passwordEncoder.encode(utilisateur.getMot_de_passe());*/
 		
 		MapSqlParameterSource map = new MapSqlParameterSource(); 
 		map.addValue("pseudo", utilisateur.getPseudo());
@@ -72,7 +72,7 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 		map.addValue("rue", utilisateur.getRue());
 		map.addValue("code_postal", utilisateur.getCode_postal());
 		map.addValue("ville", utilisateur.getVille()); 
-		map.addValue("mot_de_passe", motDePasseHache); 
+		map.addValue("mot_de_passe", utilisateur.getMot_de_passe() /*motDePasseHache*/); 
 		jdbcTemplate.update(INSERT, map);
 	}
 

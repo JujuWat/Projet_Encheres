@@ -7,13 +7,19 @@
 <h2>Les objets sont nos amis</h2>
 		<ul>
 
+
 			
-			<li><a sec:authorize="!isAuthenticated()" href="/login">Se connecter</a>
+			
 
 			<li><a sec:authorize="!isAuthenticated()" th:href="@{/creer}">S'inscrire</a>
 			
 
 			<li><a href="/">Enchères</a>
+			<li><a sec:authorize="!isAuthenticated()" href="/login">Se connecter</a>
+			<li><a sec:authorize="!isAuthenticated()" th:href="@{/creer}">S'inscrire</a>
+			
+		
+
 			<li><a sec:authorize="isAuthenticated()">Vendre un article</a>
 			<li><a sec:authorize="isAuthenticated()" th:href="@{/profil}">Mon profil</a>
 			<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Déconnexion</a>
