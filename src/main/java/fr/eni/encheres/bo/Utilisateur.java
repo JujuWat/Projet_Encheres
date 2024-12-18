@@ -18,6 +18,7 @@ public class Utilisateur implements Serializable{
 	private int noUtilisateur;
 	@NotBlank(message = "Le pseudo est obligatoire")
 	@Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères")
+	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et pas d'espaces")
 	private String pseudo;
 	@NotBlank(message = "Le nom est obligatoire")
 	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le nom ne doit contenir que des lettres")
