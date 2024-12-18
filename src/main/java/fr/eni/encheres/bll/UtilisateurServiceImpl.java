@@ -10,7 +10,7 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
-
+	
 	private UtilisateurDAO utilisateurDAO;
 	
 	
@@ -21,6 +21,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
 	@Override
 	public void ajouterUtilisateur(Utilisateur utilisateur) {
+		
 		utilisateurDAO.ajouterUtilisateur(utilisateur);
 		
 	}
@@ -41,6 +42,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	
 	@Override
 	public void mettreAJourUtilisateur(Utilisateur utilisateur) {
+		System.out.println("test service");
 	    utilisateurDAO.update(utilisateur);
 	}
 }
