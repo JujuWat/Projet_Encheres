@@ -6,5 +6,6 @@ import fr.eni.encheres.bo.Categorie;
 
 public interface CategorieDAO {
 	List<Categorie> findAll();
+	Categorie read (int noCategorie);
 
 }

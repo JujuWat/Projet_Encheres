@@ -8,6 +8,7 @@ public class Categorie {
 	// Attributs d'instance
 	private int noCategorie;
 	private String libelle;
+	
 	// Associations
 	private List<ArticleVendu> categorieArticle = new ArrayList<ArticleVendu>();
 	

@@ -5,8 +5,10 @@ import java.util.List;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 
-public interface CategorieService {
-	List<Categorie> consulterCategories();
+
+public interface ArticleVenduService {
 	List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie);
-	//List<ArticleVendu> afficheSiContient(String motCle);
+	List<Categorie> consulterCategorie();
+	Categorie consulterParNoCategorie(int noCategorie);
+
 }

@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import fr.eni.encheres.bll.CategorieService;
+import fr.eni.encheres.bll.ArticleVenduService;
+
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 
@@ -32,33 +33,35 @@ public class EnchereController {
 
 
 	private UtilisateurService utilisateurService;
-	private CategorieService categorieService;
+	private ArticleVenduService articleVenduService;
 
-	public EnchereController(CategorieService categorieService, UtilisateurService utilisateurService) {
-		this.categorieService = categorieService;	
+
+	public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService) {
+		this.articleVenduService = articleVenduService;	
 		this.utilisateurService = utilisateurService;
+		
 	}
 
-	@PostMapping("/encheres")
-	public String afficherUnObjet(@ModelAttribute Categorie categorie, @RequestParam(required = false) String motCle,
-			Model model) {
+	/*@PostMapping("/encheres")
+	public String afficherUnObjet(@ModelAttribute FiltreRecherche filtreRecherche,Model model) {
 		List<ArticleVendu> articles = new ArrayList<>();
-		if ((motCle != null && !motCle.isEmpty()) || categorie.getNoCategorie() > 0) {
-			articles = categorieService.afficheSiContientEtCategorie(motCle, categorie.getNoCategorie());
+		if ((filtreRecherche.getMotCle()!= null && !filtreRecherche.getMotCle().isEmpty()) || filtreRecherche.getCategorie()> 0) {
+			articles = articleVenduService.afficheSiContientEtCategorie(
+					filtreRecherche.getMotCle(), 
+					filtreRecherche.getCategorie());
 		}
 		model.addAttribute("filtre", new FiltreRecherche());
 		model.addAttribute("articles", articles);
+		model.addAttribute("motCle", filtreRecherche.getMotCle());
+		model.addAttribute("noCategorie", filtreRecherche.getCategorie());
 		
-		model.addAttribute("motCle", motCle);
-		model.addAttribute("noCategorie", categorie.getNoCategorie());
 		return "accueil";
-	}
+	}*/
 
 	@GetMapping("/")
 	public String afficherAccueil(Model model) {
 		System.out.println("affichage de l'accueil");
 		model.addAttribute("filtre", new FiltreRecherche());
-
 		return "accueil";
 	}
 
@@ -108,7 +111,7 @@ public class EnchereController {
 	@ModelAttribute("listeCategorie")
 	public List<Categorie> getCategorie() {
 		System.out.println("charger la liste des catégories");
-		return this.categorieService.consulterCategories();
+		return this.articleVenduService.consulterCategorie();
 	}
 
 	@GetMapping("/profil/modifier")
