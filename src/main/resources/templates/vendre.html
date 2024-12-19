@@ -11,9 +11,9 @@
 <h1>Vendre un article</h1>
 
 	<form th:action="@{/vendre}" method = "POST" th:object="${articleVendu}">
-	<h2>Objet à vendre</h2>
-	
+		
 	<ul>
+		<h2>Article à vendre</h2>
 		<li>
 		<label for="nom_article">Nom de l'article</label>
 		<input id="nom_article" type="text" th:field="*{nomArticle}" required="required"> 
@@ -41,6 +41,30 @@
 		<li>
 		<input type="hidden" th:value="${utilisateur.noUtilisateur}" name="noUtilisateur" />
 		</li>
+		
+		<h2>Informations de retrait</h2>
+        <li>
+            <label for="retrait.rue">Rue</label>
+            <input id="retrait.rue" type="text" th:field="*{lieuRetrait.rue}" required="required">
+        </li>
+        
+        <!-- Champ pour le code postal de retrait -->
+        <li>
+            <label for="retrait.code_postal">Code Postal</label>
+            <input id="retrait.code_postal" type="text" th:field="*{lieuRetrait.code_postal}" required="required">
+        </li>
+
+        <!-- Champ pour la ville de retrait -->
+        <li>
+            <label for="retrait.ville">Ville</label>
+            <input id="retrait.ville" type="text" th:field="*{lieuRetrait.ville}" required="required">
+        </li>
+
+        <!-- Champ caché pour l'utilisateur connecté -->
+        <li>
+            <input type="hidden" th:value="${utilisateur.noUtilisateur}" name="noUtilisateur" />
+        </li>
+        
 		<li>
 			<button type="submit">Valider</button>
 		</li>
