@@ -1,6 +1,7 @@
 package fr.eni.encheres.bll;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.exception.BusinessException;
 
 public interface UtilisateurService {
 
@@ -9,5 +10,11 @@ public interface UtilisateurService {
 	void supprimerUtilisateur(int no_utilisateur);
 
 	Utilisateur consulterParPseudo(String pseudo);
+
+	void mettreAJourUtilisateur(Utilisateur utilisateur);
+
+	boolean existPseudo(String pseudo);
+
+	boolean existEmail(String email);
 	
 }

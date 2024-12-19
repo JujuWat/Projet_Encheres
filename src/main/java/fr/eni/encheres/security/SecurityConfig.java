@@ -26,6 +26,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	
+	/*@Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    } */
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
@@ -33,7 +45,7 @@ public class SecurityConfig {
 		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/" , "/encheres").permitAll()
+				.requestMatchers("/" , "/encheres" ,"/accueil").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/creer").anonymous()
@@ -41,8 +53,17 @@ public class SecurityConfig {
 			)
 			.httpBasic(Customizer.withDefaults())
 			.formLogin(form-> form
+
+					.loginPage("/login")
+
+					.defaultSuccessUrl("/", true)
+
+					.defaultSuccessUrl("/", true) 
+
+
 					.loginPage("/login").permitAll()
 					.defaultSuccessUrl("/", true)
+
 					.permitAll())
 		.logout(logout -> logout
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
@@ -81,6 +102,7 @@ public class SecurityConfig {
 		// Configuration de la requête permettant de vérifier que l'utilisateur a bien accès
 		jdbcUserDetailsManager.setUsersByUsernameQuery("SELECT pseudo, mot_de_passe, 1 FROM UTILISATEURS WHERE pseudo = ?");
 		jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("SELECT pseudo, role FROM UTILISATEURS where pseudo = ?");
+		
 		return jdbcUserDetailsManager;
 	}
 

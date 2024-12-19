@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+
+import fr.eni.encheres.validations.Creation;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +26,7 @@ public class Utilisateur implements Serializable, UserDetails {
 	private int noUtilisateur;
 	@NotBlank(message = "Le pseudo est obligatoire")
 	@Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères")
+	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et pas d'espaces")
 	private String pseudo;
 	@NotBlank(message = "Le nom est obligatoire")
 	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le nom ne doit contenir que des lettres")
@@ -32,7 +37,7 @@ public class Utilisateur implements Serializable, UserDetails {
 	@NotBlank(message = "L'email est obligatoire")
     @Email(message = "Le format de l'email est invalide")
 	private String email;
-	@Pattern(regexp = "^[0-9]{10}$", message = "Le téléphone doit contenir 10 chiffres")
+	@Pattern(regexp = "^(|[0-9]{10})$", message = "Le téléphone doit contenir exactement 10 chiffres ou être vide")
 	private String telephone;
 	@NotBlank(message = "La rue est obligatoire")
 	private String rue;
@@ -41,9 +46,9 @@ public class Utilisateur implements Serializable, UserDetails {
 	@NotBlank(message = "La ville est obligatoire")
 	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "La ville ne doit contenir que des lettres")
 	private String ville;
-	@NotBlank(message = "Le mot de passe est obligatoire")
-    @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
-	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "Le mot de passe ne doit contenir que des caractères alphanumériques")
+	@NotBlank(message = "Le mot de passe est obligatoire", groups = Creation.class)
+	@Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
+	@Pattern(regexp = "^[A-Za-z0-9]*$", message = "Le mot de passe ne doit contenir que des caractères alphanumériques")
 	private String mot_de_passe;
 	private int credit;
 	private boolean admnistrateur=false;
@@ -54,9 +59,17 @@ public class Utilisateur implements Serializable, UserDetails {
 	
 	// Constructeur par défaut
 	public Utilisateur() {
-		super();
+	
 	}
 	
+	
+	public Utilisateur(
+			@NotBlank(message = "Le pseudo est obligatoire") @Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères") String pseudo) {
+		super();
+		this.pseudo = pseudo;
+	}
+
+
 	// Constructeur avec tous les champs
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String code_postal, String ville, String mot_de_passe, int credit, boolean admnistrateur) {

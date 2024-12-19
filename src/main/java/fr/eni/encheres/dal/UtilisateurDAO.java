@@ -25,5 +25,11 @@ public interface UtilisateurDAO {
 	void delete(int no_utilisateur);
 
 	Utilisateur read_pseudo(String pseudo);
+
+	void update(Utilisateur utilisateur);
+
+	boolean existPseudo(String pseudo);
+
+	boolean existEmail(String email);
 	
 }

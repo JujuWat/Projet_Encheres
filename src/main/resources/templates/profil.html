@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Profil</title>
 <link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{/css/formulaire.css}" />
 </head>
 <body>
  <div th:replace="~{fragments/entete::entete}"></div>
@@ -11,21 +12,55 @@
  <h1>Profil</h1>
  
  
-    <main>
-        <div class="profil-container">
-            <h2>Bienvenue, <span th:text="${utilisateur.pseudo}">Pseudo</span> !</h2>
-            <ul>
-                <li><strong>Nom :</strong> <span th:text="${utilisateur.nom}">Nom</span></li>
-                <li><strong>Prénom :</strong> <span th:text="${utilisateur.prenom}">Prénom</span></li>
-                <li><strong>Email :</strong> <span th:text="${utilisateur.email}">Email</span></li>
-                <li><strong>Téléphone :</strong> <span th:text="${utilisateur.telephone}">Téléphone</span></li>
-                <li><strong>Adresse :</strong>
-                    <span th:text="${utilisateur.rue} + ', ' + ${utilisateur.code_postal} + ' ' + ${utilisateur.ville}">Adresse</span>
-                </li>
-                <li><strong>Crédit :</strong> <span th:text="${utilisateur.credit}">0</span></li>
-            </ul>
-        </div>
-    </main>
+     <form action="#" method="post" class="formulaire-profil">
+            <div class="form-group">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" th:value="${utilisateur.nom}" readonly />
+            </div>
+            
+            <div class="form-group">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" th:value="${utilisateur.prenom}" readonly />
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" th:value="${utilisateur.email}" readonly />
+            </div>
+            
+            <div class="form-group">
+                <label for="telephone">Téléphone :</label>
+                <input type="text" id="telephone" name="telephone" th:value="${utilisateur.telephone}" readonly />
+            </div>
+            
+            <div class="form-group">
+                <label for="adresse">Adresse :</label>
+                <input type="text" id="adresse" name="adresse" 
+                    th:value="${utilisateur.rue} + ', ' + ${utilisateur.code_postal} + ' ' + ${utilisateur.ville}" 
+                    readonly />
+            </div>
+            
+            <div class="form-group">
+                <label for="credit">Crédit :</label>
+                <input type="text" id="credit" name="credit" th:value="${utilisateur.credit}" readonly />
+            </div>
+            
+            <!-- Bouton pour accéder à une page de modification -->
+            <div class="actions">
+               
+                <a th:href="@{/profil/modifier}">
+       				<button type="button" class="btn btn-modifier">Modifier Mon Profil</button>
+    			</a>
+            </div>
+            
+            <div class="actions">
+    			
+    		<a th:href="@{/supprimerUtilisateur(no_utilisateur=${utilisateur.noUtilisateur})}" class="delete-button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre profil ? Cette action est irréversible.');">
+    			<button type="button" class="btn btn-sup">Supprimer Mon Profil</button>
+    		</a>
+    			
+            </div>
+        </form>
 
 </body>
 </html>

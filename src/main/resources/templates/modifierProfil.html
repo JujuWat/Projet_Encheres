@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{/css/formulaire.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/entete::entete}"></div>
+    <h1>Modifier Mon Profil</h1>
+
+    <!-- Affiche un message d'erreur si présent -->
+     <div th:if="${errorMessage}">
+        <p style="color: red;" th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="@{/profil/modifier}" th:object="${utilisateur}" method="post">
+        <!-- Champ caché pour noUtilisateur -->
+        <input type="hidden" th:field="*{noUtilisateur}" />
+           
+
+        <div>
+            <label>Pseudo :</label>
+            <input type="text" th:field="*{pseudo}"  />
+            
+            
+        </div>
+
+        <div>
+            <label>Nom :</label>
+            <input type="text" th:field="*{nom}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('nom')}"></div>
+        </div>
+
+        <div>
+            <label>Prénom :</label>
+            <input type="text" th:field="*{prenom}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('prenom')}"></div>
+        </div>
+
+        <div>
+            <label>Email :</label>
+            <input type="email" th:field="*{email}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('email')}"></div>
+        </div>
+		<div>
+            <label>Téléphone :</label>
+            <input type="text" th:field="*{telephone}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('telephone')}"></div>
+        </div>
+
+		<div>
+            <label>Rue:</label>
+            <input type="text" th:field="*{rue}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('rue')}"></div>
+        </div>
+        <div>
+            <label>Code Postale:</label>
+            <input type="text" th:field="*{code_postal}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('code_postal')}"></div>
+        </div>
+        <div>
+            <label>Ville :</label>
+            <input type="text" th:field="*{ville}" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('ville')}"></div>
+        </div>
+        <div>
+            <label>Mot De Passe :</label>
+             <input id="motDePasse" type="password" th:field="*{mot_de_passe}" placeholder="Laissez vide pour conserver le mot de passe" />
+            <div th:replace="~{fragments/fragment-error-utilisateur :: frag-error('mot_de_passe')}"></div>
+        </div>
+        
+
+        <button type="submit">Mettre à Jour</button>
+    </form>
+</body>
+</html>

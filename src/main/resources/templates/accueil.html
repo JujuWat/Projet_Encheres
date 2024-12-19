@@ -3,41 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <title>Accueil</title>
+
 <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-<div th:replace="~{fragments/entete::entete}"></div>
-<h1>Accueil</h1>
+	<div th:replace="~{fragments/entete::entete}"></div>
+	<h1>Accueil</h1>
 
-	
-	<form th:action="@{/encheres}" method="get" >
+
+	<form class="search-form" th:action="@{/encheres}" method="post" th:object="${filtre}">
 		<ul>
-			<li><label for="filtre_article">Filtres : </label><input type ="text" name="motCle" th:value="${motCle}" placeholder="Le nom de l'article contient"></li>
+			<li><label for="filtre_article">Filtres : </label><input class="search-input" th:field="*{motCle}"
+				type="text"  
+				placeholder="Le nom de l'article contient"></li>
 			<!-- Ajouter la recherche par catégorie ici -->
+
+			<li><label for="filtre_categorie">Catégorie </label> 
+				<select
+					th:field="*{categorie}">
+						<option value="">Toutes les catégories</option>
+						<option th:each="c : ${listeCategorie}" 
+								th:value="${c.noCategorie}"
+								th:selected="${c.noCategorie != null && c.noCategorie == noCategorie}">
+						
+								 <span th:text="${c.libelle}"></span>
+						</option>
+				</select>
+			</li>
 			<li>
 				<button type="submit">Rechercher</button>
 			</li>
 		</ul>
-		</form>
-	
+	</form>
+
 	<h2>Résultat de votre recherche</h2>
-		
+
 	<table>
-	<!-- entête -->
+		<!-- entête -->
 		<thead>
 			<th>Article</th>
 			<th>Prix</th>
-			<th>Fin de l'enchère </th>
+			<th>Fin de l'enchère</th>
 			<th>Vendeur</th>
 		</thead>
-	<!-- données -->
-		<tr th:each="article : ${articles}">	
+		<!-- données -->
+		<tr th:each="article : ${articles}">
 			<td th:text="${article.nomArticle}"></td>
 			<td th:text="${article.miseAPrix}"></td>
 			<td th:text="${article.dateFinEncheres}"></td>
-			<td th:text="${article.vend}"></td>		
+			<td th:text="${article.vend}"></td>
 		</tr>
 	</table>
-	
+
 </body>
 </html>

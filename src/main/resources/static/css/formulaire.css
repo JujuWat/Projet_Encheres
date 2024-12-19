@@ -157,3 +157,14 @@ form input:optional {
     10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
     20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
+
+.btn-sup {
+    background-color: #dc3545; /* Rouge vif */
+    border: 1px solid #dc3545;
+}
+
+/* Effet hover pour le bouton supprimer */
+.btn-sup:hover {
+    background-color: #c82333; /* Rouge plus sombre */
+    border-color: #bd2130;
+}

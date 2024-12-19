@@ -8,18 +8,17 @@ public class Categorie {
 	// Attributs d'instance
 	private int noCategorie;
 	private String libelle;
+	
 	// Associations
 	private List<ArticleVendu> categorieArticle = new ArrayList<ArticleVendu>();
 	
 	// Constructeur par défaut
 	public Categorie() {
-		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	// Constructeur avec tous les champs
 	public Categorie(int noCategorie, String libelle) {
-		super();
 		this.noCategorie = noCategorie;
 		this.libelle = libelle;
 	}
