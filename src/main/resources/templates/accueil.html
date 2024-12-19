@@ -11,25 +11,23 @@
 	<h1>Accueil</h1>
 
 
-	<form class="search-form" th:action="@{/encheres}" method="post" th:object="${filtre}">
+	<form class="search-form" th:action="@{/encheres}" method="post"
+		th:object="${filtre}">
 		<ul>
-			<li><label for="filtre_article">Filtres : </label><input class="search-input" th:field="*{motCle}"
-				type="text"  
+			<li><label for="filtre_article">Filtres : </label><input
+				class="search-input" th:field="*{motCle}" type="text"
 				placeholder="Le nom de l'article contient"></li>
 			<!-- Ajouter la recherche par catégorie ici -->
 
-			<li><label for="filtre_categorie">Catégorie </label> 
-				<select
-					th:field="*{categorie}">
-						<option value="">Toutes les catégories</option>
-						<option th:each="c : ${listeCategorie}" 
-								th:value="${c.noCategorie}"
-								th:selected="${c.noCategorie != null && c.noCategorie == noCategorie}">
-						
-								 <span th:text="${c.libelle}"></span>
-						</option>
-				</select>
-			</li>
+			<li><label for="filtre_categorie">Catégorie </label> <select
+				th:field="*{categorie}">
+					<option value="">Toutes les catégories</option>
+					<option th:each="c : ${listeCategorie}" th:value="${c.noCategorie}"
+						th:selected="${c.noCategorie != null && c.noCategorie == noCategorie}">
+
+						<span th:text="${c.libelle}"></span>
+					</option>
+			</select></li>
 			<li>
 				<button type="submit">Rechercher</button>
 			</li>
@@ -37,23 +35,20 @@
 	</form>
 
 	<h2>Résultat de votre recherche</h2>
+	<div class="vignette-container">
+		<div th:each="article : ${articles}" class="vignette">
+		<img alt="image de l'article" th:src="${article.imageUrl}">
+			<h3 th:text="${article.nomArticle}"></h3>
+			<p><strong>Prix:</strong> <span th:text="${article.miseAPrix}"></span></p>
+			<p><strong>Fin de l'enchère:</strong> <span th:text="${article.dateFinEncheres}"></span></p>
+			<p><strong>Vendeur:</strong> <span th:text="${article.vend}"></span></p>
+		</div>
+	</div>
 
-	<table>
-		<!-- entête -->
-		<thead>
-			<th>Article</th>
-			<th>Prix</th>
-			<th>Fin de l'enchère</th>
-			<th>Vendeur</th>
-		</thead>
-		<!-- données -->
-		<tr th:each="article : ${articles}">
-			<td th:text="${article.nomArticle}"></td>
-			<td th:text="${article.miseAPrix}"></td>
-			<td th:text="${article.dateFinEncheres}"></td>
-			<td th:text="${article.vend}"></td>
-		</tr>
-	</table>
+
+
+
+
 
 </body>
 </html>

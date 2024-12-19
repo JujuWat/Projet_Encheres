@@ -15,11 +15,11 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	private static final String CREATE = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie)";
 
-		private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT nom_article, date_fin_encheres, prix_vente, pseudo " +
+		private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT image_article, nom_article, date_fin_encheres, prix_vente, pseudo " +
 					"FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u " +
 					"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1" ;
-		private static final String FIND_KEYWORD ="AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
-		private static final String FIND_CATEGORIE="AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
+		private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
+		private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
 	
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
@@ -30,12 +30,22 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	@Override
 	public List<ArticleVendu> findIfContainsAndCategorie(String keyword, int noCategorie) {
+		System.out.println("je remonte les infos de ma dal"); 
 	    MapSqlParameterSource params = new MapSqlParameterSource();
-	    params.addValue("keyword", keyword);
-	    params.addValue("noCategorie", noCategorie);
-//ajouter les if pour sélectionner les bonnes requètes
-	    return jdbcTemplate.query(FIND_IF_CONTAINS_AND_CATEGORIE, params, (rs, rowNum) -> {
+	     
+	    String requete = FIND_IF_CONTAINS_AND_CATEGORIE;
+	    if (!keyword.isEmpty()){
+	    	params.addValue("keyword", keyword);
+	    	requete += FIND_KEYWORD; 
+	    }
+	    if(noCategorie != 0) {
+	    	params.addValue("noCategorie", noCategorie);
+	    	requete += FIND_CATEGORIE;
+	    	  
+	    }
+	    return jdbcTemplate.query(requete, params, (rs, rowNum) -> {
 	        ArticleVendu article = new ArticleVendu();
+	        article.setImageUrl(rs.getString("image_article"));
 	        article.setNomArticle(rs.getString("nom_article"));
 	        article.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
 	        article.setPrixVente(rs.getInt("prix_vente"));
@@ -47,6 +57,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	@Override
 	public void ajouterArticle(ArticleVendu article) {
 		MapSqlParameterSource map = new MapSqlParameterSource();
+		map.addValue("image_article",  article.getImageUrl());
 		map.addValue("nom_article",article.getNomArticle());
 		map.addValue("description", article.getDescription());
 		map.addValue("date_debut_encheres", article.getDateDebutEncheres());
