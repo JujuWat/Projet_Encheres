@@ -206,6 +206,16 @@ public class Utilisateur implements Serializable, UserDetails {
 	public String getUsername() {
 		return this.pseudo;
 	}
+
+
+	@Override
+	public String toString() {
+		return String.format(
+				"Utilisateur [noUtilisateur=%s, pseudo=%s, nom=%s, prenom=%s, email=%s, telephone=%s, rue=%s, code_postal=%s, ville=%s, mot_de_passe=%s, credit=%s, admnistrateur=%s, achete=%s, vend=%s, encherit=%s]",
+				noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit,
+				admnistrateur, achete, vend, encherit);
+	}
+	
 	
 	
 	

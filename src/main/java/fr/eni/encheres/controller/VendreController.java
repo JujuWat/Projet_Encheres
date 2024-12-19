@@ -46,6 +46,7 @@ public class VendreController {
         String pseudo = utilisateurConnecte.getUsername();  
         // Récupérer l'objet utilisateur 
         Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+        System.out.println("Utilisateur = " +utilisateur);
         // Passer l'utilisateur ou son id au modèle pour l'utiliser dans le formulaire
         model.addAttribute("utilisateur", utilisateur);
         // Passer l'article vendu au modèle
@@ -68,7 +69,10 @@ public class VendreController {
         article.setVend(utilisateur);
         
 		this.articleVenduService.ajouterArticle(article);
-		return "vendre";
+
+
+		return "redirect:/vendre";
+
 	}
 	
 	@ModelAttribute("categoriesSession")
