@@ -23,10 +23,10 @@
 		<input id="description" type="text" th:field="*{description}" required="required"> 
 		</li>
 		<label for="date_debut_encheres">Date de début de l'enchère</label>
-		<input id="date_debut_encheres" type="date" th:field="*{dateDebutEncheres}" required="required"> 
+		<input id="date_debut_encheres" type="datetime-local" th:field="*{dateDebutEncheres}" required="required"> 
 		</li>
 		<label for="date_fin_encheres">Date de fin de l'enchère</label>
-		<input id="date_fin_encheres" type="date" th:field="*{dateFinEncheres}" required="required"> 
+		<input id="date_fin_encheres" type="datetime-local" th:field="*{dateFinEncheres}" required="required"> 
 		</li>
 		</li>
 		<label for="prix_vente">Mise à prix de l'objet</label>
@@ -51,25 +51,21 @@
 	<script>
   	// Ajouter la contrainte min avec la date d'aujourd'hui
   const inputDate1 = document.getElementById('date_debut_encheres');
-  const inputDate2 = document.getElementById('date_fin_encheres');
-  const today = new Date().toISOString().split('T')[0];
-  inputDate1.setAttribute('min', today);
-  inputDate2.setAttribute('min', today);
+    const inputDate2 = document.getElementById('date_fin_encheres');
+    const now = new Date().toISOString().slice(0, 16); // Format pour datetime-local
   
 	//Définir les dates minimums pour la date de début et la date de fin
-  inputDate1.setAttribute('min', today);
-  inputDate2.setAttribute('min', today);
+  inputDate1.setAttribute('min', now);
+    inputDate2.setAttribute('min', now);
 
-  	// Ajouter un écouteur d'événements sur la date de début
-  inputDate1.addEventListener('change', function () {
-    // Si la date de début change, mettre à jour la date minimale de fin
-    const startDate = inputDate1.value;
-    inputDate2.setAttribute('min', startDate);  // La date de fin ne peut pas être avant la date de début
-    // Si la date de fin est antérieure à la date de début, on la réinitialise à la date de début
-    if (inputDate2.value && inputDate2.value < startDate) {
-      inputDate2.value = startDate;
-    }
-  });
+    // Définir les dates minimales pour la date de début et la date de fin
+    inputDate1.addEventListener('change', function () {
+        const startDate = inputDate1.value;
+        inputDate2.setAttribute('min', startDate); // La date de fin ne peut pas être avant la date de début
+        if (inputDate2.value && inputDate2.value < startDate) {
+            inputDate2.value = startDate;
+        }
+    });
 	</script>
 	
 

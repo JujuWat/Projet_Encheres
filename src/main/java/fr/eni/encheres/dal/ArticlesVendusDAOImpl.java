@@ -37,7 +37,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	    return jdbcTemplate.query(FIND_IF_CONTAINS_AND_CATEGORIE, params, (rs, rowNum) -> {
 	        ArticleVendu article = new ArticleVendu();
 	        article.setNomArticle(rs.getString("nom_article"));
-	        article.setDateFinEncheres(rs.getDate("date_fin_encheres").toLocalDate());
+	        article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
 	        article.setPrixVente(rs.getInt("prix_vente"));
 	        article.setVend(new Utilisateur(rs.getString("pseudo")));
 	        return article;
