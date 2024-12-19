@@ -1,6 +1,7 @@
 package fr.eni.encheres.bo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,17 +11,19 @@ public class ArticleVendu {
 	private int noArticle;
 	private String nomArticle;
 	private String description;
-	private LocalDate dateDebutEncheres;
-	private LocalDate dateFinEncheres;
+	private LocalDateTime dateDebutEncheres;
+	private LocalDateTime dateFinEncheres;
 	private int miseAPrix;
 	private int prixVente;
 	private int etatVente; // Pas de 'etatVente' sur SQL ?
+	private String imageUrl;
 	// Associations
 	private Retrait lieuRetrait;
 	private Categorie categorieArticle;
 	private Utilisateur achete;
 	private Utilisateur vend;
 	private List<Enchere> concerne;
+	
 	
 	// Constructeur par défaut
 	public ArticleVendu() {
@@ -30,8 +33,9 @@ public class ArticleVendu {
 
 	// Constructeur avec tous les champs
 
-	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Retrait lieuRetrait,
+
+	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
+			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, int etatVente, String imageUrl, Retrait lieuRetrait,
 			Categorie categorieArticle, Utilisateur achete, Utilisateur vend, List<Enchere> concerne) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -41,13 +45,23 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.imageUrl = imageUrl;
 		this.lieuRetrait = lieuRetrait;
 		this.categorieArticle = categorieArticle;
 		this.achete = achete;
 		this.vend = vend;
 		this.concerne = concerne;
+		
 	}
-	// Getters et setters
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+		// Getters et setters
 		public int getNoArticle() {
 			return noArticle;
 		}
@@ -111,19 +125,19 @@ public class ArticleVendu {
 		this.description = description;
 	}
 
-	public LocalDate getDateDebutEncheres() {
+	public LocalDateTime getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
 
-	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
+	public void setDateDebutEncheres(LocalDateTime dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
-	public LocalDate getDateFinEncheres() {
+	public LocalDateTime getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
-	public void setDateFinEncheres(LocalDate dateFinEncheres) {
+	public void setDateFinEncheres(LocalDateTime dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 

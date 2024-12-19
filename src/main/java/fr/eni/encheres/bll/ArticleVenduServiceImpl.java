@@ -17,7 +17,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 
 	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO) {
 		this.articleVenduDAO = articleVenduDAO;
-		this.categorieDAO =categorieDAO;
+		this.categorieDAO = categorieDAO;
 	}
 
 
@@ -26,7 +26,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		return this.articleVenduDAO.findIfContainsAndCategorie(motCle,noCategorie);
 
 }
-
+	
 
 	@Override
 	public List<Categorie> consulterCategorie() {
@@ -38,4 +38,12 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 	public Categorie consulterParNoCategorie(int noCategorie) {
 		return categorieDAO.read(noCategorie);
 	}
+
+	@Override
+	public void ajouterArticle(ArticleVendu article) {
+		// TO DO : Throws Business Exception ?
+		articleVenduDAO.ajouterArticle(article);
+		
+	}
+
 }

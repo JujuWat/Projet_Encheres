@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import fr.eni.encheres.bll.ArticlesVendusService;
+import fr.eni.encheres.bll.ArticleVenduService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class VendreController {
 
 	// Associations : 
-	private ArticlesVendusService articlesVendusService;
+	private ArticleVenduService articleVenduService;
 	private UtilisateurService utilisateurService;
 	
 	// Constructeur : 
-	public VendreController(ArticlesVendusService articlesVendusService, UtilisateurService utilisateurService) {
+	public VendreController(ArticleVenduService articleVenduService, UtilisateurService utilisateurService) {
 		super();
-		this.articlesVendusService = articlesVendusService;
+		this.articleVenduService = articleVenduService;
 		this.utilisateurService = utilisateurService;
 	}
 
@@ -46,6 +46,7 @@ public class VendreController {
         String pseudo = utilisateurConnecte.getUsername();  
         // Récupérer l'objet utilisateur 
         Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+        System.out.println("Utilisateur = " +utilisateur);
         // Passer l'utilisateur ou son id au modèle pour l'utiliser dans le formulaire
         model.addAttribute("utilisateur", utilisateur);
         // Passer l'article vendu au modèle
@@ -67,13 +68,16 @@ public class VendreController {
         // Associer l'utilisateur connecté à l'article
         article.setVend(utilisateur);
         
-		this.articlesVendusService.ajouterArticle(article);
-		return "vendre";
+		this.articleVenduService.ajouterArticle(article);
+
+
+		return "redirect:/vendre";
+
 	}
 	
 	@ModelAttribute("categoriesSession")
 	public List<Categorie> getCategoriesSession() {
-		return this.articlesVendusService.consulterCategories();
+		return this.articleVenduService.consulterCategorie();
 	}
 	
 	

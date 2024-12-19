@@ -7,8 +7,11 @@ import fr.eni.encheres.bo.Categorie;
 
 
 public interface ArticleVenduService {
+	
 	List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie);
 	List<Categorie> consulterCategorie();
 	Categorie consulterParNoCategorie(int noCategorie);
+	void ajouterArticle(ArticleVendu article);
+
 
 }
