@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import fr.eni.encheres.bo.ArticleVendu;
 
@@ -13,12 +15,11 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 			+ "FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u "
 			+ "ON a.no_utilisateur =  u.no_utilisateur "
 			+ "WHERE LOWER (nom_article) LIKE LOWER(CONCAT('%',:keyword,'%' ))";
-		
+	private static final String CREATE = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie)";
 
-	
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
-	//constructor jdbcTemplate
+	// Constructeur jdbcTemplate
 	public ArticlesVendusDAOImpl(NamedParameterJdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -39,4 +40,24 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
         return article;	
 	});
 	}
-}//fin de classe
+
+	@Override
+	public void ajouterArticle(ArticleVendu article) {
+		MapSqlParameterSource map = new MapSqlParameterSource();
+		map.addValue("nom_article",article.getNomArticle());
+		map.addValue("description", article.getDescription());
+		map.addValue("date_debut_encheres", article.getDateDebutEncheres());
+		map.addValue("date_fin_encheres", article.getDateFinEncheres());
+		map.addValue("prix_initial", article.getMiseAPrix());
+		map.addValue("no_utilisateur", article.getVend().getNoUtilisateur());	
+		KeyHolder keyHolder = new GeneratedKeyHolder();	
+		map.addValue("no_categorie", article.getCategorieArticle().getNoCategorie());
+		this.jdbcTemplate.update(CREATE, map, keyHolder);
+		// Mise à jour de l'ID du film avec celui généré par la BDD
+				if (keyHolder != null && keyHolder.getKey() != null) {
+					article.setNoArticle(keyHolder.getKey().intValue());
+				}	
+	}
+	
+	
+}

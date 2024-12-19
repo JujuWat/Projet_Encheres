@@ -10,6 +10,10 @@
  <div th:replace="~{fragments/entete::entete}"></div>
  
  <form th:action="@{/login}" method="POST">
+ 
+ <ul th:if="${param.error}">
+ 	<li>Veuillez renseigner un login / mot de passe valide</li>
+ </ul>
 
 <ul>
 	<li><label for="">Pseudo</label><input type="text" name="username" /></li>

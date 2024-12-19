@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,10 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	private static final String CASCADE5 = "DELETE FROM UTILISATEURS WHERE no_utilisateur = :no_utilisateur";
 	
 	private NamedParameterJdbcTemplate jdbcTemplate; 
-	/* private PasswordEncoder passwordEncoder; */
 	
-	public UtilisateursDAOImpl(NamedParameterJdbcTemplate jdbcTemplate/*, PasswordEncoder passwordEncoder*/) {
+	public UtilisateursDAOImpl(NamedParameterJdbcTemplate jdbcTemplate) {
 		super();
 		this.jdbcTemplate = jdbcTemplate;
-		/*this.passwordEncoder = passwordEncoder;*/
 	}
 
 	@Override
@@ -60,7 +59,8 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 
 	@Override
 	public void ajouterUtilisateur(Utilisateur utilisateur) {
-		/*String motDePasseHache = passwordEncoder.encode(utilisateur.getMot_de_passe());*/
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String motDePasseHache = encoder.encode(utilisateur.getMot_de_passe());
 		
 		MapSqlParameterSource map = new MapSqlParameterSource(); 
 		map.addValue("pseudo", utilisateur.getPseudo());
@@ -71,7 +71,7 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 		map.addValue("rue", utilisateur.getRue());
 		map.addValue("code_postal", utilisateur.getCode_postal());
 		map.addValue("ville", utilisateur.getVille()); 
-		map.addValue("mot_de_passe", utilisateur.getMot_de_passe() /*motDePasseHache*/); 
+		map.addValue("mot_de_passe", motDePasseHache); 
 		jdbcTemplate.update(INSERT, map);
 	}
 

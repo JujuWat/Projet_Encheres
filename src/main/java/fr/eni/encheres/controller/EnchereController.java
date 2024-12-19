@@ -72,27 +72,17 @@ public class EnchereController {
 		model.addAttribute("utilisateur", new Utilisateur());
 		
 		return "view-utilisateur-creation";
-		
 	}
 	
 	@PostMapping("/creer")
 	public String postMethodName(@Valid @ModelAttribute Utilisateur utilisateur,   BindingResult bindingResult,  Model model) {
-		
 		if (bindingResult.hasErrors()) {
-		       
 	        model.addAttribute("utilisateur", utilisateur);
-	        
 	        return "view-utilisateur-creation"; // Retourner le formulaire avec l'erreur
 	    }else {
-		
-		
 		this.utilisateurService.ajouterUtilisateur(utilisateur);
-
 		return "redirect:/accueil"; 
 		}
-
-		
-
 	}
 	
 	
@@ -100,7 +90,7 @@ public class EnchereController {
 	public String afficherLogout() {
 		System.out.println("affichage de logout");
 		return "logout"; 
-
 	} 
+	
 	
 }

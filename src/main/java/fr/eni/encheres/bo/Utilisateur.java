@@ -2,14 +2,19 @@ package fr.eni.encheres.bo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class Utilisateur implements Serializable{
+public class Utilisateur implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 2L;
 	
@@ -69,6 +74,18 @@ public class Utilisateur implements Serializable{
 		this.credit = credit;
 		this.admnistrateur = admnistrateur;
 	}
+	
+	@Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Associez les rôles de l'utilisateur
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (this.admnistrateur) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        return authorities;
+    }
 
 	// Getters et setters
 	public int getNoUtilisateur() {
@@ -165,6 +182,16 @@ public class Utilisateur implements Serializable{
 
 	public void setAdmnistrateur(boolean admnistrateur) {
 		this.admnistrateur = admnistrateur;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.mot_de_passe;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.pseudo;
 	}
 	
 	
