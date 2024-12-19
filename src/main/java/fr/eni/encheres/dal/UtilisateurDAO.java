@@ -27,5 +27,9 @@ public interface UtilisateurDAO {
 	Utilisateur read_pseudo(String pseudo);
 
 	void update(Utilisateur utilisateur);
+
+	boolean existPseudo(String pseudo);
+
+	boolean existEmail(String email);
 	
 }

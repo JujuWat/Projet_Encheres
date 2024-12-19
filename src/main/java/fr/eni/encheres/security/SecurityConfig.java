@@ -30,6 +30,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     } */
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,7 +43,7 @@ public class SecurityConfig {
 		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/" , "/encheres").permitAll()
+				.requestMatchers("/" , "/encheres" ,"/accueil").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/creer").anonymous()
