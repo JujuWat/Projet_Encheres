@@ -1,5 +1,6 @@
 package fr.eni.encheres.controller;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import fr.eni.encheres.validations.Creation;
 import fr.eni.encheres.validations.Modification;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @Controller
 public class UtilisateurController {
@@ -105,6 +107,8 @@ public class UtilisateurController {
 	 @PostMapping("/profil/modifier")
 	 public String modifierProfil(@Validated(Modification.class) @ModelAttribute Utilisateur utilisateur,
 	                              BindingResult result, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+		 
+		 
 
 	     if (result.hasErrors()) {
 	         return "modifierProfil";
@@ -112,7 +116,16 @@ public class UtilisateurController {
 
 	     String pseudoConnecte = userDetails.getUsername();
 	     Utilisateur utilisateurExistant = utilisateurService.consulterParPseudo(pseudoConnecte);
-
+	     utilisateur.setPseudo(utilisateurExistant.getPseudo());
+	     
+	     
+	     if (!utilisateur.getEmail().equals(utilisateurExistant.getEmail()) 
+	             && utilisateurService.existEmail(utilisateur.getEmail())) {
+	         result.rejectValue("email", "error.utilisateur", "Cet email est déjà utilisé.");
+	         return "modifierProfil";
+	     }
+	     
+	     
 	     // Conserver l'ancien mot de passe si le champ est vide
 	     if (utilisateur.getMot_de_passe() == null || utilisateur.getMot_de_passe().isEmpty()) {
 	         utilisateur.setMot_de_passe(utilisateurExistant.getMot_de_passe());
@@ -123,11 +136,13 @@ public class UtilisateurController {
 	     }
 
 	     utilisateur.setNoUtilisateur(utilisateurExistant.getNoUtilisateur());
+	     
 	     utilisateurService.mettreAJourUtilisateur(utilisateur);
 
 	     return "redirect:/profil";
-	 }
+	 } 
 
+	
 	 
 	 @GetMapping("/supprimerUtilisateur")
 	 public String supprimerUtilisateur(@RequestParam("no_utilisateur") int id, 
