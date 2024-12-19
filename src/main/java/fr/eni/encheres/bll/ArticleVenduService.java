@@ -13,4 +13,5 @@ public interface ArticleVenduService {
 	Categorie consulterParNoCategorie(int noCategorie);
 	void ajouterArticle(ArticleVendu article);
 
+
 }

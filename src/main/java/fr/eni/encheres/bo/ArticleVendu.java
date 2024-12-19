@@ -16,12 +16,14 @@ public class ArticleVendu {
 	private int miseAPrix;
 	private int prixVente;
 	private int etatVente; // Pas de 'etatVente' sur SQL ?
+	private String imageUrl;
 	// Associations
 	private Retrait lieuRetrait;
 	private Categorie categorieArticle;
 	private Utilisateur achete;
 	private Utilisateur vend;
 	private List<Enchere> concerne;
+	
 	
 	// Constructeur par défaut
 	public ArticleVendu() {
@@ -31,8 +33,9 @@ public class ArticleVendu {
 
 	// Constructeur avec tous les champs
 
+
 	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres,
-			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Retrait lieuRetrait,
+			LocalDateTime dateFinEncheres, int miseAPrix, int prixVente, int etatVente, String imageUrl, Retrait lieuRetrait,
 			Categorie categorieArticle, Utilisateur achete, Utilisateur vend, List<Enchere> concerne) {
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -42,13 +45,23 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
+		this.imageUrl = imageUrl;
 		this.lieuRetrait = lieuRetrait;
 		this.categorieArticle = categorieArticle;
 		this.achete = achete;
 		this.vend = vend;
 		this.concerne = concerne;
+		
 	}
-	// Getters et setters
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+		// Getters et setters
 		public int getNoArticle() {
 			return noArticle;
 		}

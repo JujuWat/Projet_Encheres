@@ -69,7 +69,10 @@ public class VendreController {
         article.setVend(utilisateur);
         
 		this.articleVenduService.ajouterArticle(article);
+
+
 		return "redirect:/vendre";
+
 	}
 	
 	@ModelAttribute("categoriesSession")

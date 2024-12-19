@@ -53,13 +53,13 @@ public class EnchereController {
 
 	}
 
-	/*@PostMapping("/encheres")
+	@PostMapping("/encheres")
 	public String afficherUnObjet(@ModelAttribute FiltreRecherche filtreRecherche,Model model) {
 		List<ArticleVendu> articles = new ArrayList<>();
-		if ((filtreRecherche.getMotCle()!= null && !filtreRecherche.getMotCle().isEmpty()) || filtreRecherche.getCategorie()> 0) {
+		if ((filtreRecherche.getMotCle()!= null && !filtreRecherche.getMotCle().isEmpty()) || filtreRecherche.getCategorie().getNoCategorie()> 0) {
 			articles = articleVenduService.afficheSiContientEtCategorie(
 					filtreRecherche.getMotCle(), 
-					filtreRecherche.getCategorie());
+					filtreRecherche.getCategorie().getNoCategorie());
 		}
 		model.addAttribute("filtre", new FiltreRecherche());
 		model.addAttribute("articles", articles);
@@ -67,7 +67,7 @@ public class EnchereController {
 		model.addAttribute("noCategorie", filtreRecherche.getCategorie());
 		
 		return "accueil";
-	}*/
+	}
 
 	@GetMapping("/")
 	public String afficherAccueil(Model model) {
