@@ -55,24 +55,42 @@ public class UtilisateurController {
 		return "view-utilisateur-creation";
 		
 	}
+
 	
 	@PostMapping("/creer")
-	public String postMethodName(@Validated(Creation.class)@ModelAttribute Utilisateur utilisateur,   BindingResult bindingResult,  Model model) {
-		
-		if (bindingResult.hasErrors()) {
-		       
+	public String creerUtilisateur(@Validated(Creation.class) @ModelAttribute Utilisateur utilisateur, 
+	                                BindingResult bindingResult, 
+	                                Model model) {
+	    // Vérifier les erreurs de validation
+	    if (bindingResult.hasErrors()) {
 	        model.addAttribute("utilisateur", utilisateur);
+	        return "view-utilisateur-creation"; // Retourner le formulaire avec les erreurs
+	    }
+	    
+	    // Vérifier si le pseudo est déjà pris
+	    if (utilisateurService.existPseudo(utilisateur.getPseudo())) {
+	        // Ajouter un message d'erreur
+	        bindingResult.rejectValue("pseudo", "error.utilisateur", "Ce pseudo est déjà pris.");
 	        
+	        model.addAttribute("utilisateur", utilisateur);
 	        return "view-utilisateur-creation"; // Retourner le formulaire avec l'erreur
-	    }else {
-		
-		
-		this.utilisateurService.ajouterUtilisateur(utilisateur);
+	    }
+	    
+	    if (utilisateurService.existEmail(utilisateur.getEmail())) {
+	        // Ajouter un message d'erreur
+	        bindingResult.rejectValue("email", "error.utilisateur", "Cet email est déjà pris.");
+	        
+	        model.addAttribute("utilisateur", utilisateur);
+	        return "view-utilisateur-creation"; // Retourner le formulaire avec l'erreur
+	    }
+	    
+	    // Si tout est bon, ajouter l'utilisateur
+	    utilisateurService.ajouterUtilisateur(utilisateur);
+	    return "redirect:/accueil"; 
+	} 
+	
+	
 
-		return "redirect:/accueil"; 
-		}
-
-	}
 	
 	 @GetMapping("/profil/modifier")
 	    public String afficherFormulaireModification(@AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -126,35 +144,7 @@ public class UtilisateurController {
 	     return "redirect:/";
 	 }
 	 
-	 
-	/* 
-@PostMapping("/profil/modifier")
-	 public String modifierProfil(@Valid Utilisateur utilisateur, BindingResult result, 
-	                              @AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-	     if (result.hasErrors()) {
-	         return "modifierProfil";
-	     }
-
-	     String pseudoConnecte = userDetails.getUsername();
-	     Utilisateur utilisateurExistant = utilisateurService.consulterParPseudo(pseudoConnecte);
-
-	     utilisateur.setNoUtilisateur(utilisateurExistant.getNoUtilisateur());
-
-	     // Gestion du mot de passe
-	     if (utilisateur.getMot_de_passe() == null || utilisateur.getMot_de_passe().isEmpty()) {
-	         // Si aucun mot de passe n'est fourni, garde l'ancien mot de passe
-	         utilisateur.setMot_de_passe(utilisateurExistant.getMot_de_passe());
-	     } else {
-	         // Si un mot de passe est fourni, le hacher
-	         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	         String motDePasseHache = encoder.encode(utilisateur.getMot_de_passe());
-	         utilisateur.setMot_de_passe(motDePasseHache);
-	     }
-
-	     utilisateurService.mettreAJourUtilisateur(utilisateur);
-	     return "redirect:/profil";
-	 }
-	*/
+	
 	
 }

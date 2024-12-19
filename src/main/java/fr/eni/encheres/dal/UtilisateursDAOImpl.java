@@ -28,6 +28,8 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	private static final String CASCADE3 = "DELETE FROM RETRAITS WHERE no_article IN (SELECT no_article FROM ARTICLES_VENDUS WHERE no_utilisateur = :no_utilisateur)";
 	private static final String CASCADE4 = "DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur = :no_utilisateur";
 	private static final String CASCADE5 = "DELETE FROM UTILISATEURS WHERE no_utilisateur = :no_utilisateur";
+	private static final String COUNT_PSEUDO = "select count(*) from UTILISATEURS where pseudo = :pseudo";
+	private static final String COUNT_EMAIL = "select count (*) from UTILISATEURS where email = :email"; 
 	
 	private NamedParameterJdbcTemplate jdbcTemplate; 
 	/* private PasswordEncoder passwordEncoder; */
@@ -142,6 +144,27 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	    
 	    
 	   jdbcTemplate.update(UPDATE_USER, params);
+	}
+	
+	
+	@Override
+	public boolean existPseudo(String pseudo) {
+		MapSqlParameterSource map = new MapSqlParameterSource();
+		map.addValue("pseudo", pseudo);
+		
+		int count = jdbcTemplate.queryForObject(COUNT_PSEUDO, map, Integer.class);
+		
+		return count> 0 ? true : false ;
+	}
+	
+	
+	@Override
+	public boolean existEmail(String email) {
+		MapSqlParameterSource map = new MapSqlParameterSource();
+		map.addValue("email", email);
+		
+		int count = jdbcTemplate.queryForObject(COUNT_EMAIL, map, Integer.class); 
+		return count > 0 ? true : false; 
 	}
 	
 	
