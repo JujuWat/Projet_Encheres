@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import fr.eni.encheres.validations.Creation;
-
+import fr.eni.encheres.validations.Modification;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -26,29 +26,30 @@ public class Utilisateur implements Serializable, UserDetails {
 	private int noUtilisateur;
 	@NotBlank(message = "Le pseudo est obligatoire")
 	@Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères")
-	@Pattern(regexp = "^[A-Za-z0-9]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et pas d'espaces")
+	@Pattern(regexp = "^[A-Za-z0-9_]+$", message = "Le pseudo ne doit contenir que des caractères alphanumériques et pas d'espaces", groups = {Creation.class, Modification.class})
 	private String pseudo;
 	@NotBlank(message = "Le nom est obligatoire")
-	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le nom ne doit contenir que des lettres")
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le nom ne doit contenir que des lettres",groups = {Creation.class, Modification.class})
 	private String nom;
 	@NotBlank(message = "Le prénom est obligatoire")
-    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le prénom ne doit contenir que des lettres")
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "Le prénom ne doit contenir que des lettres", groups = {Creation.class, Modification.class})
 	private String prenom;
 	@NotBlank(message = "L'email est obligatoire")
     @Email(message = "Le format de l'email est invalide")
+	@Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", groups = {Creation.class, Modification.class})
 	private String email;
-	@Pattern(regexp = "^(|[0-9]{10})$", message = "Le téléphone doit contenir exactement 10 chiffres ou être vide")
+	@Pattern(regexp = "^(|[0-9]{10})$", message = "Le téléphone doit contenir exactement 10 chiffres ou être vide" , groups = {Creation.class, Modification.class})
 	private String telephone;
 	@NotBlank(message = "La rue est obligatoire")
 	private String rue;
-	@Pattern(regexp = "^[0-9]{5}$", message = "Le code postal doit contenir exactement 5 chiffres")
+	@Pattern(regexp = "^[0-9]{5}$", message = "Le code postal doit contenir exactement 5 chiffres", groups = {Creation.class, Modification.class})
 	private String code_postal;
 	@NotBlank(message = "La ville est obligatoire")
-	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "La ville ne doit contenir que des lettres")
+	@Pattern(regexp = "^[A-Za-zÀ-ÿ\\s-]+$", message = "La ville ne doit contenir que des lettres", groups = {Creation.class, Modification.class})
 	private String ville;
-	@NotBlank(message = "Le mot de passe est obligatoire", groups = Creation.class)
+	@NotBlank(message = "Le mot de passe est obligatoire")
 	@Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères")
-	@Pattern(regexp = "^[A-Za-z0-9]*$", message = "Le mot de passe ne doit contenir que des caractères alphanumériques")
+	@Pattern(regexp = "^[A-Za-z0-9]*$", message = "Le mot de passe ne doit contenir que des caractères alphanumériques", groups = Creation.class)
 	private String mot_de_passe;
 	private int credit;
 	private boolean admnistrateur=false;

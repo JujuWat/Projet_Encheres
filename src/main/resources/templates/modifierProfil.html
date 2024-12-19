@@ -19,15 +19,10 @@
     <form th:action="@{/profil/modifier}" th:object="${utilisateur}" method="post">
         <!-- Champ caché pour noUtilisateur -->
         <input type="hidden" th:field="*{noUtilisateur}" />
-           
+        
+        <input type="hidden" th:field="*{pseudo}" />   
 
-        <div>
-            <label>Pseudo :</label>
-            <input type="text" th:field="*{pseudo}"  />
-            
-            
-        </div>
-
+       
         <div>
             <label>Nom :</label>
             <input type="text" th:field="*{nom}" />

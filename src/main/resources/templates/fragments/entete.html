@@ -1,31 +1,28 @@
 <header th:fragment="entete">
- 
- 
-	<nav>
-		<h1 id="nav-title">ENI - Enchères</h1>
- 
-<h2>Les objets sont nos amis</h2>
-		<ul>
-
-
-			
-			
-
-			
-			
-
-			<li><a href="/">Enchères</a>
-			<li><a sec:authorize="!isAuthenticated()" href="/login">Se connecter</a>
-			<li><a sec:authorize="!isAuthenticated()" th:href="@{/creer}">S'inscrire</a>
-
-			<li><a sec:authorize="isAuthenticated()" th:href="@{/vendre}">Vendre un article</a>
-
-			<li><a sec:authorize="isAuthenticated()" th:href="@{/profil}">Mon profil</a>
-			<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Déconnexion</a>
-			
-		</ul>
- 
-		<!--  les menus sont accessibles en fonction des profils -->
- 
-	</nav>
+    <nav>
+        <!-- Conteneur principal avec logo et titres -->
+        <div id="logo-titles-container">
+            <!-- Logo -->
+            <div id="logo-container">
+            	<a href="/">
+                <img src="/images/logo_final.png" alt="Logo ENI - Enchères" id="site-logo" />
+                </a>
+            </div>
+            <!-- Titres -->
+            <div id="titles-container">
+                <h1 id="nav-title">ENI - Enchères</h1>
+                <h2>Les objets sont nos amis</h2>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <ul>
+            <li><a href="/">Enchères</a></li>
+            <li><a sec:authorize="!isAuthenticated()" href="/login">Se connecter</a></li>
+            <li><a sec:authorize="!isAuthenticated()" th:href="@{/creer}">S'inscrire</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/vendre}">Vendre un article</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/profil}">Mon profil</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Déconnexion</a></li>
+        </ul>
+    </nav>
 </header>
