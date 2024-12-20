@@ -15,11 +15,11 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	private static final String CREATE = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie)";
 
-		private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT image_article, nom_article, date_fin_encheres, prix_vente, pseudo " +
-					"FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u " +
-					"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1" ;
-		private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
-		private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
+	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT image_article, nom_article, date_fin_encheres, prix_vente, pseudo " +
+			"FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u " +
+			"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1" ;
+	private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
+	private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
 	
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
