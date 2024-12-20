@@ -1,5 +1,7 @@
 package fr.eni.encheres.bll;
 
+import java.util.List;
+
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.exception.BusinessException;
 
@@ -16,5 +18,7 @@ public interface UtilisateurService {
 	boolean existPseudo(String pseudo);
 
 	boolean existEmail(String email);
+
+	List<Utilisateur> consulterUtilisateurs();
 	
 }

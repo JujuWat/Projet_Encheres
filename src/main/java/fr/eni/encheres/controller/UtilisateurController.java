@@ -1,5 +1,7 @@
 package fr.eni.encheres.controller;
 
+import java.util.List;
+
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,7 @@ import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.validations.Creation;
 import fr.eni.encheres.validations.Modification;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -160,6 +163,13 @@ public class UtilisateurController {
 	 }
 	 
 
+	 @GetMapping("/detailsUtilisateurs")
+		public String afficherUtilisateurs(Model model) {
+			List<Utilisateur> liste = utilisateurService.consulterUtilisateurs();
+			model.addAttribute("utilisateur", liste);
+			return "detailsUtilisateurs";
+
+		}
 	
 	
 }

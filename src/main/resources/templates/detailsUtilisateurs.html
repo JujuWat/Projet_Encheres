@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{/css/tableau.css}" />
+</head>
+<body>
+ <div th:replace="~{fragments/entete::entete}"></div>
+
+<table>
+	<!-- entête -->
+		<thead>
+			<th>Pseudo</th>
+			<th>Nom</th>
+			<th>Prenom</th>
+			<th>Email</th>
+			<th>Téléphone</th>
+			<th>Adresse</th>
+			<th>Crédit</th>
+		<!--  	<th sec:authorize="hasRole('ROLE_ADMIN')">Supprimer</th> -->
+		</thead>
+	<!-- données -->
+		<tr th:each="u : ${utilisateur}">
+			
+			<td th:text="${u.pseudo}"></td>
+			<td th:text="${u.nom}"></td>
+			<td th:text="${u.prenom}"></td>
+			<td th:text="${u.email}"></td>
+			<td th:text="${u.telephone}"></td>
+			<td th:text="${u.rue} + ', ' + ${u.code_postal} + ' ' + ${u.ville}" ></td>
+			<td th:text="${u.credit}"></td>
+			<!-- <td sec:authorize="hasRole('ROLE_ADMIN')">
+   			<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/films/supprimer(id=${f.id})}" class="delete-button">Supprimer</a>
+			</td>-->
+			
+		</tr>
+		
+	</table>
+
+
+</body>
+</html>

@@ -18,7 +18,7 @@ import fr.eni.encheres.bo.Utilisateur;
 @Repository
 public class UtilisateursDAOImpl implements UtilisateurDAO {
 	
-	private static final String FIND_ALL = "Select no_utilisateur, nom, prenom from Utilisateurs";
+	private static final String FIND_ALL = "Select no_utilisateur,pseudo, nom, prenom , email, telephone, rue, code_postal,ville, credit from Utilisateurs";
 	private static final String FIND_BY_NO = "Select no_utilisateur AS noUtilisateur, nom, prenom , email, telephone, rue, code_postal,ville, mot_de_passe, credit  from  Utilisateurs where no_utilisateur = :no_utilisateur ";
 	private static final String FIND_BY_PSEUDO = "Select no_utilisateur AS noUtilisateur,pseudo, nom, prenom , email, telephone, rue, code_postal,ville, mot_de_passe, credit  from  Utilisateurs where pseudo = :pseudo ";
 	private static final String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue,code_postal,ville, mot_de_passe) VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue,:code_postal,:ville, :mot_de_passe)";

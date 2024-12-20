@@ -9,6 +9,7 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.exception.BusinessException;
 
 
+
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 	
@@ -58,4 +59,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	 }
  
 	
+	 @Override
+		public List<Utilisateur> consulterUtilisateurs() {
+			return utilisateurDAO.findAll();
+			
+		}
+	 
 }
