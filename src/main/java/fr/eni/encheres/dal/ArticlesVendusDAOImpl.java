@@ -67,7 +67,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		KeyHolder keyHolder = new GeneratedKeyHolder();	
 		map.addValue("no_categorie", article.getCategorieArticle().getNoCategorie());
 		this.jdbcTemplate.update(CREATE, map, keyHolder);
-		// Mise à jour de l'ID du film avec celui généré par la BDD
+		// Mise à jour de l'ID de l'objet avec celui généré par la BDD
 				if (keyHolder != null && keyHolder.getKey() != null) {
 					article.setNoArticle(keyHolder.getKey().intValue());
 				}	

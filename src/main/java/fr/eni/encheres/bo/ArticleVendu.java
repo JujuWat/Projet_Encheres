@@ -5,14 +5,24 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class ArticleVendu {
 
 	// Attributs d'instance
 	private int noArticle;
+	@NotBlank(message = "Le nom de l'article est obligatoire")
 	private String nomArticle;
+	@NotBlank(message = "Merci d'ajouter une courte description")
+	@Size(min = 10, message = "La description doit contenir au moins 10 caractères")
 	private String description;
 	private LocalDateTime dateDebutEncheres;
 	private LocalDateTime dateFinEncheres;
+	@NotNull(message = "Merci d'indiquer un prix supérieur à 0")
+	@Min(value = 1, message = "Le prix de vente doit être au moins 1 crédit")
 	private int miseAPrix;
 	private int prixVente;
 	private int etatVente; // Pas de 'etatVente' sur SQL ?
