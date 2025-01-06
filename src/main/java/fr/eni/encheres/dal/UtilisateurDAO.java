@@ -31,5 +31,9 @@ public interface UtilisateurDAO {
 	boolean existPseudo(String pseudo);
 
 	boolean existEmail(String email);
+
+	void toAdmin(int noUtilisateur);
+
+	Boolean read_admin(int noUtilisateur);
 	
 }

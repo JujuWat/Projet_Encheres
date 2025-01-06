@@ -14,8 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
@@ -163,13 +165,68 @@ public class UtilisateurController {
 	 }
 	 
 
-	 @GetMapping("/detailsUtilisateurs")
-		public String afficherUtilisateurs(Model model) {
-			List<Utilisateur> liste = utilisateurService.consulterUtilisateurs();
-			model.addAttribute("utilisateur", liste);
-			return "detailsUtilisateurs";
+	 @GetMapping("/supprimerViaAdmin")
+	 public String supprimerViaAdmin(@RequestParam("no_utilisateur") int id,
+	                                  HttpServletRequest request,
+	                                  HttpServletResponse response,
+	                                  @AuthenticationPrincipal UserDetails userDetails) {
+	     // Récupérer l'utilisateur connecté
+	     String pseudoConnecte = userDetails.getUsername();
+	     Utilisateur utilisateurConnecte = utilisateurService.consulterParPseudo(pseudoConnecte);
 
-		}
+	     // Vérifier si l'utilisateur connecté tente de se supprimer lui-même
+	     if (utilisateurConnecte.getNoUtilisateur() == id) {
+	         // Ajouter un message d'erreur dans la session
+	         request.getSession().setAttribute("errorMessage", "Vous ne pouvez pas supprimer votre propre compte.");
+	         return "redirect:/detailsUtilisateurs"; // Rediriger avec un message d'erreur
+	     }
+
+	     // Suppression de l'utilisateur
+	     utilisateurService.supprimerUtilisateur(id);
+
+	     // Redirection vers la page des utilisateurs
+	     return "redirect:/detailsUtilisateurs";
+	 }
+	 
+
+	 @GetMapping("/toAdmin")
+	 public String promouvoirEnAdmin(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
+	     try {
+	         utilisateurService.toAdmin(id); // Appelle le service pour promouvoir
+	         // Ajouter un message de succès uniquement si l'opération réussit
+	         redirectAttributes.addFlashAttribute("successMessage", "L'utilisateur a été promu administrateur avec succès.");
+	         System.out.println("Message de succès ajouté : L'utilisateur a été promu administrateur.");
+	     } catch (IllegalStateException e) {
+	         // Ajouter le message d'erreur aux attributs flash
+	         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+	         System.out.println("Message d'erreur ajouté : " + e.getMessage());
+	         return "redirect:/detailsUtilisateurs";
+	     }
+
+	     return "redirect:/detailsUtilisateurs";
+	 }
+
+
+
+
+	 @GetMapping("/detailsUtilisateurs")
+	 public String afficherUtilisateurs(Model model, HttpServletRequest request) {
+	     String errorMessage = (String) request.getSession().getAttribute("errorMessage");
+
+	     if (errorMessage != null) {
+	        
+	         model.addAttribute("errorMessage", errorMessage);
+	         request.getSession().removeAttribute("errorMessage");
+	     }
+
+	     List<Utilisateur> liste = utilisateurService.consulterUtilisateurs();
+	     model.addAttribute("utilisateur", liste);
+
+	     return "detailsUtilisateurs";
+	 }
+
+	 
+	 
 	
 	
 }

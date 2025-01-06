@@ -20,5 +20,9 @@ public interface UtilisateurService {
 	boolean existEmail(String email);
 
 	List<Utilisateur> consulterUtilisateurs();
+
+	void toAdmin(int noUtilisateur);
+
+	
 	
 }
