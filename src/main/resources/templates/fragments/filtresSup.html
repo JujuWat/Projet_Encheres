@@ -1,0 +1,14 @@
+ <div th:fragment="filtresSup">
+<form sec:authorize="isAuthenticated()" class="searchUser"  action="">
+	<ul>
+	<li><input type="radio" > Achats</li>
+		<li> <input  type="checkbox" /> enchères ouvertes</li>
+		<li> <input type="checkbox" /> mes enchères en cours</li>
+		<li> <input  type="checkbox" /> mes enchères remportées</li>
+	<li><input type="radio" > Mes ventes</li>
+		<li> <input  type="checkbox" /> mes ventes en cours</li>
+		<li> <input  type="checkbox" > ventes non débutées</li>
+		<li> <input  type="checkbox" /> ventes terminées</li>
+	</ul>
+</form>
+</div>

@@ -52,7 +52,7 @@ public class EnchereController {
 		this.utilisateurService = utilisateurService;
 	}
 	
-	@PostMapping("/encheres")
+	/*@PostMapping("/encheres")
 	public String afficherUnObjet(@ModelAttribute FiltreRecherche filtreRecherche,Model model) {
 		List<ArticleVendu> articles = new ArrayList<>();
 		if ((filtreRecherche.getMotCle()!= null && !filtreRecherche.getMotCle().isEmpty()) || 
@@ -72,6 +72,31 @@ public class EnchereController {
 		
 		return "accueil";
 		
+	}*/
+	@PostMapping("/encheres")
+	public String afficherUnObjet(@ModelAttribute FiltreRecherche filtreRecherche, Model model) {
+	    // Initialiser les valeurs par défaut si elles sont nulles
+	    if (filtreRecherche == null) {
+	        filtreRecherche = new FiltreRecherche();
+	    }
+	    if (filtreRecherche.getCategorie() == null) {
+	        filtreRecherche.setCategorie(new Categorie());
+	        filtreRecherche.getCategorie().setNoCategorie(0); // Par défaut : "Toutes les catégories"
+	    }
+	    if (filtreRecherche.getMotCle() == null) {
+	        filtreRecherche.setMotCle("");
+	    }
+
+	    // Appel au service avec les valeurs validées
+	    List<ArticleVendu> articles = articleVenduService.afficheSiContientEtCategorie(
+	        filtreRecherche.getMotCle().trim(),
+	        filtreRecherche.getCategorie().getNoCategorie()
+	    );
+
+	    // Ajout des données au modèle
+	    model.addAttribute("filtre", filtreRecherche);
+	    model.addAttribute("articles", articles);
+	    return "accueil";
 	}
 	
 	@GetMapping("/encheres")

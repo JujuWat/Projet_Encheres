@@ -296,5 +296,104 @@ table a:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 	
 }
-	
+.searchUser {
+    padding: 20px;
+    margin: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 90%;
+}
 
+.searchUser ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 20px;
+}
+
+.searchUser li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+}
+
+/* Radio buttons */
+.searchUser li:first-child {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.searchUser li:nth-child(5) {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* First checkbox row */
+.searchUser li:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.searchUser li:nth-child(6) {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* Second checkbox row */
+.searchUser li:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.searchUser li:nth-child(7) {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* Third checkbox row */
+.searchUser li:nth-child(4) {
+    grid-column: 1;
+    grid-row: 4;
+}
+
+.searchUser li:nth-child(8) {
+    grid-column: 2;
+    grid-row: 4;
+}
+
+.searchUser li:has(input[type="radio"]) {
+    font-weight: bold;
+    border-bottom: 2px solid #2c3e50;
+}
+
+.searchUser li:has(input[type="checkbox"]) {
+    margin-left: 20px;
+    font-size: 0.9rem;
+}
+
+.searchUser input[type="radio"],
+.searchUser input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #2c3e50;
+}
+
+@media screen and (max-width: 600px) {
+    .searchUser ul {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 10px;
+    }
+    
+    .searchUser li {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+}
