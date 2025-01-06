@@ -37,7 +37,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	     
 	    String requete = FIND_IF_CONTAINS_AND_CATEGORIE;
 	    if (!keyword.isEmpty()){
-	    	System.out.println("je recherche par le mot");
+	    	System.out.println("jae recherche par le mot");
 	    	params.addValue("keyword", keyword);
 	    	requete += FIND_KEYWORD; 
 	    }
