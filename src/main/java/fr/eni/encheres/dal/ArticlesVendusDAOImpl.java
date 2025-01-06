@@ -1,6 +1,8 @@
 package fr.eni.encheres.dal;
 
+
 import java.util.List;
+
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,7 +17,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	private static final String CREATE = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie)";
 
-	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT image_article, nom_article, date_fin_encheres, prix_vente, pseudo " +
+	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT image_article, nom_article, date_fin_encheres, prix_initial, prix_vente, pseudo " +
 			"FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u " +
 			"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1" ;
 	private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
@@ -35,19 +37,23 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	     
 	    String requete = FIND_IF_CONTAINS_AND_CATEGORIE;
 	    if (!keyword.isEmpty()){
+	    	System.out.println("jae recherche par le mot");
 	    	params.addValue("keyword", keyword);
 	    	requete += FIND_KEYWORD; 
 	    }
 	    if(noCategorie != 0) {
+	    	System.out.println("je recherche la categorie");
 	    	params.addValue("noCategorie", noCategorie);
 	    	requete += FIND_CATEGORIE;
 	    	  
 	    }
-	    return jdbcTemplate.query(requete, params, (rs, rowNum) -> {
+	 return jdbcTemplate.query(requete, params, (rs, rowNum) -> {
+	    	System.out.println("je récupère les données");
 	        ArticleVendu article = new ArticleVendu();
 	        article.setImageUrl(rs.getString("image_article"));
 	        article.setNomArticle(rs.getString("nom_article"));
 	        article.setDateFinEncheres(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+	        article.setMiseAPrix(rs.getInt("prix_initial"));
 	        article.setPrixVente(rs.getInt("prix_vente"));
 	        article.setVend(new Utilisateur(rs.getString("pseudo")));
 	        return article;
@@ -75,3 +81,4 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	
 	
 }
+

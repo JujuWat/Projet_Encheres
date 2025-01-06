@@ -174,6 +174,15 @@ public class ArticleVendu {
 	public void setEtatVente(int etatVente) {
 		this.etatVente = etatVente;
 	}
+
+	@Override
+	public String toString() {
+		return "ArticleVendu [noArticle=" + noArticle + ", nomArticle=" + nomArticle + ", description=" + description
+				+ ", dateDebutEncheres=" + dateDebutEncheres + ", dateFinEncheres=" + dateFinEncheres + ", miseAPrix="
+				+ miseAPrix + ", prixVente=" + prixVente + ", etatVente=" + etatVente + ", imageUrl=" + imageUrl
+				+ ", lieuRetrait=" + lieuRetrait + ", categorieArticle=" + categorieArticle + ", achete=" + achete
+				+ ", vend=" + vend + ", concerne=" + concerne + "]";
+	}
 	
 	
 	

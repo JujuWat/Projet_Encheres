@@ -48,6 +48,7 @@ public class SecurityConfig {
 				.requestMatchers("/" , "/encheres" ,"/accueil").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
+				.requestMatchers("/detailsUtilisateurs").hasRole("ADMIN")
 				.anyRequest().authenticated()
 			)
 			.httpBasic(Customizer.withDefaults())

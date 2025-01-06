@@ -52,7 +52,7 @@ public class Utilisateur implements Serializable, UserDetails {
 	@Pattern(regexp = "^[A-Za-z0-9]*$", message = "Le mot de passe ne doit contenir que des caractères alphanumériques", groups = Creation.class)
 	private String mot_de_passe;
 	private int credit;
-	private boolean admnistrateur=false;
+	private boolean administrateur=false;
 	// Associations
 	private List<ArticleVendu> achete = new ArrayList<ArticleVendu>();
 	private List<ArticleVendu> vend = new ArrayList<ArticleVendu>();
@@ -63,6 +63,10 @@ public class Utilisateur implements Serializable, UserDetails {
 	
 	}
 	
+	public Utilisateur(boolean administrateur) {
+		super();
+		this.administrateur = administrateur;
+	}
 	
 	public Utilisateur(
 			@NotBlank(message = "Le pseudo est obligatoire") @Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères") String pseudo) {
@@ -86,14 +90,14 @@ public class Utilisateur implements Serializable, UserDetails {
 		this.ville = ville;
 		this.mot_de_passe = mot_de_passe;
 		this.credit = credit;
-		this.admnistrateur = admnistrateur;
+		this.administrateur = admnistrateur;
 	}
 	
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Associez les rôles de l'utilisateur
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (this.admnistrateur) {
+        if (this.administrateur) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
@@ -191,11 +195,11 @@ public class Utilisateur implements Serializable, UserDetails {
 	}
 
 	public boolean isAdmnistrateur() {
-		return admnistrateur;
+		return administrateur;
 	}
 
 	public void setAdmnistrateur(boolean admnistrateur) {
-		this.admnistrateur = admnistrateur;
+		this.administrateur = admnistrateur;
 	}
 
 	@Override
@@ -214,7 +218,7 @@ public class Utilisateur implements Serializable, UserDetails {
 		return String.format(
 				"Utilisateur [noUtilisateur=%s, pseudo=%s, nom=%s, prenom=%s, email=%s, telephone=%s, rue=%s, code_postal=%s, ville=%s, mot_de_passe=%s, credit=%s, admnistrateur=%s, achete=%s, vend=%s, encherit=%s]",
 				noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit,
-				admnistrateur, achete, vend, encherit);
+				administrateur, achete, vend, encherit);
 	}
 	
 	

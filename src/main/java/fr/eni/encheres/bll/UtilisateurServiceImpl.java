@@ -9,6 +9,7 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.exception.BusinessException;
 
 
+
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
 	
@@ -58,4 +59,29 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	 }
  
 	
+	 @Override
+		public List<Utilisateur> consulterUtilisateurs() {
+			return utilisateurDAO.findAll();
+			
+		}
+	 
+	 @Override
+	 public void toAdmin(int noUtilisateur) {
+	     System.out.println("Promotion utilisateur dans le service, ID : " + noUtilisateur);
+
+	     // Vérifier si l'utilisateur est déjà admin
+	     if (utilisateurDAO.read_admin(noUtilisateur)) {
+	         System.out.println("Utilisateur déjà administrateur : " + noUtilisateur);
+	         throw new IllegalStateException("Cet utilisateur est déjà administrateur.");
+	     }
+
+	     // Promouvoir l'utilisateur
+	     utilisateurDAO.toAdmin(noUtilisateur);
+	     System.out.println("Utilisateur promu au rôle ADMIN, ID : " + noUtilisateur);
+	 }
+
+
+
+
+	 
 }

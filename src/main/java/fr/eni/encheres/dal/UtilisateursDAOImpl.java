@@ -18,8 +18,9 @@ import fr.eni.encheres.bo.Utilisateur;
 @Repository
 public class UtilisateursDAOImpl implements UtilisateurDAO {
 	
-	private static final String FIND_ALL = "Select no_utilisateur, nom, prenom from Utilisateurs";
-	private static final String FIND_BY_NO = "Select no_utilisateur AS noUtilisateur, nom, prenom , email, telephone, rue, code_postal,ville, mot_de_passe, credit  from  Utilisateurs where no_utilisateur = :no_utilisateur ";
+	private static final String FIND_ALL = "Select no_utilisateur,pseudo, nom, prenom , email, telephone, rue, code_postal,ville, credit from Utilisateurs";
+	private static final String FIND_ADMIN = "SELECT administrateur FROM Utilisateurs WHERE no_utilisateur = :no_utilisateur";
+	private static final String FIND_BY_NO = "Select no_utilisateur AS noUtilisateur, nom, prenom , email, telephone, rue, code_postal,ville, mot_de_passe, credit from  Utilisateurs where no_utilisateur = :no_utilisateur ";
 	private static final String FIND_BY_PSEUDO = "Select no_utilisateur AS noUtilisateur,pseudo, nom, prenom , email, telephone, rue, code_postal,ville, mot_de_passe, credit  from  Utilisateurs where pseudo = :pseudo ";
 	private static final String INSERT = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue,code_postal,ville, mot_de_passe) VALUES (:pseudo, :nom, :prenom, :email, :telephone, :rue,:code_postal,:ville, :mot_de_passe)";
 	private static final String UPDATE_USER = "UPDATE UTILISATEURS SET pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, telephone = :telephone, rue = :rue, code_postal = :code_postal, ville = :ville, mot_de_passe = :mot_de_passe WHERE no_utilisateur  = :no_utilisateur";
@@ -30,6 +31,7 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	private static final String CASCADE5 = "DELETE FROM UTILISATEURS WHERE no_utilisateur = :no_utilisateur";
 	private static final String COUNT_PSEUDO = "select count(*) from UTILISATEURS where pseudo = :pseudo";
 	private static final String COUNT_EMAIL = "select count (*) from UTILISATEURS where email = :email"; 
+	private static final String CHANGE_ROLE = "UPDATE UTILISATEURS SET administrateur = 1, role = 'ROLE_ADMIN' WHERE no_utilisateur  = :no_utilisateur";
 	
 	private NamedParameterJdbcTemplate jdbcTemplate; 
 	
@@ -46,6 +48,13 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 		
 	}
 	
+	@Override
+	public Boolean read_admin(int noUtilisateur) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("no_utilisateur", noUtilisateur);
+	    return jdbcTemplate.queryForObject(FIND_ADMIN, params, Boolean.class);
+	}
+
 	@Override
 	public Utilisateur read_pseudo(String pseudo) {
 		MapSqlParameterSource map = new MapSqlParameterSource();
@@ -164,6 +173,16 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 		int count = jdbcTemplate.queryForObject(COUNT_EMAIL, map, Integer.class); 
 		return count > 0 ? true : false; 
 	}
+	
+
+	@Override
+	public void toAdmin(int noUtilisateur) {
+	    MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("no_utilisateur", noUtilisateur);
+	    jdbcTemplate.update(CHANGE_ROLE, params); 
+	    
+	}
+
 	
 	
 }

@@ -8,19 +8,24 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.ArticlesVendusDAO;
 import fr.eni.encheres.dal.CategorieDAO;
+
 import fr.eni.encheres.dal.RetraitsDAO;
+
+import fr.eni.encheres.dal.UtilisateurDAO;
+
 
 @Service
 public class ArticleVenduServiceImpl implements ArticleVenduService{
 	private ArticlesVendusDAO articleVenduDAO;
 	private CategorieDAO categorieDAO;
 	private RetraitsDAO retraitDAO;
+	private UtilisateurDAO utilisateurDAO;
 
 
-	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO, RetraitsDAO retraitDAO) {
+	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO, UtilisateurDAO utilisateurDAO) {
 		this.articleVenduDAO = articleVenduDAO;
 		this.categorieDAO = categorieDAO;
-		this.retraitDAO = retraitDAO;
+		this.utilisateurDAO = utilisateurDAO;
 	}
 
 
