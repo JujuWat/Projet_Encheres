@@ -34,6 +34,8 @@ import jakarta.validation.Valid;
 
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @SessionAttributes({ "listeCategorie" })
@@ -48,26 +50,36 @@ public class EnchereController {
 	public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService) {
 		this.articleVenduService = articleVenduService;	
 		this.utilisateurService = utilisateurService;
-			
-	
-
 	}
-
+	
 	@PostMapping("/encheres")
 	public String afficherUnObjet(@ModelAttribute FiltreRecherche filtreRecherche,Model model) {
 		List<ArticleVendu> articles = new ArrayList<>();
-		if ((filtreRecherche.getMotCle()!= null && !filtreRecherche.getMotCle().isEmpty()) || filtreRecherche.getCategorie().getNoCategorie()> 0) {
+		if ((filtreRecherche.getMotCle()!= null && !filtreRecherche.getMotCle().isEmpty()) || 
+				(filtreRecherche.getCategorie().getNoCategorie()>0 && filtreRecherche.getCategorie()!= null)) {
 			articles = articleVenduService.afficheSiContientEtCategorie(
 					filtreRecherche.getMotCle(), 
 					filtreRecherche.getCategorie().getNoCategorie());
+			System.out.println("prise en compte des filtres");
+		} else {
+			
 		}
+		
 		model.addAttribute("filtre", new FiltreRecherche());
 		model.addAttribute("articles", articles);
 		model.addAttribute("motCle", filtreRecherche.getMotCle());
 		model.addAttribute("noCategorie", filtreRecherche.getCategorie());
 		
 		return "accueil";
+		
 	}
+	
+	@GetMapping("/encheres")
+	public String afficherUnObjet(Model model) {
+	
+		return "accueil";
+	}
+	
 
 	@GetMapping("/")
 	public String afficherAccueil(Model model) {

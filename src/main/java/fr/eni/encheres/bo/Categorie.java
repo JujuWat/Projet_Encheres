@@ -14,13 +14,19 @@ public class Categorie {
 	
 	// Constructeur par défaut
 	public Categorie() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
-	// Constructeur avec tous les champs
-	public Categorie(int noCategorie, String libelle) {
+	public Categorie(int noCategorie, String libelle, List<ArticleVendu> categorieArticle) {
 		this.noCategorie = noCategorie;
 		this.libelle = libelle;
+		this.categorieArticle = categorieArticle;
+	}
+
+	//constructeur sans no de categorie
+	public Categorie(String libelle, List<ArticleVendu> categorieArticle) {
+		this.libelle = libelle;
+		this.categorieArticle = categorieArticle;
 	}
 
 	// Getters et setters
