@@ -8,19 +8,25 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.ArticlesVendusDAO;
 import fr.eni.encheres.dal.CategorieDAO;
+
+import fr.eni.encheres.dal.RetraitsDAO;
+
 import fr.eni.encheres.dal.UtilisateurDAO;
+
 
 @Service
 public class ArticleVenduServiceImpl implements ArticleVenduService{
 	private ArticlesVendusDAO articleVenduDAO;
 	private CategorieDAO categorieDAO;
+	private RetraitsDAO retraitDAO;
 	private UtilisateurDAO utilisateurDAO;
 
 
-	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO, UtilisateurDAO utilisateurDAO) {
+	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO, UtilisateurDAO utilisateurDAO, RetraitsDAO retraitDAO) {
 		this.articleVenduDAO = articleVenduDAO;
 		this.categorieDAO = categorieDAO;
 		this.utilisateurDAO = utilisateurDAO;
+		this.retraitDAO = retraitDAO;
 	}
 
 
@@ -46,6 +52,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 	public void ajouterArticle(ArticleVendu article) {
 		// TO DO : Throws Business Exception ?
 		articleVenduDAO.ajouterArticle(article);
+		retraitDAO.ajouterRetrait(article.getLieuRetrait(), article.getNoArticle());
 		
 	}
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Votre objet est en vente !</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<div th:replace="~{fragments/entete::entete}"></div>
+	<h1>Votre objet est en vente !</h1>
+
+
+	 <li><a sec:authorize="isAuthenticated()" th:href="@{/vendre}">Vendre un nouvel article</a></li>
+     <li><a sec:authorize="isAuthenticated()" th:href="@{/}">Retourner à l'accueil</a></li>
+
+
+</body>
+</html>

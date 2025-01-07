@@ -48,7 +48,6 @@ public class SecurityConfig {
 				.requestMatchers("/" , "/encheres" ,"/accueil").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
-				.requestMatchers("/creer").anonymous()
 				.requestMatchers("/detailsUtilisateurs").hasRole("ADMIN")
 				.anyRequest().authenticated()
 			)

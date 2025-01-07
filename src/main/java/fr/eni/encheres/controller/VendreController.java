@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -53,20 +55,35 @@ public class VendreController {
         System.out.println("Utilisateur = " +utilisateur);
         // Passer l'utilisateur ou son id au modèle pour l'utiliser dans le formulaire
         model.addAttribute("utilisateur", utilisateur);
-        // Initialise le retrait
-        
         // Passer l'article vendu au modèle
-        model.addAttribute("articleVendu", new ArticleVendu());
+        ArticleVendu articleVendu = new ArticleVendu();
+        Retrait retrait = new Retrait();
+        retrait.setCode_postal(utilisateur.getCode_postal());
+        retrait.setRue(utilisateur.getRue());
+        retrait.setVille(utilisateur.getVille());
+        articleVendu.setLieuRetrait(retrait);
+        model.addAttribute("articleVendu", articleVendu);
 		System.out.println("affichage de vendre");
 		return "vendre";
 	}
 		
 
 	@PostMapping("/vendre")
-	// TO DO : Try catch ? 
-	public String creerArticle (@ModelAttribute ArticleVendu article, @ModelAttribute Retrait retrait) {
-		
-		
+	public String creerArticle (@Valid @ModelAttribute ArticleVendu article, BindingResult bindingResult, @ModelAttribute Retrait retrait, Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("errors", bindingResult.getAllErrors());
+			// Récupérer l'utilisateur authentifié
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	        User utilisateurConnecte = (User) authentication.getPrincipal();  // Cast en User
+	        String pseudo = utilisateurConnecte.getUsername();  
+	        // Récupérer l'objet utilisateur 
+	        Utilisateur utilisateur = utilisateurService.consulterParPseudo(pseudo);
+	        System.out.println("Utilisateur = " +utilisateur);
+	        // Passer l'utilisateur ou son id au modèle pour l'utiliser dans le formulaire
+	        model.addAttribute("utilisateur", utilisateur);
+			return "vendre"; /// Renvoie à la page avec les erreurs affichées
+		} else {
+
 		// Récupérer l'utilisateur connecté via Spring Security
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User utilisateurConnecte = (User) authentication.getPrincipal();  
@@ -77,11 +94,9 @@ public class VendreController {
         article.setVend(utilisateur);
         // Ajouter l'article dans la base de données
 		this.articleVenduService.ajouterArticle(article);
-		// Associer le retrait à l'article vendu et l'ajouter en base de données
-        retraitService.ajouterRetrait(article, retrait);
 
-		return "redirect:/vendre";
-
+		return "objetvendu"; // J'ai changé au lieu de mettre redirect:/vendre
+		}
 	}
 	
 	@ModelAttribute("categoriesSession")

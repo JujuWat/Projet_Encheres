@@ -1,10 +1,20 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class Retrait {
 
 	// Attributs d'instance
+	@NotBlank(message = "Merci d'ajouter votre rue")
 	private String rue;
+	@NotBlank(message = "Merci d'ajouter votre code postal")
+	@Size(min = 5, message = "Le code postal doit contenir 5 caractères")
+	@Size(max = 5, message = "Le code postal doit contenir 5 caractères")
+	@Pattern(regexp = "^[0-9]{5}$", message = "Le code postal ne doit comporter que des chiffres")
 	private String code_postal;
+	@NotBlank(message = "Merci d'ajouter votre ville")
 	private String ville;
 	// Associations
 	private ArticleVendu lieuRetrait;

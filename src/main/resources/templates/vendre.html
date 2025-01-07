@@ -11,30 +11,36 @@
 <h1>Vendre un article</h1>
 
 	<form th:action="@{/vendre}" method = "POST" th:object="${articleVendu}">
+	
 		
 	<ul>
 		<h2>Article à vendre</h2>
 		<li>
 		<label for="nom_article">Nom de l'article</label>
 		<input id="nom_article" type="text" th:field="*{nomArticle}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('nomArticle')}"></div>
 		</li>
 		<li>
 		<label for="description">Description</label>
 		<input id="description" type="text" th:field="*{description}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('description')}"></div>
 		</li>
 		<label for="date_debut_encheres">Date de début de l'enchère</label>
 		<input id="date_debut_encheres" type="datetime-local" th:field="*{dateDebutEncheres}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('dateDebutEncheres')}"></div>
 		</li>
 		<label for="date_fin_encheres">Date de fin de l'enchère</label>
 		<input id="date_fin_encheres" type="datetime-local" th:field="*{dateFinEncheres}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('dateFinEncheres')}"></div>
 		</li>
 		</li>
 		<label for="prix_vente">Mise à prix de l'objet</label>
 		<input id="prix_vente" type="number" min="1" th:field="*{miseAPrix}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('miseAPrix')}"></div>
 		</li>
 		</li>
 		<label for="idCategorie">Catégorie</label>
-		<select name="categorieArticle" id="" >
+		<select name="categorieArticle" id="" required = "required">
 			<option th:each="c : ${categoriesSession}" th:value=${c.noCategorie} th:text=${c.libelle}>
 		</select>
 		</li>
@@ -43,31 +49,27 @@
 		</li>
 		
 		<h2>Informations de retrait</h2>
-        <li>
-            <label for="retrait.rue">Rue</label>
-            <input id="retrait.rue" type="text" th:field="*{lieuRetrait.rue}" required="required">
-        </li>
-        
-        <!-- Champ pour le code postal de retrait -->
-        <li>
-            <label for="retrait.code_postal">Code Postal</label>
-            <input id="retrait.code_postal" type="text" th:field="*{lieuRetrait.code_postal}" required="required">
-        </li>
-
-        <!-- Champ pour la ville de retrait -->
-        <li>
-            <label for="retrait.ville">Ville</label>
-            <input id="retrait.ville" type="text" th:field="*{lieuRetrait.ville}" required="required">
-        </li>
-
-        <!-- Champ caché pour l'utilisateur connecté -->
-        <li>
-            <input type="hidden" th:value="${utilisateur.noUtilisateur}" name="noUtilisateur" />
-        </li>
-        
-		<li>
-			<button type="submit">Valider</button>
-		</li>
+       <li> 
+       <label for="retrait.rue">Rue</label> 
+       <input id="retrait.rue" type="text" th:field="*{lieuRetrait.rue}"  required="required"> 
+       <div th:replace="~{fragments/fragment-error-vendre :: frag-error('lieuRetrait.rue')}"></div>
+       </li> 
+       <li> 
+       <label for="retrait.code_postal">Code Postal</label> 
+       <input id="retrait.code_postal" type="text" th:field="*{lieuRetrait.code_postal}" required="required">
+       <div th:replace="~{fragments/fragment-error-vendre :: frag-error('lieuRetrait.code_postal')}"></div>
+       </li> 
+       <li> 
+       <label for="retrait.ville">Ville</label> 
+       <input id="retrait.ville" type="text" th:field="*{lieuRetrait.ville}"  required="required"> 
+       <div th:replace="~{fragments/fragment-error-vendre :: frag-error('lieuRetrait.ville')}"></div>
+       </li> 
+       <li> 
+       <input type="hidden" th:value="${utilisateur.noUtilisateur}" name="noUtilisateur" /> 
+       </li> 
+       <li> 
+       <button type="submit">Valider</button>
+       </li> 
 	</ul>
 
 	</form>

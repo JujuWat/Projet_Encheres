@@ -3,10 +3,15 @@ package fr.eni.encheres.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class Categorie {
 
 	// Attributs d'instance
+	@NotNull(message = "Veuillez renseigner une catégorie")
 	private int noCategorie;
+	@NotBlank(message = "Veuillez renseigner une catégorie")
 	private String libelle;
 	
 	// Associations
