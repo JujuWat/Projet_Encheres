@@ -32,6 +32,9 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	private static final String COUNT_PSEUDO = "select count(*) from UTILISATEURS where pseudo = :pseudo";
 	private static final String COUNT_EMAIL = "select count (*) from UTILISATEURS where email = :email"; 
 	private static final String CHANGE_ROLE = "UPDATE UTILISATEURS SET administrateur = 1, role = 'ROLE_ADMIN' WHERE no_utilisateur  = :no_utilisateur";
+	private static final String DEBIT = "UPDATE Utilisateurs SET credit = credit - :montant WHERE pseudo = :pseudo AND credit >= :montant"; 
+	private static final String CREDIT = "UPDATE Utilisateurs SET credit = credit + :versement where pseudo = :pseudo"; 
+	
 	
 	private NamedParameterJdbcTemplate jdbcTemplate; 
 	
@@ -184,5 +187,46 @@ public class UtilisateursDAOImpl implements UtilisateurDAO {
 	}
 
 	
+	@Override
+	public void enleverArgent(Utilisateur utilisateur, int montant) {
+	    if (montant <= 0) {
+	        throw new IllegalArgumentException("Le montant à débiter doit être supérieur à 0.");
+	    }
+
+	    System.out.println("Début du débit d'argent pour l'utilisateur : " + utilisateur.getNoUtilisateur());
+
+	    MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("montant", montant);
+	    params.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
+
+	    int rowsUpdated = jdbcTemplate.update(DEBIT, params);
+
+	    if (rowsUpdated == 0) {
+	        throw new IllegalStateException("Débit échoué : crédit insuffisant ou utilisateur introuvable.");
+	    }
+
+	    System.out.println("Débit effectué avec succès pour l'utilisateur : " + utilisateur.getPseudo());
+	}
+	
+	@Override
+	public void donnerArgent(Utilisateur utilisateur, int versement) {
+		
+		if (versement <= 0) {
+			throw new IllegalArgumentException("Le montant crédité doit être supérieur à 0");
+		}
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("versement", versement);
+	    params.addValue("pseudo", utilisateur.getPseudo());
+	    
+	    int rowsUpdated = jdbcTemplate.update(CREDIT, params);
+	    
+	    if(rowsUpdated == 0) {
+	    	throw new IllegalStateException("Crédit échoué : crédit à 0 impossible ou utilisateur introuvable");
+	    }
+	    
+	    
+		
+	}
 	
 }

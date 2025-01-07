@@ -35,5 +35,9 @@ public interface UtilisateurDAO {
 	void toAdmin(int noUtilisateur);
 
 	Boolean read_admin(int noUtilisateur);
+
+	void enleverArgent(Utilisateur utilisateur, int montant);
+
+	void donnerArgent(Utilisateur utilisateur, int versement);
 	
 }
