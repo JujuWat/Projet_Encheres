@@ -1,6 +1,7 @@
 package fr.eni.encheres.dal;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -19,7 +20,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT image_article, nom_article, date_fin_encheres, prix_initial, prix_vente, pseudo " +
 			"FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u " +
-			"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1" ;
+			"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1 AND date_fin_encheres >= :currentDate" ;
 	private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
 	private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
 	
@@ -33,7 +34,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	@Override
 	public List<ArticleVendu> findIfContainsAndCategorie(String keyword, int noCategorie) {
 		System.out.println("je remonte les infos de ma dal"); 
-	    MapSqlParameterSource params = new MapSqlParameterSource();
+	    MapSqlParameterSource params = new MapSqlParameterSource();	    params.addValue("currentDate", LocalDateTime.now());
 	     
 	    String requete = FIND_IF_CONTAINS_AND_CATEGORIE;
 	    if (!keyword.isEmpty()){
@@ -47,6 +48,9 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	    	requete += FIND_CATEGORIE;
 	    	  
 	    }
+	    
+	   
+	    
 	 return jdbcTemplate.query(requete, params, (rs, rowNum) -> {
 	    	System.out.println("je récupère les données");
 	        ArticleVendu article = new ArticleVendu();
@@ -59,6 +63,8 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	        return article;
 	    });
 	}
+
+
 
 	@Override
 	public void ajouterArticle(ArticleVendu article) {

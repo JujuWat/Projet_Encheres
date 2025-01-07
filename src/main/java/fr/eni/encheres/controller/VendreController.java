@@ -65,6 +65,8 @@ public class VendreController {
 	@PostMapping("/vendre")
 	// TO DO : Try catch ? 
 	public String creerArticle (@ModelAttribute ArticleVendu article, @ModelAttribute Retrait retrait) {
+		
+		
 		// Récupérer l'utilisateur connecté via Spring Security
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User utilisateurConnecte = (User) authentication.getPrincipal();  

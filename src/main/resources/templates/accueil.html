@@ -37,32 +37,6 @@
         </li>
     </ul>
 </form>
-
-	<!--<form class="search-form" th:action="@{/encheres}" method="post"
-		th:object="${filtre}">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-		
-		<ul>
-			<li><label for="filtre_article">Filtres : </label><input
-				class="search-input" th:field="*{motCle}" type="text"
-				placeholder="Le nom de l'article contient"></li>
-			
-
-			<li><label for="filtre_categorie">Catégorie </label> <select
-				th:field="*{categorie}">
-					<option value="0">Toutes les catégories</option>
-					<option th:each="c : ${listeCategorie}" th:value="${c.noCategorie}"
-						th:selected="${c.noCategorie != null && c.noCategorie == noCategorie}">
-
-						<span th:text="${c.libelle}"></span>
-					</option>
-			</select></li>
-			<li>
-				<button type="submit">Rechercher</button>
-			</li>
-		</ul>
-		
-	</form>-->
 	
 	<div th:replace="~{fragments/filtresSup::filtresSup}"></div>
 	
@@ -72,8 +46,8 @@
 		<div th:each="article : ${articles}" class="vignette">
 		<img alt="image de l'article" th:src="${article.imageUrl}">
 			<h3 th:text="${article.nomArticle}"></h3>
-			<p><strong>Mise à prix:</strong> <span th:text="${article.miseAPrix} + ' €'"></span></p>
-			<p><strong>Prix:</strong> <span th:text="${article.prixVente} + ' €'"></span></p>
+			<p><strong>Mise à prix:</strong> <span th:text="${article.miseAPrix} + ' points'"></span></p>
+			<p><strong>Prix:</strong> <span th:text="${article.prixVente} + ' points'"></span></p>
 			<p><strong>Fin de l'enchère:</strong> <span th:text="${article.dateFinEncheres}"></span></p>
 			<p><strong>Vendeur:</strong> <span th:text="${article.vend.pseudo}"></span></p>
 		</div>

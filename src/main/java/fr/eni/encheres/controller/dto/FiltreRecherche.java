@@ -6,6 +6,8 @@ public class FiltreRecherche {
 	
 	private String motCle;
 	private Categorie categorie;
+	private String filtreSup;
+	
 	public String getMotCle() {
 		return motCle;
 	}
@@ -18,6 +20,10 @@ public class FiltreRecherche {
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
 	}
-	
-
+	public String getFiltreSup() {
+		return filtreSup;
+	}
+	public void setFiltreSup(String filtreSup) {
+		this.filtreSup = filtreSup;
+	}
 }
