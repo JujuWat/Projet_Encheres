@@ -3,6 +3,7 @@ package fr.eni.encheres.bll;
 import java.util.List;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.controller.dto.UtilisateurDTO;
 import fr.eni.encheres.exception.BusinessException;
 
 public interface UtilisateurService {
@@ -22,6 +23,8 @@ public interface UtilisateurService {
 	List<Utilisateur> consulterUtilisateurs();
 
 	void toAdmin(int noUtilisateur);
+
+	List<UtilisateurDTO> consulterUtilisateursPourStandard();
 
 	
 	

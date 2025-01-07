@@ -1,55 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" th:href="@{/css/style.css}" />
-<link rel="stylesheet" th:href="@{/css/tableau.css}" />
+    <meta charset="UTF-8">
+    <title>Liste des utilisateurs</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/tableau.css}" />
 </head>
 <body>
- <div th:replace="~{fragments/entete::entete}"></div>
+    <!-- Fragment d'en-tête -->
+    <div th:replace="~{fragments/entete::entete}"></div>
 
-<table>
-	<!-- entête -->
-		<thead>
-			<th>Pseudo</th>
-			<th>Nom</th>
-			<th>Prenom</th>
-			<th>Email</th>
-			<th>Téléphone</th>
-			<th>Adresse</th>
-			<th>Crédit</th>
-			<th>Changer Rôle</th>
-			<th>Supprimer</th>
-		<!--  	<th sec:authorize="hasRole('ROLE_ADMIN')">Supprimer</th> -->
-		</thead>
-	<!-- données -->
-		<tr th:each="u : ${utilisateur}">
-			
-			<td th:text="${u.pseudo}"></td>
-			<td th:text="${u.nom}"></td>
-			<td th:text="${u.prenom}"></td>
-			<td th:text="${u.email}"></td>
-			<td th:text="${u.telephone}"></td>
-			<td th:text="${u.rue} + ', ' + ${u.code_postal} + ' ' + ${u.ville}" ></td>
-			<td th:text="${u.credit}"></td>
-			<td>
-   				 <a th:href="@{'/toAdmin?id=' + ${u.noUtilisateur}}" 
-  					 onclick="return confirm('Êtes-vous sûr de vouloir promouvoir cet utilisateur en Admin ?');">
-    				<button>Promouvoir Admin</button>
-				</a>
-			</td>
-			<td><a th:href="@{/supprimerViaAdmin(no_utilisateur=${u.noUtilisateur})}" class="delete-button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce profil ? Cette action est irréversible.');">
-    			<button type="button" class="btn btn-sup">Supprimer</button>
-    		</a></td>
-			<!-- <td sec:authorize="hasRole('ROLE_ADMIN')">
-   			<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/films/supprimer(id=${f.id})}" class="delete-button">Supprimer</a>
-			</td>-->
-			
-		</tr>
-		
-	</table>
-	 <div th:if="${errorMessage}" class="alert alert-danger">
+    <h1>Liste des utilisateurs</h1>
+
+    <!-- Table des utilisateurs -->
+    <table>
+        <!-- En-tête -->
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Ville</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Nom</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Prénom</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Email</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Téléphone</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Adresse</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Crédit</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Changer Rôle</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Supprimer</th>
+            </tr>
+        </thead>
+        <!-- Corps de la table -->
+        <tbody>
+            <tr th:each="u : ${utilisateur}">
+                <td th:text="${u.pseudo}"></td>
+                <td th:text="${u.ville}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${u.nom}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${u.prenom}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${u.email}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${u.telephone}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${u.rue} + ', ' + ${u.code_postal} + ' ' + ${u.ville}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${u.credit}"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{'/toAdmin?id=' + ${u.noUtilisateur}}" 
+                       onclick="return confirm('Êtes-vous sûr de vouloir promouvoir cet utilisateur en Admin ?');">
+                        <button>Promouvoir Admin</button>
+                    </a>
+                </td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/supprimerViaAdmin(no_utilisateur=${u.noUtilisateur})}" 
+                       class="delete-button" 
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce profil ? Cette action est irréversible.');">
+                        <button type="button" class="btn btn-sup">Supprimer</button>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Messages d'erreur -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
         <p th:text="${errorMessage}"></p>
     </div>
 

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.controller.dto.UtilisateurDTO;
 import fr.eni.encheres.validations.Creation;
 import fr.eni.encheres.validations.Modification;
 
@@ -210,20 +211,32 @@ public class UtilisateurController {
 
 
 	 @GetMapping("/detailsUtilisateurs")
-	 public String afficherUtilisateurs(Model model, HttpServletRequest request) {
+	 public String afficherUtilisateurs(Model model, @AuthenticationPrincipal UserDetails userDetails, HttpServletRequest request) {
 	     String errorMessage = (String) request.getSession().getAttribute("errorMessage");
 
 	     if (errorMessage != null) {
-	        
 	         model.addAttribute("errorMessage", errorMessage);
 	         request.getSession().removeAttribute("errorMessage");
 	     }
 
-	     List<Utilisateur> liste = utilisateurService.consulterUtilisateurs();
-	     model.addAttribute("utilisateur", liste);
+	     // Vérifier si l'utilisateur connecté est admin
+	     boolean estAdmin = userDetails.getAuthorities().stream()
+	             .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+
+	     if (estAdmin) {
+	         // Si admin, fournir toutes les informations des utilisateurs
+	         List<Utilisateur> liste = utilisateurService.consulterUtilisateurs();
+	         model.addAttribute("utilisateur", liste);
+	     } else {
+	         // Si utilisateur classique, fournir uniquement le pseudo et la ville
+	         List<UtilisateurDTO> liste = utilisateurService.consulterUtilisateursPourStandard();
+	         model.addAttribute("utilisateur", liste);
+	     }
 
 	     return "detailsUtilisateurs";
 	 }
+
+
 
 	 
 	 

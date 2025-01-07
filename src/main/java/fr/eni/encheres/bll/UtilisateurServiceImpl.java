@@ -1,10 +1,12 @@
 package fr.eni.encheres.bll;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.controller.dto.UtilisateurDTO;
 import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.exception.BusinessException;
 
@@ -78,6 +80,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	     // Promouvoir l'utilisateur
 	     utilisateurDAO.toAdmin(noUtilisateur);
 	     System.out.println("Utilisateur promu au rôle ADMIN, ID : " + noUtilisateur);
+	 }
+
+	 @Override
+	 public List<UtilisateurDTO> consulterUtilisateursPourStandard() {
+	     // Utilisation du DAO pour récupérer tous les utilisateurs
+	     List<Utilisateur> utilisateurs = utilisateurDAO.findAll();
+
+	     // Transformation des données en DTO (pseudo et ville uniquement)
+	     return utilisateurs.stream()
+	             .map(utilisateur -> new UtilisateurDTO(utilisateur.getPseudo(), utilisateur.getVille()))
+	             .collect(Collectors.toList());
 	 }
 
 

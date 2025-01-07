@@ -22,7 +22,7 @@
             <li><a sec:authorize="!isAuthenticated()" th:href="@{/creer}">S'inscrire</a></li>
             <li><a sec:authorize="isAuthenticated()" th:href="@{/vendre}">Vendre un article</a></li>
             <li><a sec:authorize="isAuthenticated()" th:href="@{/profil}">Mon profil</a></li>
-            <li><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/detailsUtilisateurs}">Utilisateurs</a></li>
+            <li><a sec:authorize="isAuthenticated()" th:href="@{/detailsUtilisateurs}">Utilisateurs</a></li>
             <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Déconnexion</a></li>
         </ul>
     </nav>
