@@ -5,11 +5,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.validations.ValidDates;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@ValidDates
 public class ArticleVendu {
 
 	// Attributs d'instance
@@ -19,16 +24,22 @@ public class ArticleVendu {
 	@NotBlank(message = "Merci d'ajouter une courte description")
 	@Size(min = 10, message = "La description doit contenir au moins 10 caractères")
 	private String description;
+	@FutureOrPresent(message = "La date de début d'enchère ne peut pas etre inférieure à la date du jour")
+	@NotNull(message = "La date ne peut pas etre nulle")
 	private LocalDateTime dateDebutEncheres;
+	@Future(message = "La date de fin d'enchère ne peut pas etre inférieure à la date du jour")
+	@NotNull(message = "La date ne peut pas etre nulle")
 	private LocalDateTime dateFinEncheres;
-	@NotNull(message = "Merci d'indiquer un prix supérieur à 0")
+	@NotNull(message = "Le prix ne peut être nul")
 	@Min(value = 1, message = "Le prix de vente doit être au moins 1 crédit")
 	private int miseAPrix;
 	private int prixVente;
 	private int etatVente; // Pas de 'etatVente' sur SQL ?
 	private String imageUrl;
 	// Associations
+	@Valid
 	private Retrait lieuRetrait;
+	@Valid
 	private Categorie categorieArticle;
 	private Utilisateur achete;
 	private Utilisateur vend;

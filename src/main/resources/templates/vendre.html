@@ -27,9 +27,11 @@
 		</li>
 		<label for="date_debut_encheres">Date de début de l'enchère</label>
 		<input id="date_debut_encheres" type="datetime-local" th:field="*{dateDebutEncheres}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('dateDebutEncheres')}"></div>
 		</li>
 		<label for="date_fin_encheres">Date de fin de l'enchère</label>
 		<input id="date_fin_encheres" type="datetime-local" th:field="*{dateFinEncheres}" required="required"> 
+		<div th:replace="~{fragments/fragment-error-vendre :: frag-error('dateFinEncheres')}"></div>
 		</li>
 		</li>
 		<label for="prix_vente">Mise à prix de l'objet</label>
@@ -38,7 +40,7 @@
 		</li>
 		</li>
 		<label for="idCategorie">Catégorie</label>
-		<select name="categorieArticle" id="" >
+		<select name="categorieArticle" id="" required = "required">
 			<option th:each="c : ${categoriesSession}" th:value=${c.noCategorie} th:text=${c.libelle}>
 		</select>
 		</li>
@@ -50,14 +52,17 @@
        <li> 
        <label for="retrait.rue">Rue</label> 
        <input id="retrait.rue" type="text" th:field="*{lieuRetrait.rue}"  required="required"> 
+       <div th:replace="~{fragments/fragment-error-vendre :: frag-error('lieuRetrait.rue')}"></div>
        </li> 
        <li> 
        <label for="retrait.code_postal">Code Postal</label> 
-       <input id="retrait.code_postal" type="text" th:field="*{lieuRetrait.code_postal}" required="required"> 
+       <input id="retrait.code_postal" type="text" th:field="*{lieuRetrait.code_postal}" required="required">
+       <div th:replace="~{fragments/fragment-error-vendre :: frag-error('lieuRetrait.code_postal')}"></div>
        </li> 
        <li> 
        <label for="retrait.ville">Ville</label> 
        <input id="retrait.ville" type="text" th:field="*{lieuRetrait.ville}"  required="required"> 
+       <div th:replace="~{fragments/fragment-error-vendre :: frag-error('lieuRetrait.ville')}"></div>
        </li> 
        <li> 
        <input type="hidden" th:value="${utilisateur.noUtilisateur}" name="noUtilisateur" /> 
