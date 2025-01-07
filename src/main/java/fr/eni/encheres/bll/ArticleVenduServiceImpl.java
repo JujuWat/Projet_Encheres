@@ -22,10 +22,11 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 	private UtilisateurDAO utilisateurDAO;
 
 
-	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO, UtilisateurDAO utilisateurDAO) {
+	public ArticleVenduServiceImpl(ArticlesVendusDAO articleVenduDAO, CategorieDAO categorieDAO, UtilisateurDAO utilisateurDAO, RetraitsDAO retraitDAO) {
 		this.articleVenduDAO = articleVenduDAO;
 		this.categorieDAO = categorieDAO;
 		this.utilisateurDAO = utilisateurDAO;
+		this.retraitDAO = retraitDAO;
 	}
 
 
