@@ -94,7 +94,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 	 }
 
 
-
+	 @Override
+	 public void enleverArgent (Utilisateur utilisateur, int montant) {
+		 utilisateurDAO.enleverArgent(utilisateur, montant);
+	 }
+	 
+	 @Override
+	 public void donnerArgent(Utilisateur utilisateur, int versement) {
+		 utilisateurDAO.donnerArgent(utilisateur, versement);
+	 }
 
 	 
 }
