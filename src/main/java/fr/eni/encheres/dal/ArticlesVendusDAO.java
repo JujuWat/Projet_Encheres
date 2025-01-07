@@ -13,4 +13,6 @@ public interface ArticlesVendusDAO {
 	
 	List<ArticleVendu> findIfContainsAndCategorie(String keyword, int noCategorie);
 	
+	ArticleVendu findArticleByID(int id);
+	
 }

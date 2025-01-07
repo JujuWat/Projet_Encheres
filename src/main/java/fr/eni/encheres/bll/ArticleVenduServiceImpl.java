@@ -56,4 +56,11 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		
 	}
 
+
+	@Override
+	public ArticleVendu consulterArticleParID(int id) {
+		ArticleVendu article = this.articleVenduDAO.findArticleByID(id);
+		return article;
+	}
+
 }

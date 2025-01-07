@@ -12,6 +12,7 @@ public interface ArticleVenduService {
 	List<Categorie> consulterCategorie();
 	Categorie consulterParNoCategorie(int noCategorie);
 	void ajouterArticle(ArticleVendu article);
+	ArticleVendu consulterArticleParID(int id);
 
 
 }

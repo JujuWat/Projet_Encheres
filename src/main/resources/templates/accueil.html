@@ -50,6 +50,7 @@
 			<p><strong>Prix:</strong> <span th:text="${article.prixVente} + ' points'"></span></p>
 			<p><strong>Fin de l'enchère:</strong> <span th:text="${article.dateFinEncheres}"></span></p>
 			<p><strong>Vendeur:</strong> <span th:text="${article.vend.pseudo}"></span></p>
+			<span> <a th:href="@{/encheres/detailsobjet(id=${article.noArticle})}">Détails</a></span>
 		</div>
 	</div>
 
