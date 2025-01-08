@@ -24,7 +24,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	private static final String CREATE = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie)";
 
-	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT a.no_article, image_article, nom_article, date_fin_encheres, prix_initial, prix_vente, pseudo " +
+	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT DISTINCT a.no_article, image_article, nom_article, date_fin_encheres, prix_initial, prix_vente, pseudo " +
 			"FROM ARTICLES_VENDUS a " +
             "INNER JOIN UTILISATEURS u ON a.no_utilisateur = u.no_utilisateur " +
             "LEFT JOIN ENCHERES e ON a.no_article = e.no_article " +
