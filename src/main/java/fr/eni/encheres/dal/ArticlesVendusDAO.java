@@ -15,4 +15,8 @@ public interface ArticlesVendusDAO {
 	
 	ArticleVendu findArticleByID(int id);
 	
+	void modifierArticle(ArticleVendu article);
+	
+	void mettreAJourPrixArticle(ArticleVendu article);
+	
 }

@@ -6,10 +6,14 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 
 
 public interface EnchereService {
 
 	ArticleVendu consulterParEtat (int etatVente);
+	
+	void faireEnchere(Enchere enchere, ArticleVendu article) throws Exception;
+	
 	
 }

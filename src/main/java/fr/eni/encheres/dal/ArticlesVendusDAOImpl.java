@@ -29,6 +29,19 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
 	private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
 	private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
+	private static final String UPDATE_OBJECT = "UPDATE ARTICLES_VENDUS SET \r\n"
+			+ "nom_article = :nom_article,\r\n"
+			+ "description = :description,\r\n"
+			+ "date_debut_encheres = :date_debut_encheres,\r\n"
+			+ "date_fin_encheres = :date_fin_encheres,\r\n"
+			+ "prix_initial = :prix_initial,\r\n"
+			+ "prix_vente = :prix_vente\r\n"
+			+ "WHERE no_article = :no_article";
+	private static final String UPDATE_PRICE = "UPDATE a\r\n"
+			+ "SET a.prix_vente = :prix_vente\r\n"
+			+ "FROM ARTICLES_VENDUS a\r\n"
+			+ "JOIN ENCHERES e ON e.no_article = a.no_article\r\n"
+			+ "WHERE a.no_article = :no_article;";
 	
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
@@ -98,6 +111,34 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		return this.jdbcTemplate.queryForObject(FIND_BY_ID, map, new ArticleRowMapper());
 	}
 	
+	
+	@Override
+	public void modifierArticle(ArticleVendu article) {
+		MapSqlParameterSource map = new MapSqlParameterSource();
+		
+		map.addValue("no_article", article.getNoArticle());
+		map.addValue("nom_article", article.getNomArticle());
+		map.addValue("description", article.getDescription());
+		map.addValue("dates_debut_encheres", article.getDateDebutEncheres());
+		map.addValue("date_fin_encheres", article.getDateFinEncheres());
+		map.addValue("image_article", article.getImageUrl());
+		map.addValue("prix_initial", article.getMiseAPrix());
+		map.addValue("prix_vente", article.getPrixVente());
+		
+		jdbcTemplate.update(UPDATE_OBJECT, map);
+	}
+	
+	@Override
+	public void mettreAJourPrixArticle(ArticleVendu article) {
+		MapSqlParameterSource map = new MapSqlParameterSource();
+		
+		map.addValue("prix_vente", article.getPrixVente());
+		map.addValue("no_article", article.getNoArticle());
+		
+		jdbcTemplate.update(UPDATE_PRICE, map);
+	}
+		
+	
 	class ArticleRowMapper implements RowMapper<ArticleVendu> {
 		/* Pour la méthode ArticleVendu findArticleByID(int id), notre requête SQL va chercher pseudo, rue, ville, code postal, or, ils n'y sont pas
 		Il faut donc créer notre propre RowMapper */
@@ -135,7 +176,8 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 				return articleVendu;
 			}
 		}
-	
+
+
 	
 }
 

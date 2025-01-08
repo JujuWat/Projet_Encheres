@@ -11,6 +11,21 @@
 
 
 	<form action="/encheres/detailsobjet" method="post" > 
+	
+	<div>
+    <!-- Message de succès -->
+    <div th:if="${successMessage}" class="success-message">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <!-- Message d'erreur -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+	</div>
+
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	<input type="hidden" name="id" th:value="${detailsarticle.noArticle}" />
 	<h1>Détails de l'objet</h1>
 	<ul>
 	
@@ -54,10 +69,43 @@
 		</li>
 		
 		<li>
+			<label for="enchere">Votre enchère :</label>
+			<input type="text" id="enchere" name="enchere" placeholder="Placez votre enchère" required="required">
+		</li>
+		<li>
+			<button type ="submit">Enchérir</button>
+		</li>
 		
 		
 	</ul>
 	</form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const enchereInput = document.getElementById("enchere");
+        const miseAPrixInput = document.getElementById("miseAPrix");
+        const prixVenteInput = document.getElementById("prixVente");
+
+        // Parse les valeurs des champs read-only
+        const miseAPrix = parseFloat(miseAPrixInput.value);
+        const prixVente = parseFloat(prixVenteInput.value);
+
+        form.addEventListener("submit", function (event) {
+            const enchere = parseFloat(enchereInput.value);
+
+            if (isNaN(enchere) || enchere <= miseAPrix || enchere <= prixVente) {
+                event.preventDefault(); // Empêche l'envoi du formulaire
+                alert(
+                    `Votre enchère doit être supérieure à la mise à prix (${miseAPrix}) et à la meilleure offre actuelle (${prixVente}) !`
+                );
+            }
+        });
+    });
+</script>
+
+
 
 </body>
 </html>

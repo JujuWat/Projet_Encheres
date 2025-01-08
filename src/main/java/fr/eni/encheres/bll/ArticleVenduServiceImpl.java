@@ -63,4 +63,17 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		return article;
 	}
 
+
+	@Override
+	public void mettreAJourArticle(ArticleVendu article) {
+		articleVenduDAO.modifierArticle(article);
+	}
+
+
+	@Override
+	public void mettreAJourPrixArticle(ArticleVendu article) {
+		articleVenduDAO.mettreAJourPrixArticle(article);
+		
+	}
+
 }

@@ -13,6 +13,7 @@ public interface ArticleVenduService {
 	Categorie consulterParNoCategorie(int noCategorie);
 	void ajouterArticle(ArticleVendu article);
 	ArticleVendu consulterArticleParID(int id);
-
+	void mettreAJourArticle(ArticleVendu article);
+	void mettreAJourPrixArticle(ArticleVendu article);
 
 }

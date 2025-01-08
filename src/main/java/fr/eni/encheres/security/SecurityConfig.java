@@ -50,6 +50,8 @@ public class SecurityConfig {
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/detailsUtilisateurs").authenticated()
 				.requestMatchers("/credit/envoi").authenticated()
+				.requestMatchers("/encheres/detailsobjet").authenticated()
+				.requestMatchers("/encheres/**").authenticated()
 				.anyRequest().authenticated()
 			)
 			.httpBasic(Customizer.withDefaults())
