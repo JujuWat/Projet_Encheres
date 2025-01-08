@@ -26,6 +26,10 @@ public interface UtilisateurService {
 
 	List<UtilisateurDTO> consulterUtilisateursPourStandard();
 
+	void enleverArgent(Utilisateur utilisateur, int montant);
+
+	void donnerArgent(Utilisateur utilisateur, int versement);
+
 	
 	
 }

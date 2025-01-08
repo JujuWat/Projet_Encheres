@@ -45,10 +45,11 @@ public class SecurityConfig {
 		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/" , "/encheres" ,"/accueil").permitAll()
+				.requestMatchers("/" , "/encheres" ,"/accueil", "/creer").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/detailsUtilisateurs").authenticated()
+				.requestMatchers("/credit/envoi").authenticated()
 				.anyRequest().authenticated()
 			)
 			.httpBasic(Customizer.withDefaults())

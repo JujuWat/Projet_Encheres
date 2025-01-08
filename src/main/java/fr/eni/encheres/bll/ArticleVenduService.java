@@ -13,9 +13,15 @@ public interface ArticleVenduService {
 	List<Categorie> consulterCategorie();
 	Categorie consulterParNoCategorie(int noCategorie);
 	void ajouterArticle(ArticleVendu article);
+
 	List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie, FiltreRecherche filtre,
 			Integer userId);
 	List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie);
+
+	ArticleVendu consulterArticleParID(int id);
+	void debiterPrixVente(ArticleVendu article);
+	void crediterPrixVente(ArticleVendu article, int nouvelleEnchere);
+
 
 
 }

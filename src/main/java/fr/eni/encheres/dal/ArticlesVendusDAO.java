@@ -14,4 +14,11 @@ public interface ArticlesVendusDAO {
 	
 	List<ArticleVendu> findIfContainsAndCategorie(String keyword, int noCategorie, FiltreRecherche filtre, Integer userId);
 	
+	ArticleVendu findArticleByID(int id);
+
+
+	void debiterPrixVente(ArticleVendu article);
+
+	void crediterPrixVente(ArticleVendu article, int nouvelleEnchere);
+	
 }

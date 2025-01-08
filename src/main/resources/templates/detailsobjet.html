@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Détails de l'objet</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{/css/details.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/entete::entete}"></div>
+
+
+	<form action="/encheres/detailsobjet" method="post" > 
+	<h1>Détails de l'objet</h1>
+	<ul>
+	
+		<li>
+			<label for ="image"></label>
+			<div class = "vignette"><img alt="image de l'article" th:src = "${detailsarticle.imageUrl}" readonly/></div>
+		</li>
+		<li>
+			<label for ="nom_article">Nom de l'article</label>
+			<input id="nom_article" type="text" name="nom_article" th:field="${detailsarticle.nomArticle}" readonly/> 
+		</li>
+		<li>
+			<label for ="description">Description</label>
+			<input id="description" type="textarea" name="description" th:value="${detailsarticle.description}" readonly/> 
+		</li>
+		<li>
+			<label for ="categorie">Catégorie</label>
+			<input id="categorie" type="text" name="categorie" th:value="${libelle}" readonly/> 
+		</li>
+		<li>
+			<label for ="prixVente">Meilleure offre</label>
+			<input id="prixVente" type="text" name="prixVente" th:field="${detailsarticle.prixVente}" readonly/> 
+		</li>
+		<li>
+			<label for ="miseAPrix">Mise à prix</label>
+			<input id="miseAPrix" type="text" name="miseAPrix" th:field="${detailsarticle.miseAPrix}" readonly/> 
+		</li>
+		<li>
+			<label for ="dateFinEncheres">Date de fin d'enchères</label>
+			<input id="dateFinEncheres" type="text" name="dateFinEncheres" th:field="${detailsarticle.dateFinEncheres}" readonly/> 
+		</li>
+		<li>
+			<label for ="retrait">Retrait</label>
+			<input id="retrait" type="text" name="retrait" th:field="${retrait.rue}" readonly/> 
+			<input id="retrait" type="text" name="retrait" th:field="${retrait.code_postal}" readonly/> 
+			<input id="retrait" type="text" name="retrait" th:field="${retrait.ville}" readonly/> 
+		</li>
+		<li>
+			<label for ="vendeur">Vendeur</label>
+			<input id="vendeur" type="text" name="vendeur" th:field="${utilisateur.pseudo}" readonly/> 
+		</li>
+		
+		<li>
+		
+		
+	</ul>
+	</form>
+
+</body>
+</html>

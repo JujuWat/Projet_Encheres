@@ -128,12 +128,6 @@ form input:focus {
     max-width: 400px;
 }
 
-/* Indicateurs de champ obligatoire */
-form label:after {
-    content: '*';
-    color: #e74c3c;
-    margin-left: 4px;
-}
 
 form input:optional:after {
     content: '';

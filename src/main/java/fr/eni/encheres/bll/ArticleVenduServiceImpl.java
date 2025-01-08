@@ -62,7 +62,21 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		
 	}
 
+	@Override
+	public ArticleVendu consulterArticleParID(int id) {
+		ArticleVendu article = this.articleVenduDAO.findArticleByID(id);
+		return article;
+	}
 
+	@Override 
+	public void debiterPrixVente(ArticleVendu article) {
+		articleVenduDAO.debiterPrixVente(article);
+	}
 	
-
+	@Override
+	public void crediterPrixVente(ArticleVendu article, int nouvelleEnchere) {
+		articleVenduDAO.crediterPrixVente(article, nouvelleEnchere);
+		
+	}
+	
 }
