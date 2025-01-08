@@ -297,8 +297,8 @@ table a:hover {
 	
 }
 .searchUser {
-    padding: 20px;
-    margin: 20px;
+    padding: 15px;
+    margin: 15px;
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -313,77 +313,37 @@ table a:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto auto;
-    gap: 20px;
+    gap: 12px;
 }
 
 .searchUser li {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px;
+    gap: 8px;
+    padding: 4px;
 }
 
-/* Radio buttons */
-.searchUser li:first-child {
-    grid-column: 1;
-    grid-row: 1;
-}
-
-.searchUser li:nth-child(5) {
-    grid-column: 2;
-    grid-row: 1;
-}
-
-/* First checkbox row */
-.searchUser li:nth-child(2) {
-    grid-column: 1;
-    grid-row: 2;
-}
-
-.searchUser li:nth-child(6) {
-    grid-column: 2;
-    grid-row: 2;
-}
-
-/* Second checkbox row */
-.searchUser li:nth-child(3) {
-    grid-column: 1;
-    grid-row: 3;
-}
-
-.searchUser li:nth-child(7) {
-    grid-column: 2;
-    grid-row: 3;
-}
-
-/* Third checkbox row */
-.searchUser li:nth-child(4) {
-    grid-column: 1;
-    grid-row: 4;
-}
-
-.searchUser li:nth-child(8) {
-    grid-column: 2;
-    grid-row: 4;
-}
-
-.searchUser li:has(input[type="radio"]) {
-    font-weight: bold;
-    border-bottom: 2px solid #2c3e50;
-}
-
-.searchUser li:has(input[type="checkbox"]) {
-    margin-left: 20px;
-    font-size: 0.9rem;
-}
-
-.searchUser input[type="radio"],
-.searchUser input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+.searchUser input[type="radio"] {
+    width: 14px;
+    height: 14px;
     cursor: pointer;
     accent-color: #2c3e50;
 }
+
+.searchUser label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Règles de positionnement de la grille inchangées */
+.searchUser li:first-child { grid-column: 1; grid-row: 1; }
+.searchUser li:nth-child(5) { grid-column: 2; grid-row: 1; }
+.searchUser li:nth-child(2) { grid-column: 1; grid-row: 2; }
+.searchUser li:nth-child(6) { grid-column: 2; grid-row: 2; }
+.searchUser li:nth-child(3) { grid-column: 1; grid-row: 3; }
+.searchUser li:nth-child(7) { grid-column: 2; grid-row: 3; }
+.searchUser li:nth-child(4) { grid-column: 1; grid-row: 4; }
+.searchUser li:nth-child(8) { grid-column: 2; grid-row: 4; }
 
 @media screen and (max-width: 600px) {
     .searchUser ul {
@@ -397,3 +357,91 @@ table a:hover {
         grid-row: auto !important;
     }
 }
+ .hidden {
+            display: none;
+        }
+/* Conteneur des filtres */
+.searchUser {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Groupe de boutons radio */
+.radio-group {
+    display: flex;
+    gap: 30px;
+}
+
+.radio-group > div {
+    flex: 1;
+}
+
+/* Style des boutons radio */
+.radio-group input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #2c3e50;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.radio-group input[type="radio"]:checked {
+    border-color: #2c3e50;
+}
+
+.radio-group input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: #2c3e50;
+    border-radius: 50%;
+}
+
+/* Style des labels */
+.radio-group label {
+    font-size: 14px;
+    color: #2c3e50;
+    cursor: pointer;
+}
+
+/* Style des listes d'options */
+.radio-list {
+    margin-left: 24px;
+    margin-top: 8px;
+}
+
+.radio-list li {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Style pour les options désactivées */
+.radio-group input[type="radio"]:disabled {
+    border-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.radio-group input[type="radio"]:disabled + label {
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* Media queries */
+@media (max-width: 600px) {
+    .radio-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+}   
+        

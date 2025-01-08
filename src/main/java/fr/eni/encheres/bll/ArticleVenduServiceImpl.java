@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.controller.dto.FiltreRecherche;
 import fr.eni.encheres.dal.ArticlesVendusDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 
@@ -29,10 +30,15 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		this.retraitDAO = retraitDAO;
 	}
 
-
+	 // Pour les recherches sans authentification
+    @Override
+    public List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie) {
+        return this.articleVenduDAO.findIfContainsAndCategorie(motCle, noCategorie, null, null);
+    }
+    
 	@Override
-	public List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie) {
-		return this.articleVenduDAO.findIfContainsAndCategorie(motCle,noCategorie);
+	public List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie, FiltreRecherche filtre, Integer userId)  {
+		return this.articleVenduDAO.findIfContainsAndCategorie(motCle,noCategorie, filtre, userId);
 
 }
 	
@@ -56,7 +62,6 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		
 	}
 
-
 	@Override
 	public ArticleVendu consulterArticleParID(int id) {
 		ArticleVendu article = this.articleVenduDAO.findArticleByID(id);
@@ -73,6 +78,18 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 	@Override
 	public void mettreAJourPrixArticle(ArticleVendu article) {
 		articleVenduDAO.mettreAJourPrixArticle(article);
+		
+	}
+
+
+	@Override 
+	public void debiterPrixVente(ArticleVendu article) {
+		articleVenduDAO.debiterPrixVente(article);
+	}
+	
+	@Override
+	public void crediterPrixVente(ArticleVendu article, int nouvelleEnchere) {
+		articleVenduDAO.crediterPrixVente(article, nouvelleEnchere);
 		
 	}
 

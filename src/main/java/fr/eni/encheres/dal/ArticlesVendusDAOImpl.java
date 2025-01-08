@@ -16,19 +16,35 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
-
+import fr.eni.encheres.controller.dto.FiltreRecherche;
+import fr.eni.encheres.controller.dto.FiltreRecherche.TypeFiltre; 
 
 @Repository
 public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 
 	private static final String CREATE = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :no_categorie)";
 
-	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT no_article, image_article, nom_article, date_fin_encheres, prix_initial, prix_vente, pseudo " +
-			"FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u " +
-			"ON a.no_utilisateur = u.no_utilisateur WHERE 1=1 AND date_fin_encheres >= :currentDate" ;
+	private static final String FIND_IF_CONTAINS_AND_CATEGORIE = "SELECT a.no_article, image_article, nom_article, date_fin_encheres, prix_initial, prix_vente, pseudo " +
+			"FROM ARTICLES_VENDUS a " +
+            "INNER JOIN UTILISATEURS u ON a.no_utilisateur = u.no_utilisateur " +
+            "LEFT JOIN ENCHERES e ON a.no_article = e.no_article " +
+            "WHERE 1=1 ";
+	
+		
 	private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
 	private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
-	private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
+	private static final String ENCHERES_OUVERTES = " AND a.date_fin_encheres > :currentDate";
+    private static final String MES_ENCHERES_EN_COURS = " AND e.no_utilisateur = :userId AND a.date_fin_encheres > :currentDate";
+    private static final String MES_ENCHERES_REMPORTEES = " AND e.no_utilisateur = :userId AND a.date_fin_encheres <= :currentDate";
+    private static final String MES_VENTES = " AND a.no_utilisateur = :userId";
+    private static final String VENTES_EN_COURS = " AND a.date_fin_encheres > :currentDate OR a.date_debut_encheres > :currentDate";
+    private static final String VENTES_NON_DEBUTEES = " AND a.date_debut_encheres > :currentDate";
+    private static final String VENTES_TERMINEES = " AND a.date_fin_encheres <= :currentDate";
+    
+    private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
+	private static final String DEBIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente - prix_vente where no_article = :no_article ";
+	private static final String CREDIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente + nouvelleEnchere where no_article = :no_article"; 
+	
 	private static final String UPDATE_OBJECT = "UPDATE ARTICLES_VENDUS SET \r\n"
 			+ "nom_article = :nom_article,\r\n"
 			+ "description = :description,\r\n"
@@ -41,36 +57,83 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 			+ "SET a.prix_vente = :prix_vente\r\n"
 			+ "FROM ARTICLES_VENDUS a\r\n"
 			+ "JOIN ENCHERES e ON e.no_article = a.no_article\r\n"
-			+ "WHERE a.no_article = :no_article;";
-	
+			+ "WHERE a.no_article = :no_article";
+    
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
 	// Constructeur jdbcTemplate
 	public ArticlesVendusDAOImpl(NamedParameterJdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	private String applyAchatFilters(FiltreRecherche filtre, MapSqlParameterSource params) {
+	    StringBuilder filterQuery = new StringBuilder();
+	    
+	    if (filtre.isEncheresOuvertes()) {
+	        filterQuery.append(ENCHERES_OUVERTES);
+	    }
+	    if (filtre.isMesEncheres()) {
+	        filterQuery.append(MES_ENCHERES_EN_COURS);
+	    }
+	    if (filtre.isEncheresRemportees()) {
+	        filterQuery.append(MES_ENCHERES_REMPORTEES);
+	    }
+	    
+	    return filterQuery.toString();
+	}
+
+	private String applyVenteFilters(FiltreRecherche filtre, MapSqlParameterSource params) {
+	    StringBuilder filterQuery = new StringBuilder();
+	    
+	    filterQuery.append(MES_VENTES);
+	    
+	    if (filtre.isVentesEnCours()) {
+	        filterQuery.append(VENTES_EN_COURS);
+	    }
+	    if (filtre.isVentesNonDebutees()) {
+	        filterQuery.append(VENTES_NON_DEBUTEES);
+	    }
+	    if (filtre.isVentesTerminees()) {
+	        filterQuery.append(VENTES_TERMINEES);
+	    }
+	    
+	    return filterQuery.toString();
+	}
 
 	@Override
-	public List<ArticleVendu> findIfContainsAndCategorie(String keyword, int noCategorie) {
-		System.out.println("je remonte les infos de ma dal"); 
-	    MapSqlParameterSource params = new MapSqlParameterSource();	    params.addValue("currentDate", LocalDateTime.now());
-	     
-	    String requete = FIND_IF_CONTAINS_AND_CATEGORIE;
-	    if (!keyword.isEmpty()){
+	public List<ArticleVendu> findIfContainsAndCategorie( String keyword, int noCategorie, 
+			FiltreRecherche filtre, Integer userId) {
+		StringBuilder requete = new StringBuilder (FIND_IF_CONTAINS_AND_CATEGORIE);
+	    MapSqlParameterSource params = new MapSqlParameterSource();
+
+	    params.addValue("currentDate", LocalDateTime.now());
+	    
+	    if (keyword != null &&  !keyword.isEmpty()){
 	    	System.out.println("je recherche par le mot");
 	    	params.addValue("keyword", keyword);
-	    	requete += FIND_KEYWORD; 
+	    	requete.append(FIND_KEYWORD);
 	    }
+	   
 	    if(noCategorie != 0) {
 	    	System.out.println("je recherche la categorie");
 	    	params.addValue("noCategorie", noCategorie);
-	    	requete += FIND_CATEGORIE;
-	    	  
+	    	requete.append(FIND_CATEGORIE);
 	    }
-	    
+	  
+	    //application des filtres utilisateurs si connecté
+	    if(userId != null && filtre != null) {
+	    	params.addValue("userId", userId);
+	    	if (filtre.getTypeFiltre() == TypeFiltre.ACHATS) {
+                System.out.println("Application des filtres achats");
+                requete.append(applyAchatFilters(filtre, params));
+            } else if (filtre.getTypeFiltre() == TypeFiltre.VENTES) {
+                System.out.println("Application des filtres ventes");
+                requete.append(applyVenteFilters(filtre, params));
+            }
+        }
 	   
 	    
-	 return jdbcTemplate.query(requete, params, (rs, rowNum) -> {
+	 return jdbcTemplate.query(requete.toString(), params, (rs, yourRowMapper) -> {
 	    	System.out.println("je récupère les données");
 	        ArticleVendu article = new ArticleVendu();
 	        article.setNoArticle(rs.getInt("no_article"));
@@ -83,8 +146,6 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	        return article;
 	    });
 	}
-
-
 
 	@Override
 	public void ajouterArticle(ArticleVendu article) {
@@ -113,6 +174,23 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	
 	
 	@Override
+	public void debiterPrixVente(ArticleVendu article) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+	   
+	    params.addValue("no_article", article.getNoArticle());
+	    int rowsUpdated = jdbcTemplate.update(DEBIT, params);
+		
+	}
+	
+	@Override
+	public void crediterPrixVente(ArticleVendu article, int nouvelleEnchere ) {
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("nouvelleEnchere", nouvelleEnchere);
+	    params.addValue("no_article", article.getNoArticle());
+	}
+
+	@Override
 	public void modifierArticle(ArticleVendu article) {
 		MapSqlParameterSource map = new MapSqlParameterSource();
 		
@@ -137,7 +215,9 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		
 		jdbcTemplate.update(UPDATE_PRICE, map);
 	}
-		
+	
+}
+
 	
 	class ArticleRowMapper implements RowMapper<ArticleVendu> {
 		/* Pour la méthode ArticleVendu findArticleByID(int id), notre requête SQL va chercher pseudo, rue, ville, code postal, or, ils n'y sont pas
@@ -174,12 +254,11 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 				articleVendu.setLieuRetrait(retrait);
 				
 				return articleVendu;
+			
 			}
-		}
+	}
 
 
 	
-}
-
-
+	
 

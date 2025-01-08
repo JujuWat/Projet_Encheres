@@ -79,6 +79,7 @@ public class DetailsController {
 	        enchere.setConcerne(article); // Association de l'enchère à cet article
 	        enchere.setEncherit(utilisateur); // Association de l'enchère à l'utilisateur
 	        
+	        enchereService.faireEnchere(enchere, article);
 	        	        
 	        model.addAttribute("successMessage", "Votre enchère a été enregistrée avec succès !");
 		} catch (Exception e) {
