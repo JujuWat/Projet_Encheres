@@ -1,14 +1,63 @@
- <div th:fragment="filtresSup">
-<form sec:authorize="isAuthenticated()" class="searchUser"  action="">
-	<ul>
-	<li><input type="radio" > Achats</li>
-		<li> <input  type="checkbox" /> enchères ouvertes</li>
-		<li> <input type="checkbox" /> mes enchères en cours</li>
-		<li> <input  type="checkbox" /> mes enchères remportées</li>
-	<li><input type="radio" > Mes ventes</li>
-		<li> <input  type="checkbox" /> mes ventes en cours</li>
-		<li> <input  type="checkbox" > ventes non débutées</li>
-		<li> <input  type="checkbox" /> ventes terminées</li>
-	</ul>
-</form>
+<div th:fragment="filtresSup">
+	<form class="search-form" th:action="@{/encheres}" method="post" th:object="${filtre}">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+		<div>
+			<label for="filtre_article">Filtres : </label>
+			<input class="search-input" th:field="*{motCle}" type="text" placeholder="Le nom de l'article contient">
+			<label for="filtre_categorie">Catégorie :</label>
+			<select th:field="*{categorie.noCategorie}">
+				<option value="0">Toutes les catégories</option>
+				<option th:each="c : ${listeCategorie}" th:value="${c.noCategorie}" th:text="${c.libelle}"></option>
+			</select>
+		</div>
+
+		<div sec:authorize="isAuthenticated()" class="searchUser">
+			<fieldset class="filter-options">
+				<div class="radio-group">
+					<div>
+						<input type="radio" id="achats" name="typeFiltre" value="ACHATS" th:field="*{typeFiltre}" th:checked="${filtre.typeFiltre == 'ACHATS'}">
+						<label for="achats">Achats</label>
+
+						<ul class="radio-list achats-options">
+							<li>
+								<input type="radio" id="encheres-ouvertes" name="optionsAchat" value="ENCHERES_OUVERTES" th:field="*{optionsAchat}" th:disabled="${filtre.typeFiltre != 'ACHATS'}">
+								<label for="encheres-ouvertes">Enchères ouvertes</label>
+							</li>
+							<li>
+								<input type="radio" id="mes-encheres" name="optionsAchat" value="MES_ENCHERES_EN_COURS" th:field="*{optionsAchat}" th:disabled="${filtre.typeFiltre != 'ACHATS'}">
+								<label for="mes-encheres">Mes enchères en cours</label>
+							</li>
+							<li>
+								<input type="radio" id="encheres-remportees" name="optionsAchat" value="MES_ENCHERES_REMPORTEES" th:field="*{optionsAchat}" th:disabled="${filtre.typeFiltre != 'ACHATS'}">
+								<label for="encheres-remportees">Mes enchères remportées</label>
+							</li>
+						</ul>
+					</div>
+
+					<div>
+						<input type="radio" id="ventes" name="typeFiltre" value="VENTES" th:field="*{typeFiltre}" th:checked="${filtre.typeFiltre == 'VENTES'}">
+						<label for="ventes">Mes ventes</label>
+
+						<ul class="radio-list ventes-options">
+							<li>
+								<input type="radio" id="ventes-en-cours" name="optionsVente" value="VENTES_EN_COURS" th:field="*{optionsVente}" th:disabled="${filtre.typeFiltre != 'VENTES'}">
+								<label for="ventes-en-cours">Mes ventes en cours</label>
+							</li>
+							<li>
+								<input type="radio" id="ventes-non-debutees" name="optionsVente" value="VENTES_NON_DEBUTEES" th:field="*{optionsVente}" th:disabled="${filtre.typeFiltre != 'VENTES'}">
+								<label for="ventes-non-debutees">Ventes non débutées</label>
+							</li>
+							<li>
+								<input type="radio" id="ventes-terminees" name="optionsVente" value="VENTES_TERMINEES" th:field="*{optionsVente}" th:disabled="${filtre.typeFiltre != 'VENTES'}">
+								<label for="ventes-terminees">Ventes terminées</label>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+
+		<button type="submit">Rechercher</button>
+	</form>
 </div>

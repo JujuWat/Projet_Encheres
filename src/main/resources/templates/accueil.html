@@ -5,39 +5,12 @@
 <title>Accueil</title>
 
 <link rel="stylesheet" th:href="@{/css/style.css}" />
+ 
 </head>
 <body>
 	<div th:replace="~{fragments/entete::entete}"></div>
 	<h1>Accueil</h1>
 
-
-
-<form class="search-form" th:action="@{/encheres}" method="post" th:object="${filtre}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-    <ul>
-        <li>
-            <label for="filtre_article">Filtres : </label>
-            <input class="search-input" th:field="*{motCle}" type="text" placeholder="Le nom de l'article contient">
-        </li>
-
-        <li>
-            <label for="filtre_categorie">Catégorie :</label>
-            <select th:field="*{categorie.noCategorie}">
-                <option value="0">Toutes les catégories</option>
-                <option th:each="c : ${listeCategorie}" 
-                        th:value="${c.noCategorie}" 
-                        th:text="${c.libelle}">
-                </option>
-            </select>
-        </li>
-
-        <li>
-            <button type="submit">Rechercher</button>
-        </li>
-    </ul>
-</form>
-	
 	<div th:replace="~{fragments/filtresSup::filtresSup}"></div>
 	
 	
@@ -52,11 +25,29 @@
 			<p><strong>Vendeur:</strong> <span th:text="${article.vend.pseudo}"></span></p>
 		</div>
 	</div>
+<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const achatsRadio = document.getElementById('achats');
+			const ventesRadio = document.getElementById('ventes');
+			const achatsOptions = document.querySelectorAll('.achats-options input[type="radio"]');
+			const ventesOptions = document.querySelectorAll('.ventes-options input[type="radio"]');
 
+			function updateOptionsVisibility() {
+				if (achatsRadio.checked) {
+					achatsOptions.forEach(option => option.disabled = false);
+					ventesOptions.forEach(option => option.disabled = true);
+				} else if (ventesRadio.checked) {
+					achatsOptions.forEach(option => option.disabled = true);
+					ventesOptions.forEach(option => option.disabled = false);
+				}
+			}
 
+			achatsRadio.addEventListener('change', updateOptionsVisibility);
+			ventesRadio.addEventListener('change', updateOptionsVisibility);
 
-
-
-
+			// Initial call to set the correct state on page load
+			updateOptionsVisibility();
+		});
+	</script>
 </body>
 </html>

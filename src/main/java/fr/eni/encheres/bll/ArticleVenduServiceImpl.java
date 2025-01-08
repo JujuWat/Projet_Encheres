@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.controller.dto.FiltreRecherche;
 import fr.eni.encheres.dal.ArticlesVendusDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 
@@ -29,10 +30,15 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		this.retraitDAO = retraitDAO;
 	}
 
-
+	 // Pour les recherches sans authentification
+    @Override
+    public List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie) {
+        return this.articleVenduDAO.findIfContainsAndCategorie(motCle, noCategorie, null, null);
+    }
+    
 	@Override
-	public List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie) {
-		return this.articleVenduDAO.findIfContainsAndCategorie(motCle,noCategorie);
+	public List<ArticleVendu> afficheSiContientEtCategorie(String motCle, int noCategorie, FiltreRecherche filtre, Integer userId)  {
+		return this.articleVenduDAO.findIfContainsAndCategorie(motCle,noCategorie, filtre, userId);
 
 }
 	
@@ -55,5 +61,8 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		retraitDAO.ajouterRetrait(article.getLieuRetrait(), article.getNoArticle());
 		
 	}
+
+
+	
 
 }
