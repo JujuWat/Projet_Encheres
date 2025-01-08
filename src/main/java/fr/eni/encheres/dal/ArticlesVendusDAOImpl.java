@@ -29,6 +29,9 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	private static final String FIND_KEYWORD =" AND (:keyword IS NULL OR LOWER(nom_article) LIKE LOWER(CONCAT('%', :keyword, '%'))) ";
 	private static final String FIND_CATEGORIE=" AND (:noCategorie = 0 OR a.no_categorie = :noCategorie)";
 	private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
+	private static final String DEBIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente - prix_vente where no_article = :no_article ";
+	private static final String CREDIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente + nouvelleEnchere where no_article = :no_article"; 
+	
 	
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
@@ -98,6 +101,26 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		return this.jdbcTemplate.queryForObject(FIND_BY_ID, map, new ArticleRowMapper());
 	}
 	
+	
+	@Override
+	public void debiterPrixVente(ArticleVendu article) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+	   
+	    params.addValue("no_article", article.getNoArticle());
+	    int rowsUpdated = jdbcTemplate.update(DEBIT, params);
+		
+	}
+	
+	@Override
+	public void crediterPrixVente(ArticleVendu article, int nouvelleEnchere ) {
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("nouvelleEnchere", nouvelleEnchere);
+	    params.addValue("no_article", article.getNoArticle());
+	}
+	
+	
+	
 	class ArticleRowMapper implements RowMapper<ArticleVendu> {
 		/* Pour la méthode ArticleVendu findArticleByID(int id), notre requête SQL va chercher pseudo, rue, ville, code postal, or, ils n'y sont pas
 		Il faut donc créer notre propre RowMapper */
@@ -135,6 +158,10 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 				return articleVendu;
 			}
 		}
+	
+	
+	
+	
 	
 	
 }

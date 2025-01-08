@@ -13,6 +13,8 @@ public interface ArticleVenduService {
 	Categorie consulterParNoCategorie(int noCategorie);
 	void ajouterArticle(ArticleVendu article);
 	ArticleVendu consulterArticleParID(int id);
+	void debiterPrixVente(ArticleVendu article);
+	void crediterPrixVente(ArticleVendu article, int nouvelleEnchere);
 
 
 }

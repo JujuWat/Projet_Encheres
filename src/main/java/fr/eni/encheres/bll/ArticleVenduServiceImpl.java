@@ -63,4 +63,15 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		return article;
 	}
 
+	@Override 
+	public void debiterPrixVente(ArticleVendu article) {
+		articleVenduDAO.debiterPrixVente(article);
+	}
+	
+	@Override
+	public void crediterPrixVente(ArticleVendu article, int nouvelleEnchere) {
+		articleVenduDAO.crediterPrixVente(article, nouvelleEnchere);
+		
+	}
+	
 }
