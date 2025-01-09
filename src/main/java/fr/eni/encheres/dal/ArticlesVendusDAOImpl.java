@@ -44,6 +44,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
     private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
 	private static final String DEBIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente - prix_vente where no_article = :no_article ";
 	private static final String CREDIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente + nouvelleEnchere where no_article = :no_article"; 
+	private static final String ENCHERE_REMPORTEE = "";
 	
 	private static final String UPDATE_OBJECT = "UPDATE ARTICLES_VENDUS SET \r\n"
 			+ "nom_article = :nom_article,\r\n"
@@ -53,7 +54,11 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 			+ "prix_initial = :prix_initial,\r\n"
 			+ "prix_vente = :prix_vente\r\n"
 			+ "WHERE no_article = :no_article";
-	private static final String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
+	private static final String UPDATE_PRICE = "UPDATE a\r\n"
+			+ "SET a.prix_vente = :prix_vente\r\n"
+			+ "FROM ARTICLES_VENDUS a\r\n"
+			+ "JOIN ENCHERES e ON e.no_article = a.no_article\r\n"
+			+ "WHERE a.no_article = :no_article";
     
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
