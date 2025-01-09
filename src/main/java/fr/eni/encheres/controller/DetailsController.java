@@ -93,13 +93,11 @@ public class DetailsController {
 			model.addAttribute("successMessage", "Une erreur s'est produite : " + e.getMessage());
 			e.printStackTrace();
 		}
-
-	        
-	       
-	    
+  
 	    // Recharge la page des détails avec les données mises à jour
 	    return "redirect:/encheres/detailsobjet?id=" + id;
 	}
 	
-
+	
+	
 }

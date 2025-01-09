@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vente remportée - ENI-Enchères</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/details.css}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/entete::entete}"></div>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center text-success">Vous avez remporté la vente</h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-4 text-center">
+                            <img th:src="${detailsarticle.imageUrl}" alt="image de l'article" class="img-fluid vignette"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <!-- Informations de l'article -->
+                        <h2 th:text="${detailsarticle.nomArticle}" class="mb-4"></h2>
+
+                        <div class="mb-3">
+                            <strong>Description :</strong>
+                            <p th:text="${detailsarticle.description}" class="border-bottom pb-2"></p>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>Meilleure offre :</strong>
+                                <p th:text="${detailsarticle.prixVente + ' points'}" class="text-success fw-bold"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Mise à prix :</strong>
+                                <p th:text="${detailsarticle.miseAPrix + ' points'}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Informations de retrait -->
+                        <div class="border p-3 mb-3 bg-light">
+                            <h3 class="h5">Retrait :</h3>
+                            <p class="mb-1" th:text="${retrait.rue}"></p>
+                            <p th:text="${retrait.code_postal + ' ' + retrait.ville}"></p>
+                        </div>
+
+                        <!-- Informations du vendeur -->
+                        <div class="border p-3 bg-light">
+                            <h3 class="h5">Informations vendeur :</h3>
+                            <p class="mb-1">
+                                <strong>Vendeur :</strong>
+                                <span th:text="${utilisateur.pseudo}"></span>
+                            </p>
+                            <p class="mb-0">
+                                <strong>Téléphone :</strong>
+                                <span th:text="${utilisateur.telephone}"></span>
+                            </p>
+                        </div>
+
+                        <!-- Bouton retour -->
+                        <div class="text-center mt-4">
+                            <a href="/" class="btn btn-primary">
+                                Retour à l'accueil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+Last edited just now
+
+

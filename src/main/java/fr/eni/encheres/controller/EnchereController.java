@@ -108,13 +108,21 @@ public class EnchereController {
 		System.out.println("affichage de logout");
 		return "/"; 
 	} 
+	
+	
 
 	@ModelAttribute("listeCategorie")
 	public List<Categorie> getCategorie() {
 		System.out.println("charger la liste des catégories");
 		return this.articleVenduService.consulterCategorie();
 	}
-
+	
+	@GetMapping("/gagne")
+	public String afficherVenteGagne() {
+		System.out.println("afficher quand la vente est remporter");
+		
+		return "venteGagnee";
+	}
 	
 	
 }

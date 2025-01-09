@@ -1,113 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Détails de l'objet</title>
-<link rel="stylesheet" th:href="@{/css/style.css}" />
-<link rel="stylesheet" th:href="@{/css/details.css}" />
+    <meta charset="UTF-8">
+    <title>Détails de l'objet</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="~{fragments/entete::entete}"></div>
+    <div th:replace="~{fragments/entete::entete}"></div>
 
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Détails de l'objet</h2>
+            </div>
+            <div class="card-body">
+                <!-- Messages -->
+                <div th:if="${successMessage}" class="alert alert-success">
+                    <p th:text="${successMessage}"></p>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
 
-	<form action="/encheres/detailsobjet" method="post" > 
-	
-	<div>
-    <!-- Message de succès -->
-    <div th:if="${successMessage}" class="success-message">
-        <p th:text="${successMessage}"></p>
+                <form action="/encheres/detailsobjet" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" name="id" th:value="${detailsarticle.noArticle}" />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Image -->
+                            <div class="mb-4 text-center">
+                                <img th:src="${detailsarticle.imageUrl}" alt="image de l'article" class="img-fluid vignette"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Informations principales -->
+                            <div class="mb-3">
+                                <label for="nom_article" class="form-label">Nom de l'article</label>
+                                <input id="nom_article" type="text" class="form-control" th:field="${detailsarticle.nomArticle}" readonly/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea id="description" class="form-control" rows="3" th:text="${detailsarticle.description}" readonly></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="categorie" class="form-label">Catégorie</label>
+                                <input id="categorie" type="text" class="form-control" th:value="${libelle}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <!-- Prix et enchères -->
+                            <div class="mb-3">
+                                <label class="form-label">Meilleure offre</label>
+                                <div class="input-group">
+                                    <input id="prixVente" type="text" class="form-control" th:field="${detailsarticle.prixVente}" readonly/>
+                                    <input id="plusHautEncherisseur" type="text" class="form-control" th:value="${plusHautEncherisseurPseudo}" readonly/>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="miseAPrix" class="form-label">Mise à prix</label>
+                                <input id="miseAPrix" type="text" class="form-control" th:field="${detailsarticle.miseAPrix}" readonly/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="dateFinEncheres" class="form-label">Date de fin d'enchères</label>
+                                <input id="dateFinEncheres" type="text" class="form-control" th:field="${detailsarticle.dateFinEncheres}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Informations de retrait et vendeur -->
+                            <div class="mb-3">
+                                <label class="form-label">Retrait</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" th:field="${retrait.rue}" readonly/>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" th:field="${retrait.code_postal}" readonly/>
+                                    <input type="text" class="form-control" th:field="${retrait.ville}" readonly/>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="vendeur" class="form-label">Vendeur</label>
+                                <input id="vendeur" type="text" class="form-control" th:field="${utilisateur.pseudo}" readonly/>
+                            </div>
+
+                            <!-- Formulaire d'enchère - visible uniquement si l'enchère n'est pas terminée -->
+                            <div class="mb-3" th:if="${#temporals.createNow().isBefore(detailsarticle.dateFinEncheres)}">
+                                <label for="enchere" class="form-label">Votre enchère</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="enchere" name="enchere" 
+                                           placeholder="Placez votre enchère" required="required"/>
+                                    <button class="btn btn-primary" type="submit">Enchérir</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Message si l'enchère est terminée -->
+                            <div class="alert alert-info" th:unless="${#temporals.createNow().isBefore(detailsarticle.dateFinEncheres)}">
+                                <p>Cette enchère est terminée</p>
+                                <p th:if="${plusHautEncherisseurPseudo != 'Aucun enchérisseur pour cet article'}">
+                                    Remportée par : <span th:text="${plusHautEncherisseurPseudo}"></span>
+                                    pour <span th:text="${detailsarticle.prixVente}"></span> points
+                                </p>
+                                <p th:unless="${plusHautEncherisseurPseudo != 'Aucun enchérisseur pour cet article'}">
+                                    Aucune enchère n'a été placée sur cet article
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <!-- Message d'erreur -->
-    <div th:if="${errorMessage}" class="error-message">
-        <p th:text="${errorMessage}"></p>
-    </div>
-	</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            const enchereInput = document.getElementById("enchere");
+            const miseAPrixInput = document.getElementById("miseAPrix");
+            const prixVenteInput = document.getElementById("prixVente");
 
-	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-	<input type="hidden" name="id" th:value="${detailsarticle.noArticle}" />
-	<h1>Détails de l'objet</h1>
-	<ul>
-	
-		<li>
-			<label for ="image"></label>
-			<div class = "vignette"><img alt="image de l'article" th:src = "${detailsarticle.imageUrl}" readonly/></div>
-		</li>
-		<li>
-			<label for ="nom_article">Nom de l'article</label>
-			<input id="nom_article" type="text" name="nom_article" th:field="${detailsarticle.nomArticle}" readonly/> 
-		</li>
-		<li>
-			<label for ="description">Description</label>
-			<input id="description" type="textarea" name="description" th:value="${detailsarticle.description}" readonly/> 
-		</li>
-		<li>
-			<label for ="categorie">Catégorie</label>
-			<input id="categorie" type="text" name="categorie" th:value="${libelle}" readonly/> 
-		</li>
-		<li>
-			<label for ="prixVente">Meilleure offre</label>
-			<input id="prixVente" type="text" name="prixVente" th:field="${detailsarticle.prixVente}" readonly/> 
-			<input id="plusHautEncherisseur" type="text" name="plusHautEncherisseur" th:value="${plusHautEncherisseurPseudo}" readonly />
-			
-		</li>
-		<li>
-			<label for ="miseAPrix">Mise à prix</label>
-			<input id="miseAPrix" type="text" name="miseAPrix" th:field="${detailsarticle.miseAPrix}" readonly/> 
-		</li>
-		<li>
-			<label for ="dateFinEncheres">Date de fin d'enchères</label>
-			<input id="dateFinEncheres" type="text" name="dateFinEncheres" th:field="${detailsarticle.dateFinEncheres}" readonly/> 
-		</li>
-		<li>
-			<label for ="retrait">Retrait</label>
-			<input id="retrait" type="text" name="retrait" th:field="${retrait.rue}" readonly/> 
-			<input id="retrait" type="text" name="retrait" th:field="${retrait.code_postal}" readonly/> 
-			<input id="retrait" type="text" name="retrait" th:field="${retrait.ville}" readonly/> 
-		</li>
-		<li>
-			<label for ="vendeur">Vendeur</label>
-			<input id="vendeur" type="text" name="vendeur" th:field="${utilisateur.pseudo}" readonly/> 
-		</li>
-		
-		<li>
-			<label for="enchere">Votre enchère :</label>
-			<input type="text" id="enchere" name="enchere" placeholder="Placez votre enchère" required="required">
-		</li>
-		<li>
-			<button type ="submit">Enchérir</button>
-		</li>
-		
-		
-	</ul>
-	</form>
+            const miseAPrix = parseFloat(miseAPrixInput.value);
+            const prixVente = parseFloat(prixVenteInput.value);
 
+            form.addEventListener("submit", function (event) {
+                const enchere = parseFloat(enchereInput.value);
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-        const enchereInput = document.getElementById("enchere");
-        const miseAPrixInput = document.getElementById("miseAPrix");
-        const prixVenteInput = document.getElementById("prixVente");
-
-        // Parse les valeurs des champs read-only
-        const miseAPrix = parseFloat(miseAPrixInput.value);
-        const prixVente = parseFloat(prixVenteInput.value);
-
-        form.addEventListener("submit", function (event) {
-            const enchere = parseFloat(enchereInput.value);
-
-            if (isNaN(enchere) || enchere <= miseAPrix || enchere <= prixVente) {
-                event.preventDefault(); // Empêche l'envoi du formulaire
-                alert(
-                    `Votre enchère doit être supérieure à la mise à prix (${miseAPrix}) et à la meilleure offre actuelle (${prixVente}) !`
-                );
-            }
+                if (isNaN(enchere) || enchere <= miseAPrix || enchere <= prixVente) {
+                    event.preventDefault();
+                    alert(
+                        `Votre enchère doit être supérieure à la mise à prix (${miseAPrix}) et à la meilleure offre actuelle (${prixVente}) !`
+                    );
+                }
+            });
         });
-    });
-</script>
-
-
-
+    </script>
 </body>
 </html>

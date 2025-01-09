@@ -45,7 +45,7 @@ public class SecurityConfig {
 		
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers("/" , "/encheres" ,"/accueil", "/creer").permitAll()
+				.requestMatchers("/" , "/encheres" ,"/accueil", "/creer", "/gagne").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/images/**").permitAll()
 				.requestMatchers("/detailsUtilisateurs").authenticated()

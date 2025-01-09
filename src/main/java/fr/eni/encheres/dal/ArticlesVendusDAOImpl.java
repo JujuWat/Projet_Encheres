@@ -44,7 +44,13 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
     private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
 	private static final String DEBIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente - prix_vente where no_article = :no_article ";
 	private static final String CREDIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente + nouvelleEnchere where no_article = :no_article"; 
-	private static final String ENCHERE_REMPORTEE = "";
+	private static final String ENCHERE_REMPORTEE = "SELECT u.pseudo , montant_enchere FROM  ENCHERES e JOIN UTILISATEURS u \r\n"
+			+ "				ON e.no_article = u.no_utilisateur\r\n"
+			+ "				WHERE e.montant_enchere =\r\n"
+			+ "					(SELECT MAX(e2.montant_enchere) \r\n"
+			+ "					FROM ENCHERES e2\r\n"
+			+ "					WHERE e2.no_article = e.no_article)\r\n"
+			+ "				AND e.no_article = no_article;";
 	
 	private static final String UPDATE_OBJECT = "UPDATE ARTICLES_VENDUS SET \r\n"
 			+ "nom_article = :nom_article,\r\n"
@@ -106,13 +112,11 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 	    params.addValue("currentDate", LocalDateTime.now());
 	    
 	    if (keyword != null &&  !keyword.isEmpty()){
-	    	System.out.println("je recherche par le mot");
 	    	params.addValue("keyword", keyword);
 	    	requete.append(FIND_KEYWORD);
 	    }
 	   
 	    if(noCategorie != 0) {
-	    	System.out.println("je recherche la categorie");
 	    	params.addValue("noCategorie", noCategorie);
 	    	requete.append(FIND_CATEGORIE);
 	    }
