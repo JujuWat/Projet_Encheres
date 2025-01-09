@@ -53,11 +53,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 			+ "prix_initial = :prix_initial,\r\n"
 			+ "prix_vente = :prix_vente\r\n"
 			+ "WHERE no_article = :no_article";
-	private static final String UPDATE_PRICE = "UPDATE a\r\n"
-			+ "SET a.prix_vente = :prix_vente\r\n"
-			+ "FROM ARTICLES_VENDUS a\r\n"
-			+ "JOIN ENCHERES e ON e.no_article = a.no_article\r\n"
-			+ "WHERE a.no_article = :no_article";
+	private static final String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
     
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	

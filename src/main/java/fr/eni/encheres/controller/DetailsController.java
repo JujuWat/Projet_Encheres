@@ -56,6 +56,8 @@ public class DetailsController {
 		model.addAttribute("retrait", article.getLieuRetrait());
 		// Récupérer l'utilisateur 
 		model.addAttribute("utilisateur", article.getVend());
+		// Récupérer le plus haut enchérisseur
+		
 				
 		return "detailsobjet";
 	}
