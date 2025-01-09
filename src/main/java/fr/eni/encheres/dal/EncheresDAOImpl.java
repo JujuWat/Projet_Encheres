@@ -12,6 +12,13 @@ public class EncheresDAOImpl implements EncheresDAO {
 
 	private static final String CREATE_ENCHERE = "INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (:no_utilisateur, :no_article, :date_enchere, :montant_enchere)"; 
 	
+	private static final String HIGHEST_ENCHERE = 
+	        "SELECT TOP 1 e.montant_enchere, u.no_utilisateur, u.pseudo " +
+	                "FROM ENCHERES e " +
+	                "JOIN UTILISATEURS u ON e.no_utilisateur = u.no_utilisateur " +
+	                "WHERE e.no_article = :no_article " +
+	                "ORDER BY e.montant_enchere DESC";
+	
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 		
@@ -32,8 +39,29 @@ public class EncheresDAOImpl implements EncheresDAO {
 		
 		 jdbcTemplate.update(CREATE_ENCHERE, map);
 	}
+
+
+
+	@Override
+	public Utilisateur findHighestBidderForArticle(int noArticle) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("no_article", noArticle);
+
+        return jdbcTemplate.query(HIGHEST_ENCHERE, params, rs -> {
+            if (rs.next()) {
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur.setNoUtilisateur(rs.getInt("no_utilisateur"));
+                utilisateur.setPseudo(rs.getString("pseudo"));
+                return utilisateur;
+            }
+            return null;
+        });
+
+	}
+	
+}
 	
 	
 	
 
-}
+

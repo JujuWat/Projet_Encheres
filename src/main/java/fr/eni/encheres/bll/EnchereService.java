@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Utilisateur;
 
 
 public interface EnchereService {
@@ -15,5 +16,6 @@ public interface EnchereService {
 	
 	void faireEnchere(Enchere enchere, ArticleVendu article) throws Exception;
 	
+	Utilisateur obtenirPlusHautEncherisseur(int noArticle);
 	
 }

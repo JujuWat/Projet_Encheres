@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticlesVendusDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.EncheresDAO;
@@ -56,6 +57,11 @@ public class EnchereServiceImpl implements EnchereService{
 	    
 	    // Enregistrer l'enchère
 	    enchereDAO.creerEnchere(enchere);
+	}
+
+	@Override
+	public Utilisateur obtenirPlusHautEncherisseur(int noArticle) {
+		return enchereDAO.findHighestBidderForArticle(noArticle) ;
 	}
 
 }

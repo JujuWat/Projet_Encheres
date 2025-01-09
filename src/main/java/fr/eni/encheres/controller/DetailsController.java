@@ -57,7 +57,12 @@ public class DetailsController {
 		// Récupérer l'utilisateur 
 		model.addAttribute("utilisateur", article.getVend());
 		// Récupérer le plus haut enchérisseur
-		
+		Utilisateur plusHautEncherisseur = enchereService.obtenirPlusHautEncherisseur(id);
+	    if (plusHautEncherisseur != null) {
+	        model.addAttribute("plusHautEncherisseurPseudo", plusHautEncherisseur.getPseudo());
+	    } else {
+	        model.addAttribute("plusHautEncherisseurPseudo", "Aucun enchérisseur pour cet article");
+	    }
 				
 		return "detailsobjet";
 	}
