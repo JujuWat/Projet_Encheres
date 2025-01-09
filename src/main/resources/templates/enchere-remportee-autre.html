@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchère terminée - ENI-Enchères</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/details.css}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{fragments/entete::entete}"></div>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="text-center">
+                    <span th:text="${plusHautEncherisseurPseudo}"></span> a remporté l'enchère
+                </h1>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-4 text-center">
+                            <img th:src="${detailsarticle.imageUrl}" alt="image de l'article" class="img-fluid vignette"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <!-- Nom de l'article -->
+                        <h2 th:text="${detailsarticle.nomArticle}" class="mb-4"></h2>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <h3>Description :</h3>
+                            <p th:text="${detailsarticle.description}"></p>
+                        </div>
+
+                        <!-- Prix -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <strong>Meilleure offre :</strong>
+                                <p th:text="${detailsarticle.prixVente + ' pts par ' + plusHautEncherisseurPseudo}"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Mise à prix :</strong>
+                                <p th:text="${detailsarticle.miseAPrix + ' points'}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Fin de l'enchère -->
+                        <div class="mb-4">
+                            <strong>Fin de l'enchère :</strong>
+                            <p th:text="${#temporals.format(detailsarticle.dateFinEncheres, 'dd/MM/yyyy')}"></p>
+                        </div>
+
+                        <!-- Retrait -->
+                        <div class="mb-4">
+                            <strong>Retrait :</strong>
+                            <p class="mb-1" th:text="${retrait.rue}"></p>
+                            <p th:text="${retrait.code_postal + ' ' + retrait.ville}"></p>
+                        </div>
+
+                        <!-- Vendeur -->
+                        <div class="mb-4">
+                            <strong>Vendeur :</strong>
+                            <p th:text="${utilisateur.pseudo}"></p>
+                        </div>
+
+                        <!-- Bouton retour -->
+                        <div class="text-center mt-4">
+                            <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

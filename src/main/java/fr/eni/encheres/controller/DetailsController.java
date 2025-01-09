@@ -44,29 +44,45 @@ public class DetailsController {
 			this.enchereService = enchereService;
 		}
 		
-	@GetMapping("/encheres/detailsobjet")
-	public String afficherDetails(@RequestParam("id") int id ,Model model) {
-		System.out.println("Affichage détails de l'objet dont l'id est " +id);
-		// Récupérer l'objet article
-		ArticleVendu article = this.articleVenduService.consulterArticleParID(id);
-		model.addAttribute("detailsarticle", article);
-		// Récupérer la catégorie de l'article vendu
-		model.addAttribute("libelle", article.getCategorieArticle().getLibelle());
-		// Récupérer l'adresse du retrait 
-		model.addAttribute("retrait", article.getLieuRetrait());
-		// Récupérer l'utilisateur 
-		model.addAttribute("utilisateur", article.getVend());
-		// Récupérer le plus haut enchérisseur
-		Utilisateur plusHautEncherisseur = enchereService.obtenirPlusHautEncherisseur(id);
-	    if (plusHautEncherisseur != null) {
-	        model.addAttribute("plusHautEncherisseurPseudo", plusHautEncherisseur.getPseudo());
-	    } else {
-	        model.addAttribute("plusHautEncherisseurPseudo", "Aucun enchérisseur pour cet article");
-	    }
-				
-		return "detailsobjet";
-	}
-	
+		@GetMapping("/encheres/detailsobjet")
+		public String afficherDetails(@RequestParam("id") int id, Model model) {
+		    // Récupérer l'article
+		    ArticleVendu article = this.articleVenduService.consulterArticleParID(id);
+		    
+		    // Récupérer l'utilisateur connecté
+		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    String pseudoConnecte = authentication.getName();
+		    
+		    // Vérifier si l'enchère est terminée
+		    boolean enchereTerminee = article.getDateFinEncheres().isBefore(LocalDateTime.now());
+		    
+		    // Récupérer le plus haut enchérisseur
+		    Utilisateur plusHautEncherisseur = enchereService.obtenirPlusHautEncherisseur(id);
+		    
+		    // Ajouter les informations communes au modèle
+		    model.addAttribute("detailsarticle", article);
+		    model.addAttribute("libelle", article.getCategorieArticle().getLibelle());
+		    model.addAttribute("retrait", article.getLieuRetrait());
+		    model.addAttribute("utilisateur", article.getVend());
+		    
+		    if (plusHautEncherisseur != null) {
+		        model.addAttribute("plusHautEncherisseurPseudo", plusHautEncherisseur.getPseudo());
+		    } else {
+		        model.addAttribute("plusHautEncherisseurPseudo", "Aucun enchérisseur pour cet article");
+		    }
+		    
+		    // Si l'enchère est terminée, rediriger vers la page appropriée
+		    if (enchereTerminee) {
+		        if (plusHautEncherisseur != null && plusHautEncherisseur.getPseudo().equals(pseudoConnecte)) {
+		            return "vente-remportee"; // L'utilisateur connecté a gagné
+		        } else {
+		            return "enchere-remportee-autre"; // Un autre utilisateur a gagné
+		        }
+		    }
+		    
+		    // Si l'enchère n'est pas terminée, afficher la page normale
+		    return "detailsobjet";
+		}
 	@PostMapping("/encheres/detailsobjet")
 	public String faireEnchere(@Valid @RequestParam("id") int id, @RequestParam("enchere") int nouvelleEnchere, Model model) {
 		try {
