@@ -6,6 +6,7 @@
 <link rel="stylesheet" th:href="@{/css/style.css}" />
 <link rel="stylesheet" th:href="@{/css/formulaire.css}" />
 </head>
+
 <body>
 	<div th:replace="~{fragments/entete::entete}"></div>
 		
@@ -34,16 +35,38 @@
 		</li>
 		<li>
 			<label for ="dateDebutEncheres">Date de début d'enchères</label>
-			<input id="dateDebutEncheres" type="datetime" th:field="*{dateDebutEncheres}" required/> 
+			<input id="dateDebutEncheres" type="text" th:field="*{dateDebutEncheres}" readonly />
+			<input id="dateDebutEncheres1" type="datetime-local" th:field="*{dateDebutEncheres}" required /> 
 		</li>
 		<li>
 			<label for ="dateFinEncheres">Date de fin d'enchères</label>
-			<input id="dateFinEncheres" type="datetime" th:field="*{dateFinEncheres}" required/> 
+			<input id="dateFinEncheres" type="text" th:field="*{dateFinEncheres}" readonly />
+			<input id="dateFinEncheres2" type="datetime-local" th:field="*{dateFinEncheres}" required/> 
 		</li>
 		<button type="submit">Mettre à jour</button>
 		
 	</ul>
 	</form>
+	
+	<script>
+  	// Ajouter la contrainte min avec la date d'aujourd'hui
+  const inputDate1 = document.getElementById('dateDebutEncheres1');
+    const inputDate2 = document.getElementById('dateFinEncheres2');
+    const now = new Date().toISOString().slice(0, 16); // Format pour datetime-local
+  
+	//Définir les dates minimums pour la date de début et la date de fin
+  inputDate1.setAttribute('min', now);
+    inputDate2.setAttribute('min', now);
+
+    // Définir les dates minimales pour la date de début et la date de fin
+    inputDate1.addEventListener('change', function () {
+        const startDate = inputDate1.value;
+        inputDate2.setAttribute('min', startDate); // La date de fin ne peut pas être avant la date de début
+        if (inputDate2.value && inputDate2.value < startDate) {
+            inputDate2.value = startDate;
+        }
+    });
+	</script>
 
 </body>
 </html>
