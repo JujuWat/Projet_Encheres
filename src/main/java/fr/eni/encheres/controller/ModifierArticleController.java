@@ -89,9 +89,6 @@ public class ModifierArticleController {
 	    // Ajouter l'article au modèle pour affichage
 	    model.addAttribute("article", article);
 	    
-	    // Récupérer la catégorie de l'article vendu
-	    model.addAttribute("libelle", article.getCategorieArticle().getLibelle());
-	    
 	    // Récupérer l'adresse du retrait
 	    model.addAttribute("retrait", article.getLieuRetrait());
 	    
