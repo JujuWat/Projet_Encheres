@@ -1,0 +1,484 @@
+/* Reset et base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header et Navigation */
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem 5%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+    padding-left: 0; /* Supprime le padding pour que le logo touche le bord */
+}
+
+#nav-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+header h2 {
+    font-size: 1rem;
+    color: #bdc3c7;
+    margin: 0;
+}
+
+#logo-titles-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 5%;  /* Ajouté pour donner une marge à gauche */
+}
+
+/* Logo */
+#logo-container {
+    display: flex;
+    align-items: center;
+}
+
+#site-logo {
+    height: 150px;  /* Augmenté de 60px à 80px */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+#site-logo:hover {
+    transform: scale(1.1); /* Agrandissement au survol */
+}
+
+/* Titres */
+#titles-container {
+    display: flex;
+    flex-direction: column; /* Les titres s'empilent verticalement */
+    justify-content: center;
+    text-align: left; /* Aligne les titres à gauche */
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* Changé de 'center' à 'flex-start' */
+    width: 100%;  /* Ajouté pour s'assurer que la nav prend toute la largeur */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;  /* Changé de 'center' à 'flex-end' */
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;  /* Ajouté pour s'assurer que la liste prend toute la largeur */
+    padding-right: 5%;  /* Ajouté pour donner une marge à droite */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+    position: relative;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+/* Effets pour les liens */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    background-color: #3498db;
+    transition: width 0.3s;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* États conditionnels (pour Spring Security) */
+nav ul li a[sec\:authorize="!isAuthenticated()"] {
+    color: #e74c3c;
+}
+
+nav ul li a[sec\:authorize="isAuthenticated()"] {
+    color: #2ecc71;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    header {
+        padding: 1rem;
+    }
+
+    #nav-title {
+        font-size: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    #logo-titles-container {
+        flex-direction: column; /* Empile le logo et les titres */
+        align-items: center;
+        text-align: center;
+    }
+
+    #site-logo {
+        height: 40px; /* Taille réduite pour les petits écrans */
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* États de focus */
+nav ul li a:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 3px;
+}
+
+
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    margin: 20px auto; /* Centrer le tableau avec une marge */
+    width: 90%; /* Ajuster la largeur à 90% de la page */
+}
+
+table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center; /* Centrer le texte dans les colonnes */
+    max-width: 200px; /* Limiter la largeur des colonnes */
+    word-wrap: break-word; /* Forcer le texte à aller à la ligne */
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #e0f7fa; /* Couleur plus claire pour le survol */
+    color: #000; /* Texte noir pour le contraste */
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #000000;
+    color: white;
+}
+
+/* Boutons dans la table */
+table a {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    margin: 0 auto;
+    border-radius: 4px;
+    background-color: #008080;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+table a:hover {
+    background-color: #004040;
+}
+
+@media screen and (max-width: 600px) {
+    #logo-titles-container {
+        margin-left: 1rem;  /* Marge réduite pour les petits écrans */
+    }
+    
+    nav ul {
+        padding-right: 1rem;  /* Marge réduite pour les petits écrans */
+    }
+    
+     #site-logo {
+        height: 60px;  /* Augmenté de 40px à 60px pour les petits écrans */
+    }
+}
+
+.vignette-container {
+            display: flex;
+            flex-wrap: wrap; /* Permet aux vignettes de passer à la ligne suivante si nécessaire */
+            gap: 10px; /* Espace entre les vignettes */
+        }
+.vignette {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            box-sizing:  border-box;
+        }
+        .vignette h3 {
+            margin-top: 0;
+        }
+        .vignette p {
+            margin: 5px 0;
+        }
+          .vignette img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .search-form{
+         	padding: 20px;
+            margin: 20px;
+            font-size: 2 rem;
+            
+        }
+.search-form ul {	
+    list-style: none;
+}
+.search-form input[type="text"], select{
+	
+	 width: auto;
+	 padding: 6px;
+	 border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.search-form button[type="submit"]{
+	background-color: #2c3e50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	
+}
+.searchUser {
+    padding: 15px;
+    margin: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 90%;
+}
+
+.searchUser ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 12px;
+}
+
+.searchUser li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+}
+
+.searchUser input[type="radio"] {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    accent-color: #2c3e50;
+}
+
+.searchUser label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Règles de positionnement de la grille inchangées */
+.searchUser li:first-child { grid-column: 1; grid-row: 1; }
+.searchUser li:nth-child(5) { grid-column: 2; grid-row: 1; }
+.searchUser li:nth-child(2) { grid-column: 1; grid-row: 2; }
+.searchUser li:nth-child(6) { grid-column: 2; grid-row: 2; }
+.searchUser li:nth-child(3) { grid-column: 1; grid-row: 3; }
+.searchUser li:nth-child(7) { grid-column: 2; grid-row: 3; }
+.searchUser li:nth-child(4) { grid-column: 1; grid-row: 4; }
+.searchUser li:nth-child(8) { grid-column: 2; grid-row: 4; }
+
+@media screen and (max-width: 600px) {
+    .searchUser ul {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 10px;
+    }
+    
+    .searchUser li {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+    }
+}
+ .hidden {
+            display: none;
+        }
+/* Conteneur des filtres */
+.searchUser {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Groupe de boutons radio */
+.radio-group {
+    display: flex;
+    gap: 30px;
+}
+
+.radio-group > div {
+    flex: 1;
+}
+
+/* Style des boutons radio */
+.radio-group input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #2c3e50;
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.radio-group input[type="radio"]:checked {
+    border-color: #2c3e50;
+}
+
+.radio-group input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: #2c3e50;
+    border-radius: 50%;
+}
+
+/* Style des labels */
+.radio-group label {
+    font-size: 14px;
+    color: #2c3e50;
+    cursor: pointer;
+}
+
+/* Style des listes d'options */
+.radio-list {
+    margin-left: 24px;
+    margin-top: 8px;
+}
+
+.radio-list li {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Style pour les options désactivées */
+.radio-group input[type="radio"]:disabled {
+    border-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.radio-group input[type="radio"]:disabled + label {
+    color: #999;
+    cursor: not-allowed;
+}
+
+/* Media queries */
+@media (max-width: 600px) {
+    .radio-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+}   
+
+/* Centrer tout sauf #entete-container */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer verticalement */
+    align-items: center; /* Centrer horizontalement */
+    height: 100vh; /* Utiliser toute la hauteur de la page */
+    margin: 0; /* Supprimer les marges par défaut */
+}
+
+/* Conteneur du contenu centré */
+#content-container {
+    text-align: center;
+}
+
+/* Entête reste inchangée */
+#entete-container {
+    width: 100%; /* L'entête occupe toute la largeur */
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem 5%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+    padding-left: 0;
+}
+
+/* Animations et autres styles existants sont inchangés */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
