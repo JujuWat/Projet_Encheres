@@ -41,7 +41,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
     private static final String VENTES_NON_DEBUTEES = " AND a.date_debut_encheres > :currentDate";
     private static final String VENTES_TERMINEES = " AND a.date_fin_encheres <= :currentDate";
     
-    private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
+    private static final String FIND_BY_ID = "SELECT a.no_article, a.nom_article, a.description, a.date_debut_encheres, a.date_fin_encheres, a.image_article, a.prix_initial, a.prix_vente, a.no_utilisateur, a.no_categorie, u.pseudo, r.rue, r.ville, r.code_postal, c.libelle FROM ARTICLES_VENDUS a INNER JOIN RETRAITS r ON r.no_article = a.no_article INNER JOIN UTILISATEURS u ON u.no_utilisateur = a.no_utilisateur INNER JOIN CATEGORIES c ON c.no_categorie = a.no_categorie WHERE a.no_article = :no_article";
 	private static final String DEBIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente - prix_vente where no_article = :no_article ";
 	private static final String CREDIT = "UPDATE ARTICLES_VENDUS set prix_vente = prix_vente + nouvelleEnchere where no_article = :no_article"; 
 	private static final String ENCHERE_REMPORTEE = "";
@@ -51,10 +51,13 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 			+ "description = :description,\r\n"
 			+ "date_debut_encheres = :date_debut_encheres,\r\n"
 			+ "date_fin_encheres = :date_fin_encheres,\r\n"
-			+ "prix_initial = :prix_initial,\r\n"
-			+ "prix_vente = :prix_vente\r\n"
+			+ "prix_initial = :miseAPrix \r\n"
 			+ "WHERE no_article = :no_article";
 	private static final String UPDATE_PRICE = "UPDATE ARTICLES_VENDUS SET prix_vente = :prix_vente WHERE no_article = :no_article";
+	
+	private static final String FIND_ARTICLE_OF_USER = "SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, image_article, prix_initial, prix_vente, no_utilisateur\r\n"
+			+ "FROM ARTICLES_VENDUS \r\n"
+			+ "WHERE no_utilisateur = :no_utilisateur";
     
 	private NamedParameterJdbcTemplate  jdbcTemplate;
 	
@@ -194,11 +197,10 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		map.addValue("no_article", article.getNoArticle());
 		map.addValue("nom_article", article.getNomArticle());
 		map.addValue("description", article.getDescription());
-		map.addValue("dates_debut_encheres", article.getDateDebutEncheres());
+		map.addValue("date_debut_encheres", article.getDateDebutEncheres());
 		map.addValue("date_fin_encheres", article.getDateFinEncheres());
 		map.addValue("image_article", article.getImageUrl());
-		map.addValue("prix_initial", article.getMiseAPrix());
-		map.addValue("prix_vente", article.getPrixVente());
+		map.addValue("miseAPrix", article.getMiseAPrix());
 		
 		jdbcTemplate.update(UPDATE_OBJECT, map);
 	}
@@ -211,6 +213,31 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 		map.addValue("no_article", article.getNoArticle());
 		
 		jdbcTemplate.update(UPDATE_PRICE, map);
+	}
+
+	@Override
+	public List<ArticleVendu> findArticleOfUser(int userId) {
+		// Déclaration des paramètres pour la requête SQL
+	    MapSqlParameterSource params = new MapSqlParameterSource();
+	    params.addValue("no_utilisateur", userId);
+	    
+	    // Exécution de la requête avec la récupération des résultats
+	    return jdbcTemplate.query(FIND_ARTICLE_OF_USER, params, (rs, rowNum) -> {
+	        // Création d'un nouvel objet ArticleVendu et peuplement des données
+	        ArticleVendu article = new ArticleVendu();
+	        article.setNoArticle(rs.getInt("no_article"));
+	        article.setNomArticle(rs.getString("nom_article"));
+	        article.setDescription(rs.getString("description"));
+	        article.setDateDebutEncheres(rs.getObject("date_debut_encheres", LocalDateTime.class));
+	        article.setDateFinEncheres(rs.getObject("date_fin_encheres", LocalDateTime.class));
+	        article.setImageUrl(rs.getString("image_article"));
+	        article.setMiseAPrix(rs.getInt("prix_initial"));
+	        article.setPrixVente(rs.getInt("prix_vente"));
+	        
+	        // Retour de l'article récupéré
+	        return article;
+	});
+	
 	}
 	
 }
@@ -225,6 +252,7 @@ public class ArticlesVendusDAOImpl implements ArticlesVendusDAO {
 				ArticleVendu articleVendu = new ArticleVendu();
 				articleVendu.setNoArticle(rs.getInt("no_article"));
 				articleVendu.setNomArticle(rs.getString("nom_article"));
+				articleVendu.setDateDebutEncheres(rs.getObject("date_debut_encheres", LocalDateTime.class));
 				articleVendu.setDateFinEncheres(rs.getObject("date_fin_encheres", LocalDateTime.class));
 				articleVendu.setImageUrl(rs.getString("image_article"));
 				articleVendu.setMiseAPrix(rs.getInt("prix_initial"));

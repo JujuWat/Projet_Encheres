@@ -52,6 +52,7 @@ public class SecurityConfig {
 				.requestMatchers("/credit/envoi").authenticated()
 				.requestMatchers("/encheres/detailsobjet").authenticated()
 				.requestMatchers("/encheres/**").authenticated()
+				.requestMatchers("/mesarticles*").authenticated()
 				.anyRequest().authenticated()
 			)
 			.httpBasic(Customizer.withDefaults())
