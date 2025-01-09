@@ -25,6 +25,8 @@ public interface ArticleVenduService {
 
 	void debiterPrixVente(ArticleVendu article);
 	void crediterPrixVente(ArticleVendu article, int nouvelleEnchere);
+	
+	List<ArticleVendu> afficheArticleUtilisateur(int userId);
 
 
 

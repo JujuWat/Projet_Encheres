@@ -93,4 +93,9 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 		
 	}
 
+	@Override
+	public List<ArticleVendu> afficheArticleUtilisateur(int userId) {
+		return this.articleVenduDAO.findArticleOfUser(userId);
+	}
+
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Modifier  votre article</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{/css/formulaire.css}" />
+</head>
+<body>
+	<div th:replace="~{fragments/entete::entete}"></div>
+		
+	<form th:action="@{/mesarticles/modifier}" method="post" th:object = "${article}"> 
+	
+	<input type="hidden" th:field="${article.noArticle}" />
+	<h1>Modifier l'article</h1>
+	<ul>
+	
+		<li>
+			<label for ="image"></label>
+			<div class = "vignette"><img alt="image de l'article" th:src = "${article.imageUrl}" required/></div>
+		</li>
+		<li>
+			<label for ="nom_article">Nom de l'article</label>
+			<input id="nom_article" type="text" th:field="*{nomArticle}" required/> 
+		</li>
+		<li>
+			<label for ="description">Description</label>
+			<input id="description" type="textarea" name="description" th:value="${article.description}" required/> 
+		</li>
+		</li>
+		<li>
+			<label for ="miseAPrix">Mise à prix</label>
+			<input id="miseAPrix" type="text" th:field="${article.miseAPrix}" required/> 
+		</li>
+		<li>
+			<label for ="dateDebutEncheres">Date de début d'enchères</label>
+			<input id="dateDebutEncheres" type="datetime" th:field="*{dateDebutEncheres}" required/> 
+		</li>
+		<li>
+			<label for ="dateFinEncheres">Date de fin d'enchères</label>
+			<input id="dateFinEncheres" type="datetime" th:field="*{dateFinEncheres}" required/> 
+		</li>
+		<button type="submit">Mettre à jour</button>
+		
+	</ul>
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mes articles</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+<link rel="stylesheet" th:href="@{/css/formulaire.css}" />
+</head>
+<body>
+	<div th:replace="~{fragments/entete::entete}"></div>
+	<h1>Mes articles</h1>
+	
+	<div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Nom de l'article</th>
+                    <th>Date de fin</th>
+                    <th>Prix initial</th>
+                    <th>Prix actuel</th>
+                    <th>Modifier l'article</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="article : ${mesArticles}">
+                    <td>
+                        <img th:src="${article.imageUrl}" alt="Image de l'article" style="width:100px;height:100px;" />
+                    </td>
+                    <td th:text="${article.nomArticle}"></td>
+                    <td th:text="${article.dateFinEncheres}"></td>
+                    <td th:text="${article.miseAPrix}"></td>
+                    <td th:text="${article.prixVente}"></td>
+                    <td> <a th:href="@{/mesarticles/modifier(id=${article.noArticle})}" >Modifier article</a> </td>
+                    
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	
+
+</body>
+</html>

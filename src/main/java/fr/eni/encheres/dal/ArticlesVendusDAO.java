@@ -25,4 +25,6 @@ public interface ArticlesVendusDAO {
 	
 	void mettreAJourPrixArticle(ArticleVendu article);
 	
+	List<ArticleVendu> findArticleOfUser(int userId);
+	
 }
